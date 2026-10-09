@@ -1,0 +1,123 @@
+/* ==========================================================================
+   Save the Date — Andrei & Camila
+   Color tokens. This is the ONLY file allowed to contain raw color values.
+   See docs/STYLE_GUIDE.md § 2 for usage rules.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------
+     1. Palette — Blue scale (theme)
+     ------------------------------------------------------------------ */
+  --blue-950: #0a1a2f; /* Midnight sea   — deepest backgrounds       */
+  --blue-900: #0f2a4a; /* Deep navy      — primary text, dark bands  */
+  --blue-800: #16395f; /* Harbor         — dark surfaces, hovers     */
+  --blue-700: #1f4e7f; /* Ocean          — headings, links           */
+  --blue-600: #2f6497; /* Atlantic       — buttons                   */
+  --blue-500: #4a7fb5; /* Lagoon         — icons, borders on dark    */
+  --blue-400: #6f9bcb; /* Coast          — decorative lines          */
+  --blue-300: #8fb3d9; /* Serenity       — accents on dark           */
+  --blue-200: #bbd3ec; /* Morning sky    — soft text on dark         */
+  --blue-100: #dce9f6; /* Mist           — light section bands       */
+  --blue-50:  #eef4fb; /* Foam           — cards on light            */
+
+  /* ------------------------------------------------------------------
+     2. Palette — Neutrals
+     ------------------------------------------------------------------ */
+  --white:     #ffffff;
+  --ivory:     #fbf8f2; /* Linen         — page background           */
+  --sand:      #efe6d8; /* Beach sand    — subtle warm surfaces      */
+  --slate-500: #51647a; /* Muted text    — captions, secondary copy  */
+
+  /* ------------------------------------------------------------------
+     3. Palette — Sunrise accents (decoration only, never body text)
+     ------------------------------------------------------------------ */
+  --gold-300: #f1d3a1; /* First light                                */
+  --gold-400: #e2b877; /* Sunrise gold — dividers, seal details      */
+  --gold-500: #c9974f; /* Burnished    — gold on light backgrounds   */
+  --blush-300: #f2c6b4; /* Sunrise blush — gradients only            */
+
+  /* ------------------------------------------------------------------
+     4. Semantic tokens — use these in components
+     ------------------------------------------------------------------ */
+  /* Backgrounds */
+  --color-bg:            var(--ivory);
+  --color-bg-alt:        var(--blue-100);
+  --color-bg-deep:       var(--blue-900);
+  --color-bg-deepest:    var(--blue-950);
+  --color-surface:       var(--white);
+  --color-surface-soft:  var(--blue-50);
+
+  /* Text */
+  --color-text:          var(--blue-900);  /* 13.7:1 on ivory */
+  --color-text-muted:    var(--slate-500); /*  5.7:1 on ivory */
+  --color-heading:       var(--blue-700);  /*  8.1:1 on ivory */
+  --color-text-inverse:  var(--ivory);     /* 13.7:1 on navy  */
+  --color-text-inverse-muted: var(--blue-200); /* 9.4:1 on navy */
+
+  /* Accents */
+  --color-accent:        var(--gold-400);  /* 7.8:1 on navy — large/decorative */
+  --color-accent-strong: var(--gold-500);
+  --color-line:          var(--blue-200);
+  --color-line-deep:     rgba(187, 211, 236, 0.25);
+
+  /* Interactive */
+  --color-link:          var(--blue-700);
+  --color-link-hover:    var(--blue-600);
+  --color-btn-bg:        var(--blue-600);  /* white text 6.2:1 */
+  --color-btn-bg-hover:  var(--blue-700);
+  --color-btn-text:      var(--white);
+  --color-focus:         var(--gold-400);
+
+  /* Envelope & seal */
+  --color-envelope:      var(--blue-100);
+  --color-envelope-flap: var(--blue-200);
+  --color-envelope-edge: var(--blue-300);
+  --color-seal:          var(--blue-700);
+  --color-seal-shine:    var(--blue-400);
+
+  /* ------------------------------------------------------------------
+     5. Gradients & overlays
+     ------------------------------------------------------------------ */
+  --gradient-hero-overlay: linear-gradient(
+    180deg,
+    rgba(10, 26, 47, 0.55) 0%,
+    rgba(15, 42, 74, 0.25) 40%,
+    rgba(10, 26, 47, 0.75) 100%
+  );
+  --gradient-sunrise: linear-gradient(
+    120deg,
+    var(--gold-300) 0%,
+    var(--blush-300) 45%,
+    var(--blue-200) 100%
+  );
+  --gradient-deep-sea: linear-gradient(
+    180deg,
+    var(--blue-900) 0%,
+    var(--blue-950) 100%
+  );
+  --gradient-mist: linear-gradient(
+    180deg,
+    var(--ivory) 0%,
+    var(--blue-50) 100%
+  );
+  --gradient-gold-text: linear-gradient(
+    90deg,
+    var(--gold-500) 0%,
+    var(--gold-300) 50%,
+    var(--gold-500) 100%
+  );
+
+  /* ------------------------------------------------------------------
+     6. Shadows (always blue-tinted)
+     ------------------------------------------------------------------ */
+  --shadow-soft:  0 6px 24px rgba(15, 42, 74, 0.08);
+  --shadow-lift:  0 18px 48px rgba(15, 42, 74, 0.16);
+  --shadow-glow:  0 0 32px rgba(226, 184, 119, 0.35);
+
+  /* ------------------------------------------------------------------
+     7. Particles (canvas) — read from JS via getComputedStyle
+     ------------------------------------------------------------------ */
+  --particle-1: rgba(187, 211, 236, 0.75); /* blue-200 */
+  --particle-2: rgba(143, 179, 217, 0.6);  /* blue-300 */
+  --particle-3: rgba(241, 211, 161, 0.7);  /* gold-300 */
+}
