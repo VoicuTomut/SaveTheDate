@@ -1,0 +1,7 @@
+# Raw, unoptimized originals (large & private)
+resources/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
