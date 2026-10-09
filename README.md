@@ -12,6 +12,11 @@ A trilingual (Română · English · Español) single-page Save the Date: a full
 envelope with embossed flowers and a wax seal opens onto our film by the sea, followed by the date,
 our story, the day's details, godparents, a photo & video carousel and a closing film — with optional background music.
 
+## Live site
+
+**https://voicutomut.github.io/SaveTheDate/** — published from `main` with GitHub Pages
+(append `?lang=ro`, `?lang=en` or `?lang=es` to force a language).
+
 ## Run locally
 
 ```bash
