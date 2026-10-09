@@ -37,6 +37,44 @@ Usage ratio (approximate):
 - **30 %** blues — headings, sections, overlays, buttons
 - **10 %** accents — sunrise gold for tiny details (dividers, seal, countdown digits glow)
 
+### Palette
+
+| Token        | Hex       | Name          | Role                                   |
+| ------------ | --------- | ------------- | -------------------------------------- |
+| `--blue-950` | `#0A1A2F` | Midnight sea  | Deepest backgrounds, envelope backdrop |
+| `--blue-900` | `#0F2A4A` | Deep navy     | Primary text, dark section bands       |
+| `--blue-800` | `#16395F` | Harbor        | Dark surfaces, hovers                  |
+| `--blue-700` | `#1F4E7F` | Ocean         | Headings, links, wax seal              |
+| `--blue-600` | `#2F6497` | Atlantic      | Buttons                                |
+| `--blue-500` | `#4A7FB5` | Lagoon        | Icons, borders on dark                 |
+| `--blue-400` | `#6F9BCB` | Coast         | Decorative lines                       |
+| `--blue-300` | `#8FB3D9` | Serenity      | Accents on dark                        |
+| `--blue-200` | `#BBD3EC` | Morning sky   | Soft text on dark, envelope flap       |
+| `--blue-100` | `#DCE9F6` | Mist          | Light section bands, envelope          |
+| `--blue-50`  | `#EEF4FB` | Foam          | Cards on light                         |
+| `--ivory`    | `#FBF8F2` | Linen         | Page background                        |
+| `--sand`     | `#EFE6D8` | Beach sand    | Subtle warm surfaces                   |
+| `--slate-500`| `#51647A` | Slate         | Muted text, captions                   |
+| `--gold-300` | `#F1D3A1` | First light   | Particles, gradients                   |
+| `--gold-400` | `#E2B877` | Sunrise gold  | Dividers, seal details, focus ring     |
+| `--gold-500` | `#C9974F` | Burnished     | Gold on light backgrounds              |
+| `--blush-300`| `#F2C6B4` | Sunrise blush | Gradients only                         |
+
+### Verified contrast
+
+| Pair                          | Ratio  |
+| ----------------------------- | ------ |
+| Navy `900` on ivory           | 13.7:1 |
+| Ocean `700` on ivory          | 8.1:1  |
+| Slate on ivory                | 5.7:1  |
+| Ivory on navy `900`           | 13.7:1 |
+| Morning sky `200` on navy     | 9.4:1  |
+| Sunrise gold `400` on navy    | 7.8:1  |
+| White on Atlantic `600` (btn) | 6.2:1  |
+
+Components use the **semantic tokens** (`--color-text`, `--color-bg-deep`, `--color-btn-bg`, …),
+not the raw palette, so the theme can be tuned from one place.
+
 Rules:
 
 - Body text is always **deep navy on light** or **ivory on dark navy** (WCAG AA ≥ 4.5:1).
