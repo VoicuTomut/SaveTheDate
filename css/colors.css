@@ -24,11 +24,11 @@
   --midnight:   #0f1a3a; /* Deepest blue — video shading                   */
   --white:      #ffffff;
 
-  /* Wax seal */
-  --seal-light: #5677cc;
-  --seal:       #3554a8;
-  --seal-dark:  #1d3170;
-  --seal-text:  #e6ecf8;
+  /* Satin ribbon (pearl white, blue-tinted shadows) */
+  --satin-light:  #ffffff;
+  --satin-mid:    #eef2fb;
+  --satin-shadow: #b8c6e3;
+  --satin-line:   rgba(27, 43, 87, 0.16);
 
   /* ------------------------------------------------------------------
      3. Semantic tokens — use these in components
@@ -54,7 +54,16 @@
   /* Video shading: only where text sits — the picture stays clear */
   --shade-bottom: linear-gradient(
     0deg,
-    rgba(15, 26, 58, 0.72) 0%,
+    rgba(15, 26, 58, 0) 0%,
+    rgba(15, 26, 58, 0.5) 22%,
+    rgba(15, 26, 58, 0.55) 34%,
+    rgba(15, 26, 58, 0.3) 52%,
+    rgba(15, 26, 58, 0) 70%
+  );
+  /* closing film: text sits at the very bottom, so shade all the way down */
+  --shade-bottom-full: linear-gradient(
+    0deg,
+    rgba(15, 26, 58, 0.7) 0%,
     rgba(15, 26, 58, 0.38) 38%,
     rgba(15, 26, 58, 0) 62%
   );
@@ -63,40 +72,73 @@
     rgba(15, 26, 58, 0.45) 0%,
     rgba(15, 26, 58, 0) 22%
   );
-  /* Soft hand-off between paper and a full-bleed video */
-  --fade-from-paper: linear-gradient(180deg, var(--paper) 0%, rgba(212, 223, 240, 0) 100%);
-  --fade-to-paper:   linear-gradient(0deg, var(--paper) 0%, rgba(212, 223, 240, 0) 100%);
-
-  --flap-shade-top:    linear-gradient(180deg, var(--paper-light) 0%, var(--paper) 100%);
-  --flap-shade-bottom: linear-gradient(0deg, var(--paper-light) 0%, var(--paper) 100%);
-  --flap-shade-left:   linear-gradient(90deg, var(--paper) 0%, var(--paper-deep) 100%);
-  --flap-shade-right:  linear-gradient(270deg, var(--paper) 0%, var(--paper-deep) 100%);
-
-  --gradient-seal: radial-gradient(
-    circle at 34% 30%,
-    var(--seal-light) 0%,
-    var(--seal) 48%,
-    var(--seal-dark) 100%
+  /* Soft hand-off between paper and a full-bleed video.
+     Eased (many-stop) gradients avoid the visible band a linear fade leaves. */
+  --fade-from-paper: linear-gradient(
+    180deg,
+    rgba(212, 223, 240, 1) 0%,
+    rgba(212, 223, 240, 0.987) 8.1%,
+    rgba(212, 223, 240, 0.951) 15.5%,
+    rgba(212, 223, 240, 0.896) 22.5%,
+    rgba(212, 223, 240, 0.825) 29%,
+    rgba(212, 223, 240, 0.741) 35.3%,
+    rgba(212, 223, 240, 0.648) 41.2%,
+    rgba(212, 223, 240, 0.55) 47.1%,
+    rgba(212, 223, 240, 0.45) 52.9%,
+    rgba(212, 223, 240, 0.352) 58.8%,
+    rgba(212, 223, 240, 0.259) 64.7%,
+    rgba(212, 223, 240, 0.175) 71%,
+    rgba(212, 223, 240, 0.104) 77.5%,
+    rgba(212, 223, 240, 0.049) 84.5%,
+    rgba(212, 223, 240, 0.013) 91.9%,
+    rgba(212, 223, 240, 0) 100%
   );
+  --fade-to-paper: linear-gradient(
+    0deg,
+    rgba(212, 223, 240, 1) 0%,
+    rgba(212, 223, 240, 0.987) 8.1%,
+    rgba(212, 223, 240, 0.951) 15.5%,
+    rgba(212, 223, 240, 0.896) 22.5%,
+    rgba(212, 223, 240, 0.825) 29%,
+    rgba(212, 223, 240, 0.741) 35.3%,
+    rgba(212, 223, 240, 0.648) 41.2%,
+    rgba(212, 223, 240, 0.55) 47.1%,
+    rgba(212, 223, 240, 0.45) 52.9%,
+    rgba(212, 223, 240, 0.352) 58.8%,
+    rgba(212, 223, 240, 0.259) 64.7%,
+    rgba(212, 223, 240, 0.175) 71%,
+    rgba(212, 223, 240, 0.104) 77.5%,
+    rgba(212, 223, 240, 0.049) 84.5%,
+    rgba(212, 223, 240, 0.013) 91.9%,
+    rgba(212, 223, 240, 0) 100%
+  );
+
+  /* gatefold doors: light at the outer edge, a soft shadow toward the seam */
+  --door-shade: linear-gradient(90deg, var(--paper-light) 0%, var(--paper) 70%, var(--paper-deep) 100%);
+  --door-shade-right: linear-gradient(270deg, var(--paper-light) 0%, var(--paper) 70%, var(--paper-deep) 100%);
+  --door-seam: rgba(27, 43, 87, 0.35);
+  --satin-band: linear-gradient(
+    180deg,
+    var(--satin-shadow) 0%,
+    var(--satin-light) 32%,
+    var(--satin-mid) 60%,
+    var(--satin-shadow) 100%
+  );
+
+  /* fine paper fibre texture (navy noise at 9% alpha) */
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.17 0 0 0 0 0.34 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --paper-edge: rgba(255, 255, 255, 0.75);
+
 
   /* ------------------------------------------------------------------
      5. Shadows (blue-tinted, soft)
      ------------------------------------------------------------------ */
-  --shadow-flap:  drop-shadow(0 3px 8px rgba(27, 43, 87, 0.22));
   --shadow-soft:  0 10px 30px rgba(27, 43, 87, 0.12);
   --shadow-lift:  0 24px 60px rgba(27, 43, 87, 0.22);
-  --shadow-seal:  0 10px 24px rgba(15, 26, 58, 0.35), inset 0 -6px 12px rgba(0, 0, 0, 0.28), inset 0 5px 10px rgba(255, 255, 255, 0.22);
   --text-shadow-video: 0 2px 18px rgba(15, 26, 58, 0.55);
 
   /* ------------------------------------------------------------------
-     6. Butterflies
-     ------------------------------------------------------------------ */
-  --butterfly-wing: rgba(255, 255, 255, 0.92);
-  --butterfly-vein: rgba(46, 74, 142, 0.55);
-  --butterfly-body: var(--ink);
-
-  /* ------------------------------------------------------------------
-     7. Flags (closing detail) — official colors, used nowhere else
+     6. Flags (closing & traditions) — official colors, used nowhere else
      ------------------------------------------------------------------ */
   --flag-ro-blue:   #002b7f;
   --flag-ro-yellow: #fcd116;

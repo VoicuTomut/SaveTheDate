@@ -33,3 +33,10 @@ No build step — plain HTML, CSS and JavaScript.
 - `tools/generate_emboss.py` — regenerates the embossed flower artwork
 - `docs/STYLE_GUIDE.md` — design rules
 - `resources/` — raw originals (git-ignored)
+
+## Credits
+
+- Music: Frédéric Chopin — *Nocturne in E-flat major, Op. 9 No. 2*, performed by Frank Levy.
+  [Public Domain Mark 1.0](https://creativecommons.org/publicdomain/mark/1.0/), via
+  [archive.org](https://archive.org/details/nocturneineflatmajorop.9no.2).
+- Hero video sharpened with [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) (x4plus).

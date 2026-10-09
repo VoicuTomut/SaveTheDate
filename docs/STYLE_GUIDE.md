@@ -12,15 +12,15 @@ Every color, font, animation and sentence on the site should be traceable back t
 > *A blue letterpress invitation that opens onto the sea.*
 
 Andrei is from **Romania** 🇷🇴, Camila is from **Santa Cruz, Bolivia** 🇧🇴.
-The site feels like receiving a luxury paper invitation: a full-screen **blue envelope** with
-**embossed flowers** and a **wax seal**; when it opens, the paper parts like curtains onto our film by the sea.
+The site feels like receiving a luxury paper invitation: a full-screen **blue gatefold** — two
+embossed paper doors tied with a **pearl satin bow**. Untie the bow and the doors swing open onto our film by the sea.
 
-References: minimal digital save-the-date videos (embossed tone-on-tone florals, soft reveal,
-delicate butterflies) and fields of blue flowers (nemophila, cornflower).
+References: minimal digital save-the-date videos (embossed tone-on-tone florals, gatefold with a satin bow,
+soft reveal) and fields of blue flowers (nemophila, cornflower).
 
 | Keyword        | In practice                                                                 |
 | -------------- | --------------------------------------------------------------------------- |
-| **Luxurious**  | Letterpress paper, embossed flowers, wax seal, refined serif + formal script |
+| **Luxurious**  | Letterpress paper, embossed flowers, satin bow, refined serif + formal script |
 | **Clean**      | One paper color everywhere, lots of air, no busy decoration                 |
 | **Continuous** | Pages flow into each other; videos fade into the paper — no hard breaks     |
 | **Clear**      | Videos at full quality, never tinted or blurred; text always crisp           |
@@ -44,7 +44,7 @@ All colors live as CSS custom properties in [`css/colors.css`](../css/colors.css
 | `--ink`          | `#1B2B57` | Primary text (10.2:1 on paper)                     |
 | `--ink-soft`     | `#3D5486` | Secondary text (5.6:1 on paper)                    |
 | `--cornflower`   | `#2E4A8E` | Eyebrows, links, icons (6.3:1 on paper)            |
-| `--seal`         | `#3554A8` | Wax seal (with `--seal-light` / `--seal-dark`)     |
+| `--satin-light`  | `#FFFFFF` | Satin ribbon highlight (with `--satin-mid` / `--satin-shadow`) |
 | `--midnight`     | `#0F1A3A` | Video shading (only behind text)                   |
 | `--white`        | `#FFFFFF` | Text on video                                      |
 
@@ -63,7 +63,7 @@ Google Fonts with the `latin-ext` subset (Romanian `ă â î ș ț`, Spanish `á
 
 | Role          | Font                 | Usage                                                  |
 | ------------- | -------------------- | ------------------------------------------------------ |
-| **Script**    | *Pinyon Script*      | Names, "Această invitație este pentru voi", closing    |
+| **Script**    | *Ephesis*            | Names, love quote, envelope line, closing              |
 | **Serif**     | *Cormorant Garamond* | Titles, dates, times, tracked uppercase labels         |
 | **Body**      | *Jost* (300)         | Paragraphs                                             |
 
@@ -74,6 +74,8 @@ Rules:
 - **Text must never be cut:** fluid sizes with `clamp()`, wrapping allowed, `text-wrap: balance` for script lines,
   no fixed widths on text.
 - Script never below `1.75rem`.
+- The "&" between names is always Cormorant Garamond *italic 300*, never the script ampersand.
+- Script lines get extra inline padding so swashes are never clipped.
 - Numbers use lining figures (`font-variant-numeric: lining-nums`).
 
 ---
@@ -88,17 +90,18 @@ Rules:
 
 ### Page structure
 
-1. **Envelope** — full screen: four embossed paper flaps, wax seal "A&C", script line
-   *"Această invitație este pentru voi"*, butterflies. Tap the seal → flaps part, music fades in.
-2. **Hero film** — beach kiss video, clear; names, date, place over a bottom shade.
-3. **Invitation** — script names, message, date box (*MAI · DUMINICĂ | 16 | 2027 · ORA 12:00*), countdown.
-4. **Our story** — framed film of us walking toward each other; Santa Cruz ↔ Târgu Mureș line with a gliding heart.
-5. **The day** — ceremony 12:00 Catedrala Mică · reception 15:00 Casa Boema; map links; add to calendar.
-6. **Godparents** — Ciprian & Andreea Nicoară.
-7. **Moments** — infinite centre-mode carousel of photos + a video slide.
-8. **Closing film** — sunset video; "formal invitation to follow", names, flags.
+1. **Gatefold** — full screen: two embossed paper doors, satin ribbon and bow, script line
+   *"O zi specială vă așteaptă"*. Tap the bow → it unties, the ribbon slides away, the doors swing open (3D), music fades in.
+2. **Hero film** — beach kiss video (AI-sharpened), clear; names, date, place over a bottom shade.
+3. **Invitation** — script names, one simple sentence, date box (*MAI · DUMINICĂ | 16 | 2027 · ORA 12:00*), countdown.
+4. **Our story** — love quote *"Te iubesc până la infinit și mai departe"*, framed film of us walking toward each other,
+   Santa Cruz ↔ Târgu Mureș arc with a gliding heart, "11.000 km" and *"Ce înseamnă 11.000 de kilometri…?"*.
+5. **Godparents** — Ciprian & Andreea Nicoară.
+6. **The day** — ceremony 12:00 Catedrala Mică · reception 15:00 Casa Boema; 🇷🇴 & 🇧🇴 *"Două tradiții, o singură petrecere"*;
+   add to calendar; **photo QR codes** (see the photos / add your photos — shared Google Drive folders).
+7. **Closing film** — sunset lift, played once and resting on the last frame; "Vă așteptăm", names, flags.
 
-Controls: language pill (top right) and music button (bottom right), both glass so they read on paper and video.
+Controls: small language pill (top right) and a small round music button (bottom right), both glass so they read on paper and video.
 
 ---
 
@@ -113,9 +116,9 @@ Controls: language pill (top right) and music button (bottom right), both glass 
 - Durations are long: reveals 1.4–1.6 s, envelope 2 s, carousel 1.2 s.
 - **Smooth scrolling** via Lenis (falls back to native).
 - Reveals: **fade + 26px rise only** — no blur, so text is crisp at every frame.
-- Envelope: seal & texts lift away → top/bottom/side flaps slide out (staggered) → the film is already playing underneath.
-- Butterflies wander on smooth sine paths, gliding now and then.
-- Respect `prefers-reduced-motion`: no butterflies, instant reveals, no autoplay.
+- Gatefold: the bow unties (1.1 s), the ribbon halves slide away, the doors swing open in 3D (2.4 s, `--ease-open`);
+  the film is already playing underneath. No filters on moving full-screen layers (keeps it fluid on phones).
+- Respect `prefers-reduced-motion`: instant reveals, no autoplay.
 - Animate only `transform` and `opacity`.
 
 ---
@@ -129,13 +132,15 @@ Controls: language pill (top right) and music button (bottom right), both glass 
 
 | File                | Source            | Where           |
 | ------------------- | ----------------- | --------------- |
-| `hero(-portrait)`   | beach kiss (edit) | Hero            |
+| `hero(-portrait)`   | beach kiss (edit), Real-ESRGAN x4plus | Hero  |
 | `story`             | walking together  | Our story       |
-| `sand`              | couple on sand    | Carousel slide  |
-| `closing(-portrait)`| sunset lift       | Closing         |
+| `closing(-portrait)`| sunset lift, cut at 4.9 s (before she is set down) | Closing |
 
-- **Music:** `assets/audio/song.mp3`, starts softly (fade-in) when the envelope is opened, loops, and can be muted
-  at any time with the music button; the choice is remembered. If the file is missing the button is hidden.
+- **Music:** `assets/audio/song.mp3` — Chopin, Nocturne Op. 9 No. 2 (public domain). Starts softly when the gatefold
+  opens, loops; the music button stops it **instantly** (iPhone ignores volume changes, so muting never relies on a fade);
+  it pauses when the guest leaves the tab/app. The choice is remembered.
+- **Photo QR codes:** the two Google Drive links live in `DRIVE_LINKS` in `js/main.js`; until filled, the codes show
+  "link coming soon".
 
 ---
 
