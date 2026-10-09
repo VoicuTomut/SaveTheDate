@@ -1,6 +1,7 @@
 /* ==========================================================================
    Save the Date — Andrei & Camila
-   Envelope · language · countdown · particles · reveals · route · calendar · gallery
+   Envelope · language · music · smooth scroll · parallax · countdown ·
+   butterflies · reveals · videos · carousel · calendar
    ========================================================================== */
 (function () {
   "use strict";
@@ -8,7 +9,9 @@
   var WEDDING_UTC = Date.UTC(2027, 4, 16, 9, 0, 0); // 16 May 2027, 12:00 Bucharest (UTC+3)
   var LANGS = ["ro", "en", "es"];
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var portrait = window.matchMedia("(orientation: portrait)").matches;
   var currentLang = "ro";
+  var lenis = null;
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
@@ -81,62 +84,280 @@
         span.style.setProperty("--i", offset++);
         el.appendChild(span);
       });
-      offset += 3; // pause for the "&"
+      offset += 4; // breathe for the "&"
     });
   }
 
   /* ------------------------------------------------------------------
-     Hero video (landscape / portrait source)
+     Smooth scrolling (Lenis) — falls back to native scrolling
      ------------------------------------------------------------------ */
-  var heroVideo = $("#hero-video");
+  var scrollListeners = [];
 
-  function loadVideo() {
-    if (!heroVideo) return;
-    var portrait = window.matchMedia("(orientation: portrait)").matches;
-    if (portrait) heroVideo.poster = heroVideo.dataset.posterPortrait;
-    heroVideo.src = portrait ? heroVideo.dataset.srcPortrait : heroVideo.dataset.srcLandscape;
-    heroVideo.load();
+  function onScroll(fn) { scrollListeners.push(fn); }
+
+  function emitScroll() {
+    for (var i = 0; i < scrollListeners.length; i++) scrollListeners[i]();
   }
 
-  function playVideo() {
-    if (!heroVideo || reducedMotion) return;
-    var p = heroVideo.play();
-    if (p && p.catch) p.catch(function () { /* autoplay blocked: poster stays */ });
+  function easeInOutCubic(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+
+  function initSmoothScroll() {
+    if (!reducedMotion && window.Lenis) {
+      lenis = new window.Lenis({ lerp: 0.07, wheelMultiplier: 0.9, smoothWheel: true });
+      lenis.on("scroll", emitScroll);
+      lenis.stop(); // locked until the envelope opens
+      requestAnimationFrame(function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      });
+    } else {
+      var ticking = false;
+      window.addEventListener("scroll", function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { emitScroll(); ticking = false; });
+      }, { passive: true });
+    }
+
+    $$("[data-scroll-to]").forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        var target = $(link.getAttribute("href"));
+        if (!target) return;
+        e.preventDefault();
+        if (lenis) lenis.scrollTo(target, { duration: 2.4, easing: easeInOutCubic });
+        else target.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" });
+      });
+    });
   }
 
   /* ------------------------------------------------------------------
-     Envelope
+     Parallax
+     ------------------------------------------------------------------ */
+  function initParallax() {
+    if (reducedMotion) return;
+    var items = $$("[data-parallax]").map(function (el) {
+      return { el: el, speed: parseFloat(el.dataset.parallax) || 0, y: 0 };
+    });
+    var vh = window.innerHeight;
+    window.addEventListener("resize", function () { vh = window.innerHeight; });
+
+    function update() {
+      items.forEach(function (it) {
+        var rect = it.el.getBoundingClientRect();
+        if (rect.bottom < -200 || rect.top > vh + 200) return;
+        var center = rect.top + rect.height / 2 - it.y;
+        it.y = (center - vh / 2) * -it.speed;
+        it.el.style.translate = "0 " + it.y.toFixed(1) + "px";
+      });
+    }
+
+    onScroll(update);
+    update();
+  }
+
+  /* ------------------------------------------------------------------
+     Videos — right source for the screen, play only while visible
+     ------------------------------------------------------------------ */
+  function pickSource(video) {
+    if (!video.dataset.srcLandscape) return;
+    if (portrait && video.dataset.posterPortrait) video.poster = video.dataset.posterPortrait;
+    video.src = portrait ? video.dataset.srcPortrait : video.dataset.srcLandscape;
+  }
+
+  function safePlay(video) {
+    if (!video || reducedMotion) return;
+    var p = video.play();
+    if (p && p.catch) p.catch(function () { /* autoplay blocked: poster stays */ });
+  }
+
+  function initVideos() {
+    var hero = $("#hero-video");
+    pickSource(hero);
+    hero.load();
+
+    var auto = $$("video[data-autoplay]");
+    auto.forEach(pickSource);
+    if (!("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var v = entry.target;
+        if (entry.isIntersecting) {
+          if (v.preload === "none") { v.preload = "auto"; v.load(); }
+          safePlay(v);
+        } else {
+          v.pause();
+        }
+      });
+    }, { rootMargin: "200px 0px" });
+    auto.forEach(function (v) { io.observe(v); });
+
+    // pause the hero when it scrolls away (saves battery)
+    new IntersectionObserver(function (entries) {
+      if (!document.body.classList.contains("is-revealed")) return;
+      if (entries[0].isIntersecting) safePlay(hero); else hero.pause();
+    }).observe(hero);
+  }
+
+  /* ------------------------------------------------------------------
+     Music — starts with the envelope tap, fades in, can be muted
+     ------------------------------------------------------------------ */
+  var music = { audio: null, btn: null, available: false, fadeTimer: null };
+
+  function fadeVolume(to, ms, done) {
+    var a = music.audio;
+    clearInterval(music.fadeTimer);
+    var from = a.volume;
+    var start = performance.now();
+    music.fadeTimer = setInterval(function () {
+      var k = Math.min(1, (performance.now() - start) / ms);
+      a.volume = from + (to - from) * easeInOutCubic(k);
+      if (k >= 1) { clearInterval(music.fadeTimer); if (done) done(); }
+    }, 30);
+  }
+
+  function setPlaying(on) {
+    var a = music.audio;
+    music.btn.classList.toggle("is-playing", on);
+    music.btn.setAttribute("aria-pressed", String(on));
+    if (on) {
+      a.volume = 0;
+      var p = a.play();
+      if (p && p.catch) p.catch(function () { music.btn.classList.remove("is-playing"); });
+      fadeVolume(0.55, 2500);
+    } else {
+      fadeVolume(0, 700, function () { a.pause(); });
+    }
+    store("std-music", on ? "on" : "off");
+  }
+
+  function initMusic() {
+    music.audio = $("#music");
+    music.btn = $("#music-btn");
+    // only show the control if a song file is present
+    fetch(music.audio.getAttribute("src"), { method: "HEAD" }).then(function (r) {
+      music.available = r.ok;
+      if (r.ok) music.btn.hidden = false;
+    }).catch(function () { /* no song yet */ });
+
+    music.btn.addEventListener("click", function () {
+      setPlaying(!music.btn.classList.contains("is-playing"));
+    });
+  }
+
+  function startMusic() {
+    if (!music.available) return;
+    music.btn.classList.add("is-shown");
+    if (store("std-music") !== "off") setPlaying(true);
+  }
+
+  /* ------------------------------------------------------------------
+     Butterflies — a few delicate wanderers
+     ------------------------------------------------------------------ */
+  var BUTTERFLY_SVG =
+    '<svg viewBox="-20 -16 40 32">' +
+    '<g class="butterfly__wing">' +
+    '<path d="M-1 -1C-6 -13 -19 -15 -18 -6c1 5 9 6 17 5z"/>' +
+    '<path d="M-1 1c-7 1 -13 7 -10 11 3 3 8 -3 10 -11z"/>' +
+    '<path class="butterfly__vein" d="M-2 -2C-7 -8 -12 -10 -15 -7M-2 2c-3 3 -6 5 -8 8"/>' +
+    "</g>" +
+    '<g class="butterfly__wing">' +
+    '<path d="M1 -1C6 -13 19 -15 18 -6c-1 5 -9 6 -17 5z"/>' +
+    '<path d="M1 1c7 1 13 7 10 11 -3 3 -8 -3 -10 -11z"/>' +
+    '<path class="butterfly__vein" d="M2 -2C7 -8 12 -10 15 -7M2 2c3 3 6 5 8 8"/>' +
+    "</g>" +
+    '<ellipse class="butterfly__body" cx="0" cy="0" rx="1.1" ry="7"/>' +
+    '<path class="butterfly__vein" d="M0 -6c-1 -3 -3 -5 -4 -6M0 -6c1 -3 3 -5 4 -6"/>' +
+    "</svg>";
+
+  function Butterfly(container, seed) {
+    this.el = document.createElement("div");
+    this.el.className = "butterfly";
+    this.el.innerHTML = BUTTERFLY_SVG;
+    container.appendChild(this.el);
+    this.box = container;
+    this.t = seed * 100;
+    this.speed = 0.0016 + Math.random() * 0.0008;
+    this.seed = seed;
+    this.running = false;
+    this.loop = this.loop.bind(this);
+    this.prev = null;
+  }
+
+  // smooth wandering path from layered sines (no jitter)
+  Butterfly.prototype.pos = function (t) {
+    var w = this.box.clientWidth;
+    var h = this.box.clientHeight;
+    var s = this.seed;
+    return {
+      x: w * (0.5 + 0.38 * Math.sin(t * 0.9 + s) + 0.08 * Math.sin(t * 2.3 + s * 2)),
+      y: h * (0.42 + 0.28 * Math.sin(t * 0.7 + s * 3) + 0.06 * Math.cos(t * 3.1 + s)),
+    };
+  };
+
+  Butterfly.prototype.loop = function () {
+    if (!this.running) return;
+    this.t += this.speed * 16;
+    var p = this.pos(this.t);
+    var ahead = this.pos(this.t + 0.05);
+    var angle = Math.atan2(ahead.y - p.y, ahead.x - p.x) * 57.3 + 90;
+    var gliding = Math.sin(this.t * 1.7 + this.seed) > 0.75;
+    this.el.classList.toggle("is-gliding", gliding);
+    this.el.style.transform = "translate(" + p.x.toFixed(1) + "px," + p.y.toFixed(1) + "px) rotate(" + angle.toFixed(1) + "deg)";
+    requestAnimationFrame(this.loop);
+  };
+
+  Butterfly.prototype.start = function () {
+    if (this.running) return;
+    this.running = true;
+    requestAnimationFrame(this.loop);
+  };
+
+  Butterfly.prototype.stop = function () { this.running = false; };
+
+  function initButterflies() {
+    if (reducedMotion) return;
+    $$("[data-butterflies]").forEach(function (box) {
+      var flock = [];
+      var n = parseInt(box.dataset.butterflies, 10) || 1;
+      for (var i = 0; i < n; i++) flock.push(new Butterfly(box, 1.3 + i * 2.1));
+      new IntersectionObserver(function (entries) {
+        flock.forEach(function (b) { if (entries[0].isIntersecting) b.start(); else b.stop(); });
+      }).observe(box);
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Envelope — paper curtains part onto the film
      ------------------------------------------------------------------ */
   function initEnvelope() {
-    var screen = $("#envelope");
-    var card = $("#envelope-card");
+    var env = $("#envelope");
     var seal = $("#seal");
     var opened = false;
-
-    function reveal() {
-      document.body.classList.remove("is-locked");
-      document.body.classList.add("is-revealed");
-      playVideo();
-      $("#top").setAttribute("tabindex", "-1");
-      $("#top").focus({ preventScroll: true });
-    }
 
     function open() {
       if (opened) return;
       opened = true;
-      var k = reducedMotion ? 0.1 : 1;
-      card.classList.add("is-open");
-      setTimeout(function () { card.classList.add("is-leaving"); }, 2000 * k);
+      var k = reducedMotion ? 0.05 : 1;
+
+      safePlay($("#hero-video")); // the film is already rolling underneath
+      startMusic();
+      env.classList.add("is-opening");
+
       setTimeout(function () {
-        screen.classList.add("is-gone");
-        reveal();
-      }, 2500 * k);
-      setTimeout(function () { screen.remove(); }, 3600 * k);
+        document.body.classList.remove("is-locked");
+        document.body.classList.add("is-revealed");
+        if (lenis) lenis.start();
+      }, 900 * k);
+
+      setTimeout(function () {
+        env.remove();
+        $("#top").setAttribute("tabindex", "-1");
+        $("#top").focus({ preventScroll: true });
+      }, 3000 * k);
     }
 
     seal.addEventListener("click", open);
-    card.addEventListener("click", open);
-    seal.focus({ preventScroll: true });
+    env.addEventListener("click", open);
   }
 
   /* ------------------------------------------------------------------
@@ -159,7 +380,7 @@
       el.textContent = value;
       if (!reducedMotion) {
         el.classList.remove("tick");
-        void el.offsetWidth; // restart animation
+        void el.offsetWidth;
         el.classList.add("tick");
       }
     }
@@ -184,109 +405,19 @@
   }
 
   /* ------------------------------------------------------------------
-     Particles — drifting light over the sea
-     ------------------------------------------------------------------ */
-  function Particles(canvas) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext("2d");
-    this.running = false;
-    this.items = [];
-    var css = getComputedStyle(document.documentElement);
-    this.colors = ["--particle-1", "--particle-2", "--particle-3"].map(function (v) {
-      return css.getPropertyValue(v).trim();
-    });
-    this.resize();
-    this.loop = this.loop.bind(this);
-  }
-
-  Particles.prototype.resize = function () {
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var rect = this.canvas.getBoundingClientRect();
-    this.w = rect.width;
-    this.h = rect.height;
-    this.canvas.width = this.w * dpr;
-    this.canvas.height = this.h * dpr;
-    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var count = Math.round(Math.min(70, (this.w * this.h) / 16000));
-    this.items = [];
-    for (var i = 0; i < count; i++) this.items.push(this.spawn(true));
-  };
-
-  Particles.prototype.spawn = function (anywhere) {
-    return {
-      x: Math.random() * this.w,
-      y: anywhere ? Math.random() * this.h : this.h + 10,
-      r: 0.6 + Math.random() * 2.2,
-      vy: 0.15 + Math.random() * 0.45,
-      phase: Math.random() * Math.PI * 2,
-      sway: 0.3 + Math.random() * 0.8,
-      twinkle: 0.01 + Math.random() * 0.03,
-      color: this.colors[Math.floor(Math.random() * this.colors.length)],
-    };
-  };
-
-  Particles.prototype.loop = function () {
-    if (!this.running) return;
-    var ctx = this.ctx;
-    ctx.clearRect(0, 0, this.w, this.h);
-    for (var i = 0; i < this.items.length; i++) {
-      var p = this.items[i];
-      p.phase += p.twinkle;
-      p.y -= p.vy;
-      p.x += Math.sin(p.phase) * p.sway * 0.3;
-      if (p.y < -10) this.items[i] = p = this.spawn(false);
-      ctx.globalAlpha = 0.35 + 0.65 * Math.abs(Math.sin(p.phase));
-      ctx.fillStyle = p.color;
-      ctx.shadowColor = p.color;
-      ctx.shadowBlur = p.r * 4;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    requestAnimationFrame(this.loop);
-  };
-
-  Particles.prototype.start = function () {
-    if (this.running) return;
-    this.running = true;
-    requestAnimationFrame(this.loop);
-  };
-
-  Particles.prototype.stop = function () { this.running = false; };
-
-  function initParticles() {
-    if (reducedMotion) return;
-    var systems = $$("canvas[data-particles]").map(function (c) { return new Particles(c); });
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        var sys = systems.filter(function (s) { return s.canvas === entry.target; })[0];
-        if (!sys) return;
-        if (entry.isIntersecting) sys.start(); else sys.stop();
-      });
-    });
-    systems.forEach(function (s) { io.observe(s.canvas); });
-
-    var resizeTimer;
-    window.addEventListener("resize", function () {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function () {
-        systems.forEach(function (s) { if (s.canvas.isConnected) s.resize(); });
-      }, 200);
-    });
-  }
-
-  /* ------------------------------------------------------------------
      Scroll reveals
      ------------------------------------------------------------------ */
   function initReveals() {
-    var targets = $$(".reveal, .route, .rings");
+    var targets = $$(".reveal, .corner");
 
     $$(".reveal").forEach(function (el) {
       var siblings = $$(":scope > .reveal", el.parentElement);
-      var i = siblings.indexOf(el);
-      var step = el.classList.contains("gallery__item") ? i % 3 : Math.min(i, 5);
-      el.style.setProperty("--stagger", step);
+      el.style.setProperty("--stagger", Math.min(siblings.indexOf(el), 5));
+      el.addEventListener("transitionend", function clear(e) {
+        if (e.target !== el || e.propertyName !== "opacity") return;
+        el.style.setProperty("--stagger", 0);
+        el.removeEventListener("transitionend", clear);
+      });
     });
 
     if (!("IntersectionObserver" in window)) {
@@ -298,56 +429,141 @@
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         entry.target.classList.add("is-visible");
-        if (entry.target.id === "route") startRouteHeart();
         io.unobserve(entry.target);
       });
-    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+    }, { threshold: 0.12, rootMargin: "0px 0px -50px 0px" });
 
     targets.forEach(function (el) { io.observe(el); });
   }
 
   /* ------------------------------------------------------------------
-     Route heart — travels Santa Cruz ↔ Târgu Mureș
+     Carousel — infinite, centre mode, swipe / drag / arrows / dots
      ------------------------------------------------------------------ */
-  var routeStarted = false;
+  function initCarousel() {
+    var root = $("#carousel");
+    if (!root) return;
+    var slides = $$(".carousel__slide", root);
+    var dotsBox = $(".carousel__dots", root);
+    var n = slides.length;
+    var active = 0;
+    var prevOffsets = [];
+    var timer = null;
+    var visible = false;
+    var INTERVAL = 5200;
 
-  function startRouteHeart() {
-    var path = $("#route-path");
-    var heart = $("#route-heart");
-    if (!path || !heart || routeStarted) return;
-    routeStarted = true;
-    var len = path.getTotalLength();
+    var dots = slides.map(function (_, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "carousel__dot";
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-label", String(i + 1));
+      b.addEventListener("click", function () { go(i); restart(); });
+      dotsBox.appendChild(b);
+      return b;
+    });
 
-    function place(progress) {
-      var pt = path.getPointAtLength(progress * len);
-      var ahead = path.getPointAtLength(Math.min(len, progress * len + 1));
-      var angle = Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 0.15; // slight tilt
-      heart.setAttribute("transform", "translate(" + pt.x + " " + (pt.y - 2) + ") rotate(" + angle * 57.3 + ")");
+    function offsetOf(i) {
+      var o = (i - active) % n;
+      if (o > n / 2) o -= n;
+      if (o < -n / 2) o += n;
+      return o;
     }
 
-    if (reducedMotion) { place(1); return; }
+    function render() {
+      slides.forEach(function (s, i) {
+        var o = offsetOf(i);
+        // a slide that wraps around the back moves instantly while hidden
+        var jumped = prevOffsets[i] !== undefined && Math.abs(o - prevOffsets[i]) > 1;
+        s.classList.toggle("no-anim", jumped);
+        s.style.setProperty("--o", o);
+        s.classList.toggle("is-active", o === 0);
+        s.classList.toggle("is-far", Math.abs(o) > 1);
+        s.setAttribute("aria-hidden", String(o !== 0));
+        prevOffsets[i] = o;
 
-    var duration = 4200;
-    var pause = 1400;
-    var cycle = (duration + pause) * 2;
-    var start = null;
-
-    function ease(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
-
-    place(0);
-    setTimeout(function () {
-      requestAnimationFrame(function frame(now) {
-        if (start === null) start = now;
-        var tt = (now - start) % cycle;
-        var p;
-        if (tt < duration) p = ease(tt / duration);
-        else if (tt < duration + pause) p = 1;
-        else if (tt < duration * 2 + pause) p = 1 - ease((tt - duration - pause) / duration);
-        else p = 0;
-        place(p);
-        requestAnimationFrame(frame);
+        var v = $("video", s);
+        if (v) {
+          if (o === 0 && visible) {
+            if (v.preload === "none") { v.preload = "auto"; v.load(); }
+            safePlay(v);
+          } else {
+            v.pause();
+          }
+        }
+        // warm up neighbours' images
+        if (Math.abs(o) <= 2) { var img = $("img", s); if (img) img.loading = "eager"; }
       });
-    }, 2600);
+      dots.forEach(function (d, i) { d.setAttribute("aria-selected", String(i === active)); });
+      requestAnimationFrame(function () {
+        slides.forEach(function (s) { s.classList.remove("no-anim"); });
+      });
+    }
+
+    function go(i) {
+      active = ((i % n) + n) % n;
+      render();
+    }
+
+    function next() { go(active + 1); }
+
+    function restart() {
+      clearInterval(timer);
+      if (visible && !reducedMotion) timer = setInterval(next, INTERVAL);
+    }
+
+    $$(".carousel__arrow", root).forEach(function (btn) {
+      btn.addEventListener("click", function () { go(active + parseInt(btn.dataset.dir, 10)); restart(); });
+    });
+
+    // drag / swipe
+    var viewport = $(".carousel__viewport", root);
+    var startX = null;
+    var dx = 0;
+    var pointerId = null;
+
+    viewport.addEventListener("pointerdown", function (e) {
+      startX = e.clientX;
+      dx = 0;
+      pointerId = e.pointerId;
+      root.classList.add("is-dragging");
+      clearInterval(timer);
+    });
+
+    window.addEventListener("pointermove", function (e) {
+      if (startX === null || e.pointerId !== pointerId) return;
+      dx = e.clientX - startX;
+      root.style.setProperty("--drag", dx + "px");
+    });
+
+    function endDrag() {
+      if (startX === null) return;
+      root.classList.remove("is-dragging");
+      root.style.setProperty("--drag", "0px");
+      var threshold = Math.min(80, viewport.clientWidth * 0.12);
+      if (dx < -threshold) next();
+      else if (dx > threshold) go(active - 1);
+      startX = null;
+      restart();
+    }
+
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
+
+    root.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { next(); restart(); }
+      if (e.key === "ArrowLeft") { go(active - 1); restart(); }
+    });
+
+    root.addEventListener("mouseenter", function () { clearInterval(timer); });
+    root.addEventListener("mouseleave", restart);
+
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      render();
+      restart();
+    }, { threshold: 0.3 }).observe(root);
+
+    render();
   }
 
   /* ------------------------------------------------------------------
@@ -414,75 +630,18 @@
   }
 
   /* ------------------------------------------------------------------
-     Gallery lightbox
-     ------------------------------------------------------------------ */
-  function initLightbox() {
-    var box = $("#lightbox");
-    var img = $(".lightbox__img", box);
-    var items = $$(".gallery__item");
-    var index = 0;
-    var lastFocus = null;
-    var touchX = null;
-
-    function show(i) {
-      index = (i + items.length) % items.length;
-      var item = items[index];
-      img.src = item.dataset.full;
-      img.alt = $("img", item).alt;
-      img.style.animation = "none";
-      void img.offsetWidth;
-      img.style.animation = "";
-    }
-
-    function open(i) {
-      lastFocus = document.activeElement;
-      show(i);
-      box.hidden = false;
-      document.body.style.overflow = "hidden";
-      $(".lightbox__close", box).focus();
-    }
-
-    function close() {
-      box.hidden = true;
-      document.body.style.overflow = "";
-      if (lastFocus) lastFocus.focus();
-    }
-
-    items.forEach(function (item, i) {
-      item.addEventListener("click", function () { open(i); });
-    });
-
-    $(".lightbox__close", box).addEventListener("click", close);
-    $(".lightbox__prev", box).addEventListener("click", function () { show(index - 1); });
-    $(".lightbox__next", box).addEventListener("click", function () { show(index + 1); });
-    box.addEventListener("click", function (e) { if (e.target === box) close(); });
-
-    document.addEventListener("keydown", function (e) {
-      if (box.hidden) return;
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowLeft") show(index - 1);
-      if (e.key === "ArrowRight") show(index + 1);
-    });
-
-    box.addEventListener("touchstart", function (e) { touchX = e.touches[0].clientX; }, { passive: true });
-    box.addEventListener("touchend", function (e) {
-      if (touchX === null) return;
-      var dx = e.changedTouches[0].clientX - touchX;
-      if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
-      touchX = null;
-    });
-  }
-
-  /* ------------------------------------------------------------------
      Boot
      ------------------------------------------------------------------ */
   splitLetters();
   initLang();
-  loadVideo();
+  initSmoothScroll();
+  initVideos();
+  initMusic();
   initEnvelope();
+  initButterflies();
   initCountdown();
-  initParticles();
   initReveals();
+  initParallax();
+  initCarousel();
   initCalendar();
-  initLightbox();
 })();

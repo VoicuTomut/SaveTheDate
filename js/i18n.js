@@ -9,7 +9,13 @@ window.I18N = {
     "meta.title": "Andrei & Camila · 16 mai 2027",
     "lang.label": "Limba",
 
-    "envelope.to": "Pentru familia și prietenii noștri dragi",
+    "envelope.for": "Această invitație este pentru voi",
+    "date.month": "Mai",
+    "date.weekday": "Duminică",
+    "date.time": "Ora 12:00",
+    "music.label": "Muzică — pornește / oprește",
+    "carousel.prev": "Fotografia anterioară",
+    "carousel.next": "Fotografia următoare",
     "envelope.hint": "Atinge sigiliul pentru a deschide",
     "envelope.open": "Deschide invitația",
 
@@ -62,17 +68,19 @@ window.I18N = {
     "cal.event": "Nunta Andrei & Camila",
     "cal.details":
       "12:00 Cununia religioasă — Catedrala Mică, Târgu Mureș\n15:00 Petrecerea — Restaurant Casa Boema, Târgu Mureș",
-
-    "lightbox.close": "Închide",
-    "lightbox.prev": "Fotografia anterioară",
-    "lightbox.next": "Fotografia următoare",
   },
 
   en: {
     "meta.title": "Andrei & Camila · 16 May 2027",
     "lang.label": "Language",
 
-    "envelope.to": "For our beloved family and friends",
+    "envelope.for": "This invitation is just for you",
+    "date.month": "May",
+    "date.weekday": "Sunday",
+    "date.time": "At 12:00",
+    "music.label": "Music — play / mute",
+    "carousel.prev": "Previous photo",
+    "carousel.next": "Next photo",
     "envelope.hint": "Tap the seal to open",
     "envelope.open": "Open the invitation",
 
@@ -125,17 +133,19 @@ window.I18N = {
     "cal.event": "Wedding of Andrei & Camila",
     "cal.details":
       "12:00 Religious ceremony — Catedrala Mică, Târgu Mureș\n15:00 Reception — Casa Boema Restaurant, Târgu Mureș",
-
-    "lightbox.close": "Close",
-    "lightbox.prev": "Previous photo",
-    "lightbox.next": "Next photo",
   },
 
   es: {
     "meta.title": "Andrei & Camila · 16 de mayo de 2027",
     "lang.label": "Idioma",
 
-    "envelope.to": "Para nuestra querida familia y amigos",
+    "envelope.for": "Esta invitación es exclusiva para ti",
+    "date.month": "Mayo",
+    "date.weekday": "Domingo",
+    "date.time": "A las 12:00",
+    "music.label": "Música — reproducir / silenciar",
+    "carousel.prev": "Foto anterior",
+    "carousel.next": "Foto siguiente",
     "envelope.hint": "Toca el sello para abrir",
     "envelope.open": "Abrir la invitación",
 
@@ -188,9 +198,5 @@ window.I18N = {
     "cal.event": "Boda de Andrei & Camila",
     "cal.details":
       "12:00 Ceremonia religiosa — Catedrala Mică, Târgu Mureș\n15:00 Celebración — Restaurante Casa Boema, Târgu Mureș",
-
-    "lightbox.close": "Cerrar",
-    "lightbox.prev": "Foto anterior",
-    "lightbox.next": "Foto siguiente",
   },
 };
