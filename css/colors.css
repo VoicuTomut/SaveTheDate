@@ -120,4 +120,14 @@
   --particle-1: rgba(187, 211, 236, 0.75); /* blue-200 */
   --particle-2: rgba(143, 179, 217, 0.6);  /* blue-300 */
   --particle-3: rgba(241, 211, 161, 0.7);  /* gold-300 */
+
+  /* ------------------------------------------------------------------
+     8. Flags (footer detail) — official colors, used nowhere else
+     ------------------------------------------------------------------ */
+  --flag-ro-blue:   #002b7f;
+  --flag-ro-yellow: #fcd116;
+  --flag-ro-red:    #ce1126;
+  --flag-bo-red:    #d52b1e;
+  --flag-bo-yellow: #f9e300;
+  --flag-bo-green:  #007934;
 }

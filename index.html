@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Andrei &amp; Camila · 16 mai 2027</title>
+  <meta name="description" content="Save the Date · Andrei &amp; Camila · 16.05.2027 · Târgu Mureș">
+  <meta name="theme-color" content="#0f2a4a">
+
+  <!-- Link preview (WhatsApp, Messenger, …) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Andrei &amp; Camila · Save the Date">
+  <meta property="og:description" content="16 · 05 · 2027 — Târgu Mureș">
+  <meta property="og:image" content="assets/img/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231f4e7f'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='26' fill='%23f1d3a1' text-anchor='middle'%3EA%26C%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,300;1,500&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap&subset=latin-ext" rel="stylesheet">
+
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="preload" as="image" href="assets/video/hero-poster.jpg">
+  <link rel="stylesheet" href="css/colors.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-locked">
+
+  <!-- ================================================================
+       Language switcher
+       ================================================================ -->
+  <nav class="lang" aria-label="Limba" data-i18n-aria="lang.label">
+    <button type="button" class="lang__btn" data-lang="ro" aria-pressed="true">RO</button>
+    <button type="button" class="lang__btn" data-lang="en" aria-pressed="false">EN</button>
+    <button type="button" class="lang__btn" data-lang="es" aria-pressed="false">ES</button>
+  </nav>
+
+  <!-- ================================================================
+       1. Envelope intro
+       ================================================================ -->
+  <div class="envelope-screen" id="envelope" role="dialog" aria-modal="true" aria-labelledby="envelope-names">
+    <canvas class="particles" data-particles="envelope" aria-hidden="true"></canvas>
+
+    <p class="envelope-screen__to" data-i18n="envelope.to">Pentru familia și prietenii noștri dragi</p>
+
+    <div class="envelope" id="envelope-card">
+      <div class="envelope__back"></div>
+      <div class="envelope__letter">
+        <span class="envelope__letter-eyebrow" data-i18n="hero.eyebrow">Save the Date</span>
+        <span class="envelope__letter-names" id="envelope-names">Andrei <span>&amp;</span> Camila</span>
+        <span class="envelope__letter-date">16 · 05 · 2027</span>
+      </div>
+      <div class="envelope__front"></div>
+      <div class="envelope__flap"></div>
+      <button type="button" class="seal" id="seal" aria-label="Deschide invitația" data-i18n-aria="envelope.open">
+        <span class="seal__ring"></span>
+        <span class="seal__text">A<i>&amp;</i>C</span>
+      </button>
+    </div>
+
+    <p class="envelope-screen__hint" data-i18n="envelope.hint">Atinge sigiliul pentru a deschide</p>
+  </div>
+
+  <main id="main">
+
+    <!-- ================================================================
+         2. Hero
+         ================================================================ -->
+    <header class="hero" id="top">
+      <video class="hero__video" id="hero-video" muted loop playsinline preload="metadata"
+             poster="assets/video/hero-poster.jpg"
+             data-src-landscape="assets/video/hero.mp4"
+             data-src-portrait="assets/video/hero-portrait.mp4"
+             data-poster-portrait="assets/video/hero-poster-portrait.jpg"
+             aria-hidden="true"></video>
+      <div class="hero__overlay"></div>
+      <canvas class="particles" data-particles="hero" aria-hidden="true"></canvas>
+
+      <div class="hero__content">
+        <p class="eyebrow eyebrow--light hero__eyebrow" data-i18n="hero.eyebrow">Save the Date</p>
+        <h1 class="hero__names" aria-label="Andrei &amp; Camila">
+          <span class="split" data-split>Andrei</span>
+          <span class="hero__amp">&amp;</span>
+          <span class="split" data-split>Camila</span>
+        </h1>
+        <p class="hero__sub" data-i18n="hero.sub">Ne căsătorim!</p>
+        <div class="hero__date">
+          <span class="hero__line"></span>
+          <time datetime="2027-05-16">16 · 05 · 2027</time>
+          <span class="hero__line"></span>
+        </div>
+        <p class="hero__place" data-i18n="hero.place">Târgu Mureș · România</p>
+      </div>
+
+      <a href="#intro" class="hero__scroll">
+        <span data-i18n="hero.scroll">Derulează</span>
+        <span class="hero__scroll-line"></span>
+      </a>
+
+      <svg class="waves waves--to-light" viewBox="0 24 150 28" preserveAspectRatio="none" aria-hidden="true">
+        <defs><path id="wave" d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44h-352z"/></defs>
+        <g class="waves__layers">
+          <use href="#wave" x="48" y="0"/>
+          <use href="#wave" x="48" y="3"/>
+          <use href="#wave" x="48" y="5"/>
+          <use href="#wave" x="48" y="7"/>
+        </g>
+      </svg>
+    </header>
+
+    <!-- ================================================================
+         3. Intro + countdown
+         ================================================================ -->
+    <section class="section section--light intro" id="intro">
+      <div class="container container--narrow">
+        <div class="ornament reveal" aria-hidden="true">
+          <span></span><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.1 4.3 2.4h2c.7-1.3 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg><span></span>
+        </div>
+        <h2 class="section__title reveal" data-i18n="intro.title">Cu inimile pline de bucurie</h2>
+        <p class="lead reveal" data-i18n-html="intro.text">Vă rugăm să păstrați liberă ziua de <strong>duminică, 16 mai 2027</strong>.</p>
+
+        <p class="eyebrow countdown__title reveal" data-i18n="countdown.title">Până la marea zi</p>
+        <div class="countdown reveal" id="countdown" role="timer" aria-live="off">
+          <div class="countdown__item"><span class="countdown__num" data-unit="days">000</span><span class="countdown__label" data-i18n="countdown.days">zile</span></div>
+          <div class="countdown__item"><span class="countdown__num" data-unit="hours">00</span><span class="countdown__label" data-i18n="countdown.hours">ore</span></div>
+          <div class="countdown__item"><span class="countdown__num" data-unit="minutes">00</span><span class="countdown__label" data-i18n="countdown.minutes">minute</span></div>
+          <div class="countdown__item"><span class="countdown__num" data-unit="seconds">00</span><span class="countdown__label" data-i18n="countdown.seconds">secunde</span></div>
+        </div>
+        <p class="countdown__done" id="countdown-done" hidden data-i18n="countdown.done">Ne-am căsătorit!</p>
+      </div>
+      <svg class="waves waves--to-mist" viewBox="0 24 150 28" preserveAspectRatio="none" aria-hidden="true">
+        <g class="waves__layers">
+          <use href="#wave" x="48" y="0"/>
+          <use href="#wave" x="48" y="3"/>
+          <use href="#wave" x="48" y="5"/>
+          <use href="#wave" x="48" y="7"/>
+        </g>
+      </svg>
+    </section>
+
+    <!-- ================================================================
+         4. Our story — Romania ↔ Bolivia
+         ================================================================ -->
+    <section class="section section--mist story" id="story">
+      <div class="container story__grid">
+        <div class="story__copy">
+          <p class="eyebrow reveal" data-i18n="story.eyebrow">Povestea noastră</p>
+          <h2 class="section__title reveal" data-i18n="story.title">Două țări, un singur orizont</h2>
+          <p class="reveal" data-i18n-html="story.text">Andrei din România, Camila din Santa Cruz, Bolivia.</p>
+        </div>
+
+        <figure class="route reveal" id="route" aria-hidden="true">
+          <svg viewBox="0 0 400 260">
+            <!-- faint globe -->
+            <g class="route__globe">
+              <ellipse cx="200" cy="130" rx="190" ry="120"/>
+              <ellipse cx="200" cy="130" rx="120" ry="120"/>
+              <ellipse cx="200" cy="130" rx="50" ry="120"/>
+              <line x1="10" y1="130" x2="390" y2="130"/>
+              <path d="M30 70 Q200 50 370 70"/>
+              <path d="M30 190 Q200 210 370 190"/>
+            </g>
+            <path class="route__base" id="route-path" d="M70 205 C 110 60, 250 10, 330 72"/>
+            <path class="route__draw" pathLength="1" d="M70 205 C 110 60, 250 10, 330 72"/>
+
+            <g class="route__pin route__pin--bo" transform="translate(70 205)">
+              <circle class="route__pulse" r="6"/>
+              <circle class="route__dot" r="5"/>
+            </g>
+            <g class="route__pin route__pin--ro" transform="translate(330 72)">
+              <circle class="route__pulse" r="6"/>
+              <circle class="route__dot" r="5"/>
+            </g>
+
+            <g class="route__heart" id="route-heart">
+              <path d="M0 6s-6.2-3.8-7.9-7.6C-9.1-4.4-7.4-7.6-4.3-7.6c1.7 0 3 .9 3.6 2h1.4c.6-1.1 1.9-2 3.6-2 3.1 0 4.8 3.2 3.6 6C6.2 2.2 0 6 0 6z"/>
+            </g>
+          </svg>
+          <figcaption class="route__labels">
+            <span class="route__label route__label--bo"><b>Santa Cruz</b><em data-i18n="story.bo">Bolivia</em></span>
+            <span class="route__label route__label--ro"><b>Târgu Mureș</b><em data-i18n="story.ro">România</em></span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <svg class="waves waves--to-deep" viewBox="0 24 150 28" preserveAspectRatio="none" aria-hidden="true">
+        <g class="waves__layers">
+          <use href="#wave" x="48" y="0"/>
+          <use href="#wave" x="48" y="3"/>
+          <use href="#wave" x="48" y="5"/>
+          <use href="#wave" x="48" y="7"/>
+        </g>
+      </svg>
+    </section>
+
+    <!-- ================================================================
+         5. The day
+         ================================================================ -->
+    <section class="section section--deep day" id="day">
+      <div class="container">
+        <p class="eyebrow eyebrow--light reveal" data-i18n="day.eyebrow">Ziua cea mare</p>
+        <h2 class="section__title section__title--light reveal" data-i18n="day.date">Duminică, 16 mai 2027</h2>
+
+        <div class="cards">
+          <article class="card reveal">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M24 3v8M20 7h8M14 22l10-9 10 9M16 20v24h32V30L40 24M16 44H4V30l8-6M21 44v-9a3 3 0 0 1 6 0v9M24 22v4"/></svg>
+            </div>
+            <p class="card__time">12:00</p>
+            <h3 class="card__title" data-i18n="ceremony.title">Cununia religioasă</h3>
+            <p class="card__text" data-i18n="ceremony.text">Ne vom uni destinele în fața lui Dumnezeu</p>
+            <p class="card__venue">Catedrala Mică</p>
+            <p class="card__city">Târgu Mureș</p>
+            <a class="btn btn--ghost" target="_blank" rel="noopener"
+               href="https://www.google.com/maps/search/?api=1&amp;query=Catedrala+Mic%C4%83+T%C3%A2rgu+Mure%C8%99">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span data-i18n="btn.map">Vezi pe hartă</span>
+            </a>
+          </article>
+
+          <div class="cards__divider reveal" aria-hidden="true"><span></span></div>
+
+          <article class="card reveal">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M14 4h8l-1 14a5 5 0 0 1-6 0zM18 23v19M13 42h10M34 4h8l-1 14a5 5 0 0 1-6 0zM38 23v19M33 42h10M14.5 10h7M34.5 10h7"/></svg>
+            </div>
+            <p class="card__time">15:00</p>
+            <h3 class="card__title" data-i18n="reception.title">Petrecerea</h3>
+            <p class="card__text" data-i18n="reception.text">Vă așteptăm cu drag să sărbătorim împreună</p>
+            <p class="card__venue" data-i18n="reception.venue">Restaurant Casa Boema</p>
+            <p class="card__city">Târgu Mureș</p>
+            <a class="btn btn--ghost" target="_blank" rel="noopener"
+               href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Boema+T%C3%A2rgu+Mure%C8%99">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span data-i18n="btn.map">Vezi pe hartă</span>
+            </a>
+          </article>
+        </div>
+
+        <div class="calendar reveal">
+          <p class="eyebrow eyebrow--light" data-i18n="calendar.title">Adaugă în calendar</p>
+          <div class="calendar__btns">
+            <a class="btn btn--gold" id="cal-google" target="_blank" rel="noopener" href="#">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+              <span data-i18n="calendar.google">Google Calendar</span>
+            </a>
+            <button type="button" class="btn btn--gold" id="cal-ics">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+              <span data-i18n="calendar.ics">Apple / Outlook</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <svg class="waves waves--to-light" viewBox="0 24 150 28" preserveAspectRatio="none" aria-hidden="true">
+        <g class="waves__layers">
+          <use href="#wave" x="48" y="0"/>
+          <use href="#wave" x="48" y="3"/>
+          <use href="#wave" x="48" y="5"/>
+          <use href="#wave" x="48" y="7"/>
+        </g>
+      </svg>
+    </section>
+
+    <!-- ================================================================
+         6. Godparents
+         ================================================================ -->
+    <section class="section section--light godparents" id="godparents">
+      <div class="container container--narrow">
+        <svg class="rings reveal" viewBox="0 0 120 70" aria-hidden="true">
+          <circle cx="45" cy="38" r="24" pathLength="1"/>
+          <circle cx="75" cy="38" r="24" pathLength="1"/>
+          <path class="rings__gem" d="M75 8l5 5-5 5-5-5z"/>
+        </svg>
+        <p class="eyebrow reveal" data-i18n="godparents.eyebrow">Nașii noștri</p>
+        <p class="lead reveal" data-i18n="godparents.text">Alături de noi, ca martori și călăuze pe acest drum, vor fi dragii noștri nași</p>
+        <p class="godparents__names reveal">Ciprian <span>&amp;</span> Andreea</p>
+        <p class="godparents__surname reveal">Nicoară</p>
+      </div>
+      <svg class="waves waves--to-mist" viewBox="0 24 150 28" preserveAspectRatio="none" aria-hidden="true">
+        <g class="waves__layers">
+          <use href="#wave" x="48" y="0"/>
+          <use href="#wave" x="48" y="3"/>
+          <use href="#wave" x="48" y="5"/>
+          <use href="#wave" x="48" y="7"/>
+        </g>
+      </svg>
+    </section>
+
+    <!-- ================================================================
+         7. Gallery
+         ================================================================ -->
+    <section class="section section--mist gallery" id="gallery">
+      <div class="container">
+        <p class="eyebrow reveal" data-i18n="gallery.eyebrow">Momente</p>
+        <h2 class="section__title reveal" data-i18n="gallery.title">Câteva clipe din povestea noastră</h2>
+
+        <div class="gallery__grid" id="gallery-grid">
+          <button type="button" class="gallery__item reveal" data-full="assets/img/sunrise-embrace.jpg"><img src="assets/img/sunrise-embrace-sm.jpg" alt="Andrei și Camila îmbrățișați la răsărit, pe malul mării" loading="lazy" width="394" height="700"></button>
+          <button type="button" class="gallery__item reveal" data-full="assets/img/ring.jpg"><img src="assets/img/ring-sm.jpg" alt="Camila arătând inelul de logodnă, pe plajă" loading="lazy" width="394" height="700"></button>
+          <button type="button" class="gallery__item reveal" data-full="assets/img/sand-waves.jpg"><img src="assets/img/sand-waves-sm.jpg" alt="Andrei și Camila pe nisip, la marginea valurilor" loading="lazy" width="394" height="700"></button>
+          <button type="button" class="gallery__item reveal" data-full="assets/img/sitting-sea.jpg"><img src="assets/img/sitting-sea-sm.jpg" alt="Andrei și Camila stând pe nisip, privind marea" loading="lazy" width="700" height="394"></button>
+          <button type="button" class="gallery__item reveal" data-full="assets/img/sunrise-kiss.jpg"><img src="assets/img/sunrise-kiss-sm.jpg" alt="Sărut pe plajă în lumina răsăritului" loading="lazy" width="394" height="700"></button>
+          <button type="button" class="gallery__item reveal" data-full="assets/img/boat.jpg"><img src="assets/img/boat-sm.jpg" alt="Andrei și Camila într-o barcă, lângă palmieri" loading="lazy" width="394" height="700"></button>
+          <button type="button" class="gallery__item reveal" data-full="assets/img/shore-hug.jpg"><img src="assets/img/shore-hug-sm.jpg" alt="Îmbrățișare pe țărm, cu orașul în depărtare" loading="lazy" width="394" height="700"></button>
+          <button type="button" class="gallery__item reveal" data-full="assets/img/garden-kiss.jpg"><img src="assets/img/garden-kiss-sm.jpg" alt="Sărut în grădină, printre chiparoși" loading="lazy" width="394" height="700"></button>
+          <button type="button" class="gallery__item reveal" data-full="assets/img/running-waves.jpg"><img src="assets/img/running-waves-sm.jpg" alt="Andrei și Camila alergând prin valuri la răsărit" loading="lazy" width="394" height="700"></button>
+          <button type="button" class="gallery__item reveal" data-full="assets/img/parliament-dip.jpg"><img src="assets/img/parliament-dip-sm.jpg" alt="Andrei o înclină pe Camila pentru un sărut, în fața unei clădiri istorice" loading="lazy" width="394" height="700"></button>
+          <button type="button" class="gallery__item reveal" data-full="assets/img/window-view.jpg"><img src="assets/img/window-view-sm.jpg" alt="Andrei și Camila la fereastră, cu marea în spate" loading="lazy" width="394" height="700"></button>
+        </div>
+      </div>
+
+      <svg class="waves waves--to-deep" viewBox="0 24 150 28" preserveAspectRatio="none" aria-hidden="true">
+        <g class="waves__layers">
+          <use href="#wave" x="48" y="0"/>
+          <use href="#wave" x="48" y="3"/>
+          <use href="#wave" x="48" y="5"/>
+          <use href="#wave" x="48" y="7"/>
+        </g>
+      </svg>
+    </section>
+
+    <!-- ================================================================
+         8. Footer
+         ================================================================ -->
+    <footer class="footer">
+      <canvas class="particles" data-particles="footer" aria-hidden="true"></canvas>
+      <div class="container container--narrow footer__inner">
+        <p class="eyebrow eyebrow--light reveal" data-i18n="footer.note">Invitația oficială va urma</p>
+        <p class="footer__love reveal" data-i18n="footer.love">Cu drag,</p>
+        <p class="footer__names reveal">Andrei <span>&amp;</span> Camila</p>
+        <p class="footer__date reveal">16 · 05 · 2027</p>
+        <p class="footer__flags reveal" aria-hidden="true">
+          <span class="flag flag--ro"><i></i><i></i><i></i></span>
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.1 4.3 2.4h2c.7-1.3 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+          <span class="flag flag--bo"><i></i><i></i><i></i></span>
+        </p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true">
+    <button type="button" class="lightbox__btn lightbox__close" data-i18n-aria="lightbox.close" aria-label="Închide">&times;</button>
+    <button type="button" class="lightbox__btn lightbox__prev" data-i18n-aria="lightbox.prev" aria-label="Fotografia anterioară">&#8249;</button>
+    <img class="lightbox__img" alt="">
+    <button type="button" class="lightbox__btn lightbox__next" data-i18n-aria="lightbox.next" aria-label="Fotografia următoare">&#8250;</button>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
