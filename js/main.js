@@ -1,7 +1,7 @@
 /* ==========================================================================
    Save the Date — Andrei & Camila
    Envelope · language · music · smooth scroll · parallax · countdown ·
-   butterflies · reveals · videos · carousel · calendar
+   reveals · videos · calendar · photo QR codes
    ========================================================================== */
 (function () {
   "use strict";
@@ -183,7 +183,7 @@
         var v = entry.target;
         if (entry.isIntersecting) {
           if (v.preload === "none") { v.preload = "auto"; v.load(); }
-          safePlay(v);
+          if (!(v.hasAttribute("data-once") && v.ended)) safePlay(v);
         } else {
           v.pause();
         }
@@ -215,19 +215,26 @@
     }, 30);
   }
 
-  function setPlaying(on) {
+  function setPlaying(on, remember) {
     var a = music.audio;
     music.btn.classList.toggle("is-playing", on);
     music.btn.setAttribute("aria-pressed", String(on));
+    clearInterval(music.fadeTimer);
     if (on) {
+      a.muted = false;
       a.volume = 0;
       var p = a.play();
-      if (p && p.catch) p.catch(function () { music.btn.classList.remove("is-playing"); });
-      fadeVolume(0.55, 2500);
+      if (p && p.catch) p.catch(function () {
+        music.btn.classList.remove("is-playing");
+        music.btn.setAttribute("aria-pressed", "false");
+      });
+      fadeVolume(0.55, 2500); // on iPhone the volume is fixed by the system; the song simply starts
     } else {
-      fadeVolume(0, 700, function () { a.pause(); });
+      // stop immediately: never rely on a fade (iPhone ignores volume changes)
+      a.pause();
+      a.muted = true;
     }
-    store("std-music", on ? "on" : "off");
+    if (remember !== false) store("std-music", on ? "on" : "off");
   }
 
   function initMusic() {
@@ -242,6 +249,19 @@
     music.btn.addEventListener("click", function () {
       setPlaying(!music.btn.classList.contains("is-playing"));
     });
+
+    // silence when the guest switches app or tab, or locks the phone; resume on return
+    var wasPlaying = false;
+    document.addEventListener("visibilitychange", function () {
+      if (!music.available || !music.btn.classList.contains("is-shown")) return;
+      if (document.hidden) {
+        wasPlaying = music.btn.classList.contains("is-playing");
+        if (wasPlaying) setPlaying(false, false);
+      } else if (wasPlaying) {
+        setPlaying(true, false);
+      }
+    });
+    window.addEventListener("pagehide", function () { music.audio.pause(); });
   }
 
   function startMusic() {
@@ -251,87 +271,44 @@
   }
 
   /* ------------------------------------------------------------------
-     Butterflies — a few delicate wanderers
+     Photos — QR codes to the shared Google Drive folders.
+     Paste the two folder links here; until then the codes show "soon".
      ------------------------------------------------------------------ */
-  var BUTTERFLY_SVG =
-    '<svg viewBox="-20 -16 40 32">' +
-    '<g class="butterfly__wing">' +
-    '<path d="M-1 -1C-6 -13 -19 -15 -18 -6c1 5 9 6 17 5z"/>' +
-    '<path d="M-1 1c-7 1 -13 7 -10 11 3 3 8 -3 10 -11z"/>' +
-    '<path class="butterfly__vein" d="M-2 -2C-7 -8 -12 -10 -15 -7M-2 2c-3 3 -6 5 -8 8"/>' +
-    "</g>" +
-    '<g class="butterfly__wing">' +
-    '<path d="M1 -1C6 -13 19 -15 18 -6c-1 5 -9 6 -17 5z"/>' +
-    '<path d="M1 1c7 1 13 7 10 11 -3 3 -8 -3 -10 -11z"/>' +
-    '<path class="butterfly__vein" d="M2 -2C7 -8 12 -10 15 -7M2 2c3 3 6 5 8 8"/>' +
-    "</g>" +
-    '<ellipse class="butterfly__body" cx="0" cy="0" rx="1.1" ry="7"/>' +
-    '<path class="butterfly__vein" d="M0 -6c-1 -3 -3 -5 -4 -6M0 -6c1 -3 3 -5 4 -6"/>' +
-    "</svg>";
+  var DRIVE_LINKS = {
+    view: "",   // folder where guests can see the wedding photos
+    upload: "", // folder (or Drive upload form) where guests add their own photos
+  };
 
-  function Butterfly(container, seed) {
-    this.el = document.createElement("div");
-    this.el.className = "butterfly";
-    this.el.innerHTML = BUTTERFLY_SVG;
-    container.appendChild(this.el);
-    this.box = container;
-    this.t = seed * 100;
-    this.speed = 0.0016 + Math.random() * 0.0008;
-    this.seed = seed;
-    this.running = false;
-    this.loop = this.loop.bind(this);
-    this.prev = null;
+  function renderQr(box, url) {
+    if (!window.qrcode) return false;
+    var qr = window.qrcode(0, "M");
+    qr.addData(url);
+    qr.make();
+    box.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+    return true;
   }
 
-  // smooth wandering path from layered sines (no jitter)
-  Butterfly.prototype.pos = function (t) {
-    var w = this.box.clientWidth;
-    var h = this.box.clientHeight;
-    var s = this.seed;
-    return {
-      x: w * (0.5 + 0.38 * Math.sin(t * 0.9 + s) + 0.08 * Math.sin(t * 2.3 + s * 2)),
-      y: h * (0.42 + 0.28 * Math.sin(t * 0.7 + s * 3) + 0.06 * Math.cos(t * 3.1 + s)),
-    };
-  };
-
-  Butterfly.prototype.loop = function () {
-    if (!this.running) return;
-    this.t += this.speed * 16;
-    var p = this.pos(this.t);
-    var ahead = this.pos(this.t + 0.05);
-    var angle = Math.atan2(ahead.y - p.y, ahead.x - p.x) * 57.3 + 90;
-    var gliding = Math.sin(this.t * 1.7 + this.seed) > 0.75;
-    this.el.classList.toggle("is-gliding", gliding);
-    this.el.style.transform = "translate(" + p.x.toFixed(1) + "px," + p.y.toFixed(1) + "px) rotate(" + angle.toFixed(1) + "deg)";
-    requestAnimationFrame(this.loop);
-  };
-
-  Butterfly.prototype.start = function () {
-    if (this.running) return;
-    this.running = true;
-    requestAnimationFrame(this.loop);
-  };
-
-  Butterfly.prototype.stop = function () { this.running = false; };
-
-  function initButterflies() {
-    if (reducedMotion) return;
-    $$("[data-butterflies]").forEach(function (box) {
-      var flock = [];
-      var n = parseInt(box.dataset.butterflies, 10) || 1;
-      for (var i = 0; i < n; i++) flock.push(new Butterfly(box, 1.3 + i * 2.1));
-      new IntersectionObserver(function (entries) {
-        flock.forEach(function (b) { if (entries[0].isIntersecting) b.start(); else b.stop(); });
-      }).observe(box);
+  function initPhotos() {
+    $$("[data-drive]").forEach(function (link) {
+      var url = DRIVE_LINKS[link.dataset.drive];
+      var box = $(".qr__code", link);
+      if (url) {
+        link.href = url;
+        if (!renderQr(box, url)) box.textContent = "QR";
+      } else {
+        link.removeAttribute("href");
+        link.setAttribute("aria-disabled", "true");
+        box.innerHTML = '<span class="qr__soon" data-i18n="photos.soon">' + t("photos.soon") + "</span>";
+      }
     });
   }
 
   /* ------------------------------------------------------------------
-     Envelope — paper curtains part onto the film
+     Gatefold — untie the bow, the doors swing open onto the film
      ------------------------------------------------------------------ */
   function initEnvelope() {
     var env = $("#envelope");
-    var seal = $("#seal");
+    var bow = $("#bow");
     var opened = false;
 
     function open() {
@@ -347,16 +324,16 @@
         document.body.classList.remove("is-locked");
         document.body.classList.add("is-revealed");
         if (lenis) lenis.start();
-      }, 900 * k);
+      }, 1500 * k);
 
       setTimeout(function () {
         env.remove();
         $("#top").setAttribute("tabindex", "-1");
         $("#top").focus({ preventScroll: true });
-      }, 3000 * k);
+      }, 3600 * k);
     }
 
-    seal.addEventListener("click", open);
+    bow.addEventListener("click", open);
     env.addEventListener("click", open);
   }
 
@@ -437,136 +414,6 @@
   }
 
   /* ------------------------------------------------------------------
-     Carousel — infinite, centre mode, swipe / drag / arrows / dots
-     ------------------------------------------------------------------ */
-  function initCarousel() {
-    var root = $("#carousel");
-    if (!root) return;
-    var slides = $$(".carousel__slide", root);
-    var dotsBox = $(".carousel__dots", root);
-    var n = slides.length;
-    var active = 0;
-    var prevOffsets = [];
-    var timer = null;
-    var visible = false;
-    var INTERVAL = 5200;
-
-    var dots = slides.map(function (_, i) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "carousel__dot";
-      b.setAttribute("role", "tab");
-      b.setAttribute("aria-label", String(i + 1));
-      b.addEventListener("click", function () { go(i); restart(); });
-      dotsBox.appendChild(b);
-      return b;
-    });
-
-    function offsetOf(i) {
-      var o = (i - active) % n;
-      if (o > n / 2) o -= n;
-      if (o < -n / 2) o += n;
-      return o;
-    }
-
-    function render() {
-      slides.forEach(function (s, i) {
-        var o = offsetOf(i);
-        // a slide that wraps around the back moves instantly while hidden
-        var jumped = prevOffsets[i] !== undefined && Math.abs(o - prevOffsets[i]) > 1;
-        s.classList.toggle("no-anim", jumped);
-        s.style.setProperty("--o", o);
-        s.classList.toggle("is-active", o === 0);
-        s.classList.toggle("is-far", Math.abs(o) > 1);
-        s.setAttribute("aria-hidden", String(o !== 0));
-        prevOffsets[i] = o;
-
-        var v = $("video", s);
-        if (v) {
-          if (o === 0 && visible) {
-            if (v.preload === "none") { v.preload = "auto"; v.load(); }
-            safePlay(v);
-          } else {
-            v.pause();
-          }
-        }
-        // warm up neighbours' images
-        if (Math.abs(o) <= 2) { var img = $("img", s); if (img) img.loading = "eager"; }
-      });
-      dots.forEach(function (d, i) { d.setAttribute("aria-selected", String(i === active)); });
-      requestAnimationFrame(function () {
-        slides.forEach(function (s) { s.classList.remove("no-anim"); });
-      });
-    }
-
-    function go(i) {
-      active = ((i % n) + n) % n;
-      render();
-    }
-
-    function next() { go(active + 1); }
-
-    function restart() {
-      clearInterval(timer);
-      if (visible && !reducedMotion) timer = setInterval(next, INTERVAL);
-    }
-
-    $$(".carousel__arrow", root).forEach(function (btn) {
-      btn.addEventListener("click", function () { go(active + parseInt(btn.dataset.dir, 10)); restart(); });
-    });
-
-    // drag / swipe
-    var viewport = $(".carousel__viewport", root);
-    var startX = null;
-    var dx = 0;
-    var pointerId = null;
-
-    viewport.addEventListener("pointerdown", function (e) {
-      startX = e.clientX;
-      dx = 0;
-      pointerId = e.pointerId;
-      root.classList.add("is-dragging");
-      clearInterval(timer);
-    });
-
-    window.addEventListener("pointermove", function (e) {
-      if (startX === null || e.pointerId !== pointerId) return;
-      dx = e.clientX - startX;
-      root.style.setProperty("--drag", dx + "px");
-    });
-
-    function endDrag() {
-      if (startX === null) return;
-      root.classList.remove("is-dragging");
-      root.style.setProperty("--drag", "0px");
-      var threshold = Math.min(80, viewport.clientWidth * 0.12);
-      if (dx < -threshold) next();
-      else if (dx > threshold) go(active - 1);
-      startX = null;
-      restart();
-    }
-
-    window.addEventListener("pointerup", endDrag);
-    window.addEventListener("pointercancel", endDrag);
-
-    root.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowRight") { next(); restart(); }
-      if (e.key === "ArrowLeft") { go(active - 1); restart(); }
-    });
-
-    root.addEventListener("mouseenter", function () { clearInterval(timer); });
-    root.addEventListener("mouseleave", restart);
-
-    new IntersectionObserver(function (entries) {
-      visible = entries[0].isIntersecting;
-      render();
-      restart();
-    }, { threshold: 0.3 }).observe(root);
-
-    render();
-  }
-
-  /* ------------------------------------------------------------------
      Calendar
      ------------------------------------------------------------------ */
   var CAL = {
@@ -638,10 +485,9 @@
   initVideos();
   initMusic();
   initEnvelope();
-  initButterflies();
+  initPhotos();
   initCountdown();
   initReveals();
   initParallax();
-  initCarousel();
   initCalendar();
 })();
