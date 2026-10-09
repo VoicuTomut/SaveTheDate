@@ -8,8 +8,9 @@
 | Reception | 15:00 — Restaurant Casa Boema |
 | Godparents | Ciprian & Andreea Nicoară |
 
-A trilingual (Română · English · Español) single-page Save the Date with an envelope intro,
-sunset video hero, live countdown, Romania ↔ Bolivia route animation, add-to-calendar and photo gallery.
+A trilingual (Română · English · Español) single-page Save the Date: a full-screen blue letterpress
+envelope with embossed flowers and a wax seal opens onto our film by the sea, followed by the date,
+our story, the day's details, godparents, a photo & video carousel and a closing film — with optional background music.
 
 ## Run locally
 
@@ -27,7 +28,8 @@ No build step — plain HTML, CSS and JavaScript.
 - `css/colors.css` — color tokens (only place with color values)
 - `css/style.css` — layout, components, animations
 - `js/i18n.js` — all copy in RO / EN / ES
-- `js/main.js` — envelope, countdown, particles, reveals, calendar, lightbox
-- `assets/` — optimized photos & video (EXIF/GPS stripped)
+- `js/main.js` — envelope, music, smooth scroll, carousel, butterflies, countdown, calendar
+- `assets/` — optimized photos & videos (EXIF/GPS stripped), embossed SVG flowers, `audio/song.mp3`
+- `tools/generate_emboss.py` — regenerates the embossed flower artwork
 - `docs/STYLE_GUIDE.md` — design rules
 - `resources/` — raw originals (git-ignored)

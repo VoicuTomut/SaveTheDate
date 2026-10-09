@@ -1,128 +1,102 @@
 /* ==========================================================================
    Save the Date — Andrei & Camila
-   Color tokens. This is the ONLY file allowed to contain raw color values.
+   Color tokens. This is the ONLY stylesheet allowed to contain raw colors.
+   Theme: blue letterpress paper with tone-on-tone embossed flowers
+   (nemophila & cornflower), ink-navy text, a deep cornflower wax seal.
    See docs/STYLE_GUIDE.md § 2 for usage rules.
    ========================================================================== */
 
 :root {
   /* ------------------------------------------------------------------
-     1. Palette — Blue scale (theme)
+     1. Palette — Paper
      ------------------------------------------------------------------ */
-  --blue-950: #0a1a2f; /* Midnight sea   — deepest backgrounds       */
-  --blue-900: #0f2a4a; /* Deep navy      — primary text, dark bands  */
-  --blue-800: #16395f; /* Harbor         — dark surfaces, hovers     */
-  --blue-700: #1f4e7f; /* Ocean          — headings, links           */
-  --blue-600: #2f6497; /* Atlantic       — buttons                   */
-  --blue-500: #4a7fb5; /* Lagoon         — icons, borders on dark    */
-  --blue-400: #6f9bcb; /* Coast          — decorative lines          */
-  --blue-300: #8fb3d9; /* Serenity       — accents on dark           */
-  --blue-200: #bbd3ec; /* Morning sky    — soft text on dark         */
-  --blue-100: #dce9f6; /* Mist           — light section bands       */
-  --blue-50:  #eef4fb; /* Foam           — cards on light            */
+  --paper:        #d4dff0; /* Powder cornflower — the page, everywhere   */
+  --paper-light:  #e2eaf6; /* Raised paper — envelope flaps, light side  */
+  --paper-deep:   #c3d1ea; /* Paper in shadow — envelope interior        */
+  --paper-raised: #dbe4f3; /* Embossed surface (matches the SVG art)     */
 
   /* ------------------------------------------------------------------
-     2. Palette — Neutrals
+     2. Palette — Ink & blues
      ------------------------------------------------------------------ */
-  --white:     #ffffff;
-  --ivory:     #fbf8f2; /* Linen         — page background           */
-  --sand:      #efe6d8; /* Beach sand    — subtle warm surfaces      */
-  --slate-500: #51647a; /* Muted text    — captions, secondary copy  */
+  --ink:        #1b2b57; /* Navy ink — primary text        10.2:1 on paper */
+  --ink-soft:   #3d5486; /* Soft ink — secondary text       5.6:1 on paper */
+  --cornflower: #2e4a8e; /* Accent — titles, links          6.3:1 on paper */
+  --midnight:   #0f1a3a; /* Deepest blue — video shading                   */
+  --white:      #ffffff;
+
+  /* Wax seal */
+  --seal-light: #5677cc;
+  --seal:       #3554a8;
+  --seal-dark:  #1d3170;
+  --seal-text:  #e6ecf8;
 
   /* ------------------------------------------------------------------
-     3. Palette — Sunrise accents (decoration only, never body text)
+     3. Semantic tokens — use these in components
      ------------------------------------------------------------------ */
-  --gold-300: #f1d3a1; /* First light                                */
-  --gold-400: #e2b877; /* Sunrise gold — dividers, seal details      */
-  --gold-500: #c9974f; /* Burnished    — gold on light backgrounds   */
-  --blush-300: #f2c6b4; /* Sunrise blush — gradients only            */
+  --color-bg:             var(--paper);
+  --color-text:           var(--ink);
+  --color-text-muted:     var(--ink-soft);
+  --color-heading:        var(--cornflower);
+  --color-text-on-video:  var(--white);   /* always over a shaded area */
+  --color-line:           rgba(27, 43, 87, 0.22);
+  --color-line-strong:    rgba(27, 43, 87, 0.45);
+  --color-line-light:     rgba(255, 255, 255, 0.7);
+  --color-focus:          var(--cornflower);
+
+  /* Glass controls (language, music) */
+  --color-glass:          rgba(27, 43, 87, 0.5);
+  --color-glass-border:   rgba(255, 255, 255, 0.35);
+  --color-glass-text:     var(--white);
 
   /* ------------------------------------------------------------------
-     4. Semantic tokens — use these in components
+     4. Gradients
      ------------------------------------------------------------------ */
-  /* Backgrounds */
-  --color-bg:            var(--ivory);
-  --color-bg-alt:        var(--blue-100);
-  --color-bg-deep:       var(--blue-900);
-  --color-bg-deepest:    var(--blue-950);
-  --color-surface:       var(--white);
-  --color-surface-soft:  var(--blue-50);
-
-  /* Text */
-  --color-text:          var(--blue-900);  /* 13.7:1 on ivory */
-  --color-text-muted:    var(--slate-500); /*  5.7:1 on ivory */
-  --color-heading:       var(--blue-700);  /*  8.1:1 on ivory */
-  --color-text-inverse:  var(--ivory);     /* 13.7:1 on navy  */
-  --color-text-inverse-muted: var(--blue-200); /* 9.4:1 on navy */
-
-  /* Accents */
-  --color-accent:        var(--gold-400);  /* 7.8:1 on navy — large/decorative */
-  --color-accent-strong: var(--gold-500);
-  --color-line:          var(--blue-200);
-  --color-line-deep:     rgba(187, 211, 236, 0.25);
-
-  /* Interactive */
-  --color-link:          var(--blue-700);
-  --color-link-hover:    var(--blue-600);
-  --color-btn-bg:        var(--blue-600);  /* white text 6.2:1 */
-  --color-btn-bg-hover:  var(--blue-700);
-  --color-btn-text:      var(--white);
-  --color-focus:         var(--gold-400);
-
-  /* Envelope & seal */
-  --color-envelope:      var(--blue-100);
-  --color-envelope-flap: var(--blue-200);
-  --color-envelope-edge: var(--blue-300);
-  --color-seal:          var(--blue-700);
-  --color-seal-shine:    var(--blue-400);
-
-  /* ------------------------------------------------------------------
-     5. Gradients & overlays
-     ------------------------------------------------------------------ */
-  --gradient-hero-overlay: linear-gradient(
+  /* Video shading: only where text sits — the picture stays clear */
+  --shade-bottom: linear-gradient(
+    0deg,
+    rgba(15, 26, 58, 0.72) 0%,
+    rgba(15, 26, 58, 0.38) 38%,
+    rgba(15, 26, 58, 0) 62%
+  );
+  --shade-top: linear-gradient(
     180deg,
-    rgba(10, 26, 47, 0.55) 0%,
-    rgba(15, 42, 74, 0.25) 40%,
-    rgba(10, 26, 47, 0.75) 100%
+    rgba(15, 26, 58, 0.45) 0%,
+    rgba(15, 26, 58, 0) 22%
   );
-  --gradient-sunrise: linear-gradient(
-    120deg,
-    var(--gold-300) 0%,
-    var(--blush-300) 45%,
-    var(--blue-200) 100%
-  );
-  --gradient-deep-sea: linear-gradient(
-    180deg,
-    var(--blue-900) 0%,
-    var(--blue-950) 100%
-  );
-  --gradient-mist: linear-gradient(
-    180deg,
-    var(--ivory) 0%,
-    var(--blue-50) 100%
-  );
-  --gradient-gold-text: linear-gradient(
-    90deg,
-    var(--gold-500) 0%,
-    var(--gold-300) 50%,
-    var(--gold-500) 100%
+  /* Soft hand-off between paper and a full-bleed video */
+  --fade-from-paper: linear-gradient(180deg, var(--paper) 0%, rgba(212, 223, 240, 0) 100%);
+  --fade-to-paper:   linear-gradient(0deg, var(--paper) 0%, rgba(212, 223, 240, 0) 100%);
+
+  --flap-shade-top:    linear-gradient(180deg, var(--paper-light) 0%, var(--paper) 100%);
+  --flap-shade-bottom: linear-gradient(0deg, var(--paper-light) 0%, var(--paper) 100%);
+  --flap-shade-left:   linear-gradient(90deg, var(--paper) 0%, var(--paper-deep) 100%);
+  --flap-shade-right:  linear-gradient(270deg, var(--paper) 0%, var(--paper-deep) 100%);
+
+  --gradient-seal: radial-gradient(
+    circle at 34% 30%,
+    var(--seal-light) 0%,
+    var(--seal) 48%,
+    var(--seal-dark) 100%
   );
 
   /* ------------------------------------------------------------------
-     6. Shadows (always blue-tinted)
+     5. Shadows (blue-tinted, soft)
      ------------------------------------------------------------------ */
-  --shadow-soft:  0 6px 24px rgba(15, 42, 74, 0.08);
-  --shadow-lift:  0 18px 48px rgba(15, 42, 74, 0.16);
-  --shadow-glow:  0 0 32px rgba(226, 184, 119, 0.35);
+  --shadow-flap:  drop-shadow(0 3px 8px rgba(27, 43, 87, 0.22));
+  --shadow-soft:  0 10px 30px rgba(27, 43, 87, 0.12);
+  --shadow-lift:  0 24px 60px rgba(27, 43, 87, 0.22);
+  --shadow-seal:  0 10px 24px rgba(15, 26, 58, 0.35), inset 0 -6px 12px rgba(0, 0, 0, 0.28), inset 0 5px 10px rgba(255, 255, 255, 0.22);
+  --text-shadow-video: 0 2px 18px rgba(15, 26, 58, 0.55);
 
   /* ------------------------------------------------------------------
-     7. Particles (canvas) — read from JS via getComputedStyle
+     6. Butterflies
      ------------------------------------------------------------------ */
-  --particle-1: rgba(187, 211, 236, 0.75); /* blue-200 */
-  --particle-2: rgba(143, 179, 217, 0.6);  /* blue-300 */
-  --particle-3: rgba(241, 211, 161, 0.7);  /* gold-300 */
+  --butterfly-wing: rgba(255, 255, 255, 0.92);
+  --butterfly-vein: rgba(46, 74, 142, 0.55);
+  --butterfly-body: var(--ink);
 
   /* ------------------------------------------------------------------
-     8. Flags (footer detail) — official colors, used nowhere else
+     7. Flags (closing detail) — official colors, used nowhere else
      ------------------------------------------------------------------ */
   --flag-ro-blue:   #002b7f;
   --flag-ro-yellow: #fcd116;

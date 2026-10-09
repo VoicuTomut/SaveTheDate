@@ -9,210 +9,162 @@ Every color, font, animation and sentence on the site should be traceable back t
 
 ## 1. Concept & mood
 
-> *"Two oceans apart, one horizon."*
+> *A blue letterpress invitation that opens onto the sea.*
 
 Andrei is from **Romania** 🇷🇴, Camila is from **Santa Cruz, Bolivia** 🇧🇴.
-Our photos were taken by the sea at sunrise — soft light, calm water, white linen.
-The site should feel like that moment: **calm, airy, romantic, a little cinematic.**
+The site feels like receiving a luxury paper invitation: a full-screen **blue envelope** with
+**embossed flowers** and a **wax seal**; when it opens, the paper parts like curtains onto our film by the sea.
 
-| Keyword      | What it means in practice                                          |
-| ------------ | ------------------------------------------------------------------ |
-| **Serene**   | Lots of white space, slow transitions, no visual noise             |
-| **Oceanic**  | Blue palette, waves as dividers, gentle floating motion            |
-| **Elegant**  | Serif + script typography, thin lines, small gold accents only     |
-| **Personal** | Real photos & video of us, the RO ↔ BO journey, three languages    |
+References: minimal digital save-the-date videos (embossed tone-on-tone florals, soft reveal,
+delicate butterflies) and fields of blue flowers (nemophila, cornflower).
 
-**Avoid:** neon colors, heavy drop shadows, bouncy/cartoon easing, stock imagery, emoji in the main copy.
+| Keyword        | In practice                                                                 |
+| -------------- | --------------------------------------------------------------------------- |
+| **Luxurious**  | Letterpress paper, embossed flowers, wax seal, refined serif + formal script |
+| **Clean**      | One paper color everywhere, lots of air, no busy decoration                 |
+| **Continuous** | Pages flow into each other; videos fade into the paper — no hard breaks     |
+| **Clear**      | Videos at full quality, never tinted or blurred; text always crisp           |
+| **Smooth**     | Slow, silky motion — never bouncy, never blurred                            |
+
+**Avoid:** colored clip-art flowers, heavy overlays on video, blur effects on text, bouncy easing, emoji in copy.
 
 ---
 
 ## 2. Color
 
-The theme color is **blue**. All colors live as CSS custom properties in
-[`css/colors.css`](../css/colors.css) — **never hard-code a hex value in components.**
+All colors live as CSS custom properties in [`css/colors.css`](../css/colors.css) —
+**never hard-code a color in components.** Embossed SVG art uses the same values (see `tools/generate_emboss.py`).
 
-Usage ratio (approximate):
-
-- **60 %** light neutrals — ivory / mist backgrounds
-- **30 %** blues — headings, sections, overlays, buttons
-- **10 %** accents — sunrise gold for tiny details (dividers, seal, countdown digits glow)
-
-### Palette
-
-| Token        | Hex       | Name          | Role                                   |
-| ------------ | --------- | ------------- | -------------------------------------- |
-| `--blue-950` | `#0A1A2F` | Midnight sea  | Deepest backgrounds, envelope backdrop |
-| `--blue-900` | `#0F2A4A` | Deep navy     | Primary text, dark section bands       |
-| `--blue-800` | `#16395F` | Harbor        | Dark surfaces, hovers                  |
-| `--blue-700` | `#1F4E7F` | Ocean         | Headings, links, wax seal              |
-| `--blue-600` | `#2F6497` | Atlantic      | Buttons                                |
-| `--blue-500` | `#4A7FB5` | Lagoon        | Icons, borders on dark                 |
-| `--blue-400` | `#6F9BCB` | Coast         | Decorative lines                       |
-| `--blue-300` | `#8FB3D9` | Serenity      | Accents on dark                        |
-| `--blue-200` | `#BBD3EC` | Morning sky   | Soft text on dark, envelope flap       |
-| `--blue-100` | `#DCE9F6` | Mist          | Light section bands, envelope          |
-| `--blue-50`  | `#EEF4FB` | Foam          | Cards on light                         |
-| `--ivory`    | `#FBF8F2` | Linen         | Page background                        |
-| `--sand`     | `#EFE6D8` | Beach sand    | Subtle warm surfaces                   |
-| `--slate-500`| `#51647A` | Slate         | Muted text, captions                   |
-| `--gold-300` | `#F1D3A1` | First light   | Particles, gradients                   |
-| `--gold-400` | `#E2B877` | Sunrise gold  | Dividers, seal details, focus ring     |
-| `--gold-500` | `#C9974F` | Burnished     | Gold on light backgrounds              |
-| `--blush-300`| `#F2C6B4` | Sunrise blush | Gradients only                         |
-
-### Verified contrast
-
-| Pair                          | Ratio  |
-| ----------------------------- | ------ |
-| Navy `900` on ivory           | 13.7:1 |
-| Ocean `700` on ivory          | 8.1:1  |
-| Slate on ivory                | 5.7:1  |
-| Ivory on navy `900`           | 13.7:1 |
-| Morning sky `200` on navy     | 9.4:1  |
-| Sunrise gold `400` on navy    | 7.8:1  |
-| White on Atlantic `600` (btn) | 6.2:1  |
-
-Components use the **semantic tokens** (`--color-text`, `--color-bg-deep`, `--color-btn-bg`, …),
-not the raw palette, so the theme can be tuned from one place.
+| Token            | Hex       | Role                                               |
+| ---------------- | --------- | -------------------------------------------------- |
+| `--paper`        | `#D4DFF0` | Powder cornflower paper — the page, everywhere     |
+| `--paper-light`  | `#E2EAF6` | Envelope flaps, light side                         |
+| `--paper-deep`   | `#C3D1EA` | Envelope interior, shadows                         |
+| `--paper-raised` | `#DBE4F3` | Embossed flower surface                            |
+| `--ink`          | `#1B2B57` | Primary text (10.2:1 on paper)                     |
+| `--ink-soft`     | `#3D5486` | Secondary text (5.6:1 on paper)                    |
+| `--cornflower`   | `#2E4A8E` | Eyebrows, links, icons (6.3:1 on paper)            |
+| `--seal`         | `#3554A8` | Wax seal (with `--seal-light` / `--seal-dark`)     |
+| `--midnight`     | `#0F1A3A` | Video shading (only behind text)                   |
+| `--white`        | `#FFFFFF` | Text on video                                      |
 
 Rules:
 
-- Body text is always **deep navy on light** or **ivory on dark navy** (WCAG AA ≥ 4.5:1).
-- Gold is decoration only — never use it for body text or small labels.
-- Overlays on photos/video use a navy gradient so white text stays readable.
+- **One paper color** for every non-video page — continuity comes from never switching backgrounds.
+- **Videos stay clear.** Shading is a gradient *only* where text sits (bottom/top edge), never a full tint.
+- Video pages hand off to paper with a short `--fade-to-paper` / `--fade-from-paper` gradient.
+- Text on paper is ink; text on video is white with a soft shadow.
 
 ---
 
 ## 3. Typography
 
-All fonts are loaded from Google Fonts and **must include the `latin-ext` subset**
-so Romanian (`ă â î ș ț`) and Spanish (`á é í ó ú ñ ¡ ¿`) characters render correctly.
+Google Fonts with the `latin-ext` subset (Romanian `ă â î ș ț`, Spanish `á é í ó ú ñ ¡ ¿`).
 
-| Role              | Font                    | Weight      | Usage                                      |
-| ----------------- | ----------------------- | ----------- | ------------------------------------------ |
-| **Script**        | *Great Vibes*           | 400         | Couple's names, "&", signature moments only |
-| **Display serif** | *Cormorant Garamond*    | 300 / 500 / 600, italic | Section titles, date, big numbers |
-| **Body / UI**     | *Jost*                  | 300 / 400 / 500 | Paragraphs, labels, buttons, nav        |
-
-Type scale (fluid with `clamp()`):
-
-| Token        | Size                              | Used for                    |
-| ------------ | --------------------------------- | --------------------------- |
-| `--fs-names` | `clamp(3.5rem, 11vw, 8rem)`        | Andrei & Camila             |
-| `--fs-h1`    | `clamp(2.25rem, 6vw, 4rem)`        | Big date, hero headline     |
-| `--fs-h2`    | `clamp(1.75rem, 4vw, 2.75rem)`     | Section titles              |
-| `--fs-h3`    | `clamp(1.25rem, 2.5vw, 1.6rem)`    | Card titles                 |
-| `--fs-body`  | `clamp(1rem, 1.2vw, 1.125rem)`     | Paragraphs                  |
-| `--fs-small` | `0.8125rem`                        | Eyebrows, captions, labels  |
+| Role          | Font                 | Usage                                                  |
+| ------------- | -------------------- | ------------------------------------------------------ |
+| **Script**    | *Pinyon Script*      | Names, "Această invitație este pentru voi", closing    |
+| **Serif**     | *Cormorant Garamond* | Titles, dates, times, tracked uppercase labels         |
+| **Body**      | *Jost* (300)         | Paragraphs                                             |
 
 Rules:
 
-- Eyebrow labels (e.g. *SAVE THE DATE*, *CEREMONY*) use Jost, uppercase, `letter-spacing: 0.3em`.
-- Line height: `1.7` for body, `1.1` for display text.
-- Never set the script font below `2rem` — it becomes unreadable.
-- Max line length for paragraphs: `60ch`.
+- Tracked uppercase labels (`SAVE THE DATE`, `CUNUNIA RELIGIOASĂ`) use Cormorant 600, `letter-spacing ≈ 0.3–0.5em`,
+  with equal `padding-left` so they stay optically centred.
+- **Text must never be cut:** fluid sizes with `clamp()`, wrapping allowed, `text-wrap: balance` for script lines,
+  no fixed widths on text.
+- Script never below `1.75rem`.
+- Numbers use lining figures (`font-variant-numeric: lining-nums`).
 
 ---
 
-## 4. Layout & spacing
+## 4. Layout
 
-- **Mobile first.** Most guests will open the link from WhatsApp on a phone.
-- Spacing scale based on `0.25rem`: `4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 px`.
-- Content max width: `1100px`; text blocks max `60ch`; side padding `clamp(1.25rem, 5vw, 3rem)`.
-- Sections are full-width bands that alternate **light** (ivory/mist) and **deep** (navy) backgrounds,
-  separated by **animated SVG waves**.
-- Corners: `--radius-sm 6px`, `--radius-md 14px`, `--radius-lg 28px`, pills `999px`.
-- Shadows: soft and blue-tinted only (`--shadow-soft`, `--shadow-lift`).
-- Breakpoints: `640px` (large phone), `900px` (tablet), `1200px` (desktop).
+- **Mobile first** — most guests open the link from WhatsApp.
+- Pages: centred single column, max `640px` (text) / `980px` (wide content), generous vertical padding.
+- Embossed flower corners decorate paper pages; on phones they shrink so they never touch text.
+- Thin `1px` lines (ink at 22–45% opacity) separate items; no boxes or cards.
+- Photos and film get a thin white inner frame line, like a mounted print.
 
 ### Page structure
 
-1. **Envelope intro** — sealed envelope with wax seal "A&C"; language choice; tap to open.
-2. **Hero** — sunset beach video, names in script, date, "Save the Date".
-3. **Countdown** — days / hours / minutes / seconds to the ceremony.
-4. **Our story** — Romania ↔ Bolivia animated route (Târgu Mureș ↔ Santa Cruz).
-5. **The day** — Ceremony card + Reception card, with map links and *Add to calendar*.
+1. **Envelope** — full screen: four embossed paper flaps, wax seal "A&C", script line
+   *"Această invitație este pentru voi"*, butterflies. Tap the seal → flaps part, music fades in.
+2. **Hero film** — beach kiss video, clear; names, date, place over a bottom shade.
+3. **Invitation** — script names, message, date box (*MAI · DUMINICĂ | 16 | 2027 · ORA 12:00*), countdown.
+4. **Our story** — framed film of us walking toward each other; Santa Cruz ↔ Târgu Mureș line with a gliding heart.
+5. **The day** — ceremony 12:00 Catedrala Mică · reception 15:00 Casa Boema; map links; add to calendar.
 6. **Godparents** — Ciprian & Andreea Nicoară.
-7. **Gallery** — selected photos with reveal + lightbox.
-8. **Footer** — "Formal invitation to follow", names, date.
+7. **Moments** — infinite centre-mode carousel of photos + a video slide.
+8. **Closing film** — sunset video; "formal invitation to follow", names, flags.
+
+Controls: language pill (top right) and music button (bottom right), both glass so they read on paper and video.
 
 ---
 
-## 5. Motion & animation
+## 5. Motion
 
-Fancy, but **slow and soft** — like waves, not fireworks.
+| Token           | Value                            | Use                               |
+| --------------- | -------------------------------- | --------------------------------- |
+| `--ease-silk`   | `cubic-bezier(0.16, 1, 0.3, 1)`  | Entrances, reveals, carousel      |
+| `--ease-velvet` | `cubic-bezier(0.76, 0, 0.24, 1)` | Envelope flaps, line drawing      |
+| `--ease-breeze` | `cubic-bezier(0.45, 0, 0.55, 1)` | Looping: breathing hint, heart    |
 
-| Token              | Value                                  | Use                        |
-| ------------------ | -------------------------------------- | -------------------------- |
-| `--ease-out-soft`  | `cubic-bezier(0.22, 1, 0.36, 1)`       | Reveals, entrances         |
-| `--ease-in-out`    | `cubic-bezier(0.65, 0, 0.35, 1)`       | Envelope, page transitions |
-| `--dur-fast`       | `250ms`                                | Hovers, buttons            |
-| `--dur-med`        | `700ms`                                | Scroll reveals             |
-| `--dur-slow`       | `1400ms`                               | Envelope, hero titles      |
-
-Signature animations:
-
-- **Envelope opening** — flap rotates in 3D, letter slides up, envelope fades away into the hero.
-- **Names reveal** — letters of *Andrei & Camila* fade/blur in one by one.
-- **Floating bubbles/light** — a subtle canvas layer of drifting light particles in blue & gold.
-- **Waves** — layered SVG waves drift horizontally between sections.
-- **Scroll reveals** — elements rise 24px and fade in when they enter the viewport (staggered).
-- **Route line** — dotted arc draws itself from Târgu Mureș to Santa Cruz with a heart traveling along it.
-- **Countdown** — digits flip softly when they change.
-
-Rules:
-
-- Animate only `transform`, `opacity` and `filter` (60 fps on phones).
-- **Respect `prefers-reduced-motion`**: disable particles, waves drifting and staggered reveals; show content immediately.
-- No animation should block reading for more than ~1.5 s (except the optional envelope, which waits for a tap).
+- Durations are long: reveals 1.4–1.6 s, envelope 2 s, carousel 1.2 s.
+- **Smooth scrolling** via Lenis (falls back to native).
+- Reveals: **fade + 26px rise only** — no blur, so text is crisp at every frame.
+- Envelope: seal & texts lift away → top/bottom/side flaps slide out (staggered) → the film is already playing underneath.
+- Butterflies wander on smooth sine paths, gliding now and then.
+- Respect `prefers-reduced-motion`: no butterflies, instant reveals, no autoplay.
+- Animate only `transform` and `opacity`.
 
 ---
 
-## 6. Imagery
+## 6. Imagery, video & music
 
-- Use **only our own photos and videos** from the sea shoot and Barcelona walk.
-- Hero background: the sunset beach video (people-removed / kiss version), muted, looped, `playsinline`,
-  with a still poster frame for slow connections.
-- Photos are exported at **max 1600px** on the long edge, JPEG quality ~80, and **EXIF metadata (incl. GPS) is stripped**.
-- Raw originals stay in `resources/` and are **not committed** (too large, private).
-- Every image needs meaningful `alt` text; gallery images are lazy-loaded.
+- Only our own photos and videos. Raw originals stay in `resources/` (git-ignored).
+- Photos: max 1600px, JPEG q80, **EXIF/GPS stripped**.
+- Videos: H.264, CRF 20–23, full 1080p (portrait crops for phones where needed), muted, `playsinline`,
+  played only while on screen.
+
+| File                | Source            | Where           |
+| ------------------- | ----------------- | --------------- |
+| `hero(-portrait)`   | beach kiss (edit) | Hero            |
+| `story`             | walking together  | Our story       |
+| `sand`              | couple on sand    | Carousel slide  |
+| `closing(-portrait)`| sunset lift       | Closing         |
+
+- **Music:** `assets/audio/song.mp3`, starts softly (fade-in) when the envelope is opened, loops, and can be muted
+  at any time with the music button; the choice is remembered. If the file is missing the button is hidden.
 
 ---
 
 ## 7. Voice & languages
 
-The site is fully trilingual: **Română (default) · English · Español**.
+Fully trilingual: **Română (default) · English · Español**, auto-detected, switchable, remembered, `?lang=ro|en|es`.
 
-- Language is auto-detected from the browser (`ro*` → RO, `es*` → ES, otherwise EN),
-  can be switched at any time and is remembered; `?lang=ro|en|es` forces a language.
-- All copy lives in one translations object in JavaScript — no hard-coded text in HTML
-  except the default Romanian fallback.
-- Tone: warm, joyful, short sentences. Address guests directly ("Vă așteptăm", "We'd love you to be there", "Los esperamos").
-- Dates are always written out per locale: *Duminică, 16 mai 2027* · *Sunday, 16 May 2027* · *Domingo, 16 de mayo de 2027*.
-- Times use 24h format in RO/ES (`12:00`, `15:00`) and the same in EN for consistency.
-- Proper names never get translated: **Catedrala Mică**, **Casa Boema**, **Târgu Mureș**, **Santa Cruz**.
+- All copy lives in `js/i18n.js`.
+- Tone: warm, short, elegant.
+- Proper names never translated: **Catedrala Mică**, **Casa Boema**, **Târgu Mureș**, **Santa Cruz**.
 
-### Key facts (must be identical in every language)
-
-| Item          | Value                                            |
-| ------------- | ------------------------------------------------ |
-| Couple        | Andrei & Camila                                  |
-| Godparents    | Ciprian & Andreea Nicoară                        |
-| Date          | Sunday, 16 May 2027                              |
-| Ceremony      | 12:00 — Catedrala Mică, Târgu Mureș              |
-| Reception     | 15:00 — Restaurant Casa Boema, Târgu Mureș       |
+| Item       | Value                                       |
+| ---------- | ------------------------------------------- |
+| Couple     | Andrei & Camila                             |
+| Godparents | Ciprian & Andreea Nicoară                   |
+| Date       | Sunday, 16 May 2027                         |
+| Ceremony   | 12:00 — Catedrala Mică, Târgu Mureș         |
+| Reception  | 15:00 — Restaurant Casa Boema, Târgu Mureș  |
 
 ---
 
-## 8. Accessibility & quality checklist
+## 8. Quality checklist
 
-- [ ] Text contrast ≥ 4.5:1 (≥ 3:1 for large display text)
-- [ ] All interactive elements reachable by keyboard with visible focus ring
-- [ ] `lang` attribute on `<html>` updates with the selected language
+- [ ] No text cut or overlapping decoration at 360px, 390px and desktop widths
+- [ ] Contrast ≥ 4.5:1 for body text
+- [ ] Videos sharp, untinted; shading only behind text
+- [ ] Keyboard reachable controls with visible focus
 - [ ] `prefers-reduced-motion` honored
-- [ ] Works on iOS Safari & Android Chrome; video autoplays muted inline
-- [ ] Page weight on first load < 5 MB (video streamed after)
-- [ ] Open Graph tags so the WhatsApp/Messenger link preview shows a photo and the date
+- [ ] Works on iOS Safari & Android Chrome
 
 ---
 
@@ -220,17 +172,21 @@ The site is fully trilingual: **Română (default) · English · Español**.
 
 ```
 /
-├── index.html            # single page
+├── index.html
 ├── css/
-│   ├── colors.css        # color tokens (only place with hex values)
-│   └── style.css         # layout, components, animations
+│   ├── colors.css            # color tokens (only place with color values)
+│   └── style.css             # layout, components, motion
 ├── js/
-│   ├── i18n.js           # RO / EN / ES translations
-│   └── main.js           # envelope, countdown, particles, reveals, gallery
+│   ├── i18n.js               # RO / EN / ES copy
+│   └── main.js               # envelope, music, carousel, butterflies, reveals, …
 ├── assets/
-│   ├── img/              # optimized photos
-│   └── video/            # optimized hero video + poster
+│   ├── florals/              # embossed SVG flowers (generated)
+│   ├── img/                  # optimized photos
+│   ├── video/                # optimized videos + posters
+│   └── audio/                # background song
+├── tools/
+│   └── generate_emboss.py    # regenerates assets/florals
 ├── docs/
-│   └── STYLE_GUIDE.md    # this file
-└── resources/            # raw originals (git-ignored)
+│   └── STYLE_GUIDE.md
+└── resources/                # raw originals (git-ignored)
 ```
