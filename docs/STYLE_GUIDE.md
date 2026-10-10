@@ -12,15 +12,16 @@ Every color, font, animation and sentence on the site should be traceable back t
 > *A blue letterpress invitation that opens onto the sea.*
 
 Andrei is from **Romania** 🇷🇴, Camila is from **Santa Cruz, Bolivia** 🇧🇴.
-The site feels like receiving a luxury paper invitation: a full-screen **blue gatefold** — two
-embossed paper doors tied with a **pearl satin bow**. Untie the bow and the doors swing open onto our film by the sea.
+The site feels like receiving a real luxury invitation: a full-screen **blue letterpress envelope** with
+embossed flowers and a **wax seal**. Its opening is **rendered in Blender** (real paper, light, shadows and a
+3D wax seal), and the flaps fold away onto our film by the sea.
 
-References: minimal digital save-the-date videos (embossed tone-on-tone florals, gatefold with a satin bow,
-soft reveal) and fields of blue flowers (nemophila, cornflower).
+References: minimal digital save-the-date videos (embossed tone-on-tone florals, wax seal, soft reveal)
+and fields of blue flowers (nemophila, cornflower).
 
 | Keyword        | In practice                                                                 |
 | -------------- | --------------------------------------------------------------------------- |
-| **Luxurious**  | Letterpress paper, embossed flowers, satin bow, refined serif + formal script |
+| **Luxurious**  | Letterpress paper, embossed flowers, wax seal, refined serif + formal script |
 | **Clean**      | One paper color everywhere, lots of air, no busy decoration                 |
 | **Continuous** | Pages flow into each other; videos fade into the paper — no hard breaks     |
 | **Clear**      | Videos at full quality, never tinted or blurred; text always crisp           |
@@ -44,7 +45,7 @@ All colors live as CSS custom properties in [`css/colors.css`](../css/colors.css
 | `--ink`          | `#1B2B57` | Primary text (10.2:1 on paper)                     |
 | `--ink-soft`     | `#3D5486` | Secondary text (5.6:1 on paper)                    |
 | `--cornflower`   | `#2E4A8E` | Eyebrows, links, icons (6.3:1 on paper)            |
-| `--satin-light`  | `#FFFFFF` | Satin ribbon highlight (with `--satin-mid` / `--satin-shadow`) |
+| `--seal`         | `#3554A8` | Wax seal colour (Blender material)                 |
 | `--midnight`     | `#0F1A3A` | Video shading (only behind text)                   |
 | `--white`        | `#FFFFFF` | Text on video                                      |
 
@@ -90,8 +91,9 @@ Rules:
 
 ### Page structure
 
-1. **Gatefold** — full screen: two embossed paper doors, satin ribbon and bow, script line
-   *"O zi specială vă așteaptă"*. Tap the bow → it unties, the ribbon slides away, the doors swing open (3D), music fades in.
+1. **Envelope** — full screen, rendered in Blender: four embossed paper flaps and a 3D wax seal "A & C"; HTML overlay
+   *"O zi specială vă așteaptă"* (translated). Tap the seal → the flaps fold away (paper bends, soft shadows) onto the
+   hero film, which plays in sync underneath; music fades in.
 2. **Hero film** — beach kiss video (AI-sharpened), clear; names, date, place over a bottom shade.
 3. **Invitation** — script names, one simple sentence, date box (*MAI · DUMINICĂ | 16 | 2027 · ORA 12:00*), countdown.
 4. **Our story** — love quote *"Te iubesc până la infinit și mai departe"*, framed film of us walking toward each other,
@@ -116,8 +118,9 @@ Controls: small language pill (top right) and a small round music button (bottom
 - Durations are long: reveals 1.4–1.6 s, envelope 2 s, carousel 1.2 s.
 - **Smooth scrolling** via Lenis (falls back to native).
 - Reveals: **fade + 26px rise only** — no blur, so text is crisp at every frame.
-- Gatefold: the bow unties (1.1 s), the ribbon halves slide away, the doors swing open in 3D (2.4 s, `--ease-open`);
-  the film is already playing underneath. No filters on moving full-screen layers (keeps it fluid on phones).
+- Envelope: a pre-rendered film (2.4 s, 30 fps, motion blur) — the realism comes from Blender, not CSS. The hero video
+  is the texture under the flaps in the render, and the live hero video starts at the same moment, so the hand-off
+  is seamless. The scene is fully reproducible from `tools/blender/` (see the README there).
 - Respect `prefers-reduced-motion`: instant reveals, no autoplay.
 - Animate only `transform` and `opacity`.
 
@@ -134,7 +137,8 @@ Controls: small language pill (top right) and a small round music button (bottom
 | ------------------- | ----------------- | --------------- |
 | `hero(-portrait)`   | beach kiss (edit), Real-ESRGAN x4plus | Hero  |
 | `story`             | walking together  | Our story       |
-| `closing(-portrait)`| sunset lift, cut at 4.9 s (before she is set down) | Closing |
+| `closing(-portrait)`| sunset lift, cut at 4.9 s (before she is set down); loops, holding the last frame 2.5 s | Closing |
+| `envelope(-portrait)`| Blender render (`tools/blender/envelope.py`) | Envelope opening |
 
 - **Music:** `assets/audio/song.mp3` — Chopin, Nocturne Op. 9 No. 2 (public domain). Starts softly when the gatefold
   opens, loops; the music button stops it **instantly** (iPhone ignores volume changes, so muting never relies on a fade);
@@ -190,7 +194,8 @@ Fully trilingual: **Română (default) · English · Español**, auto-detected, 
 │   ├── video/                # optimized videos + posters
 │   └── audio/                # background song
 ├── tools/
-│   └── generate_emboss.py    # regenerates assets/florals
+│   ├── generate_emboss.py    # regenerates assets/florals
+│   └── blender/              # envelope scene: textures, fonts, render script
 ├── docs/
 │   └── STYLE_GUIDE.md
 └── resources/                # raw originals (git-ignored)
