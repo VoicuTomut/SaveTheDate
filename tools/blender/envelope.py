@@ -465,9 +465,8 @@ def make_camera():
     bpy.context.collection.objects.link(ob)
     framed = (W / 2) * cam.lens / (cam.sensor_width / 2)   # envelope exactly fills the frame
     bpy.context.scene.camera = ob
-    # start slightly further away (the envelope rests on the table), then glide in
-    # the push-in ends before the last frames, so the hand-off frames are perfectly still
-    ease_keys(ob, "location", 2, [(1, framed * 1.075), (10, framed * 1.075), (TIMING["end"] - 8, framed)])
+    # the envelope fills the screen from the first frame (no table border)
+    ob.location.z = framed
     return ob
 
 
@@ -489,11 +488,13 @@ def ease_keys(ob, path, index, frames_values):
 
 
 TIMING = {
-    # 1. the sealed top flap is peeled open and folds back
-    "top": (10, 50),
-    # 2. the card (the film) is drawn out: the envelope pocket slides away below
-    "pocket": (46, 88),
-    "end": 96,
+    # every flap opens the same natural way, one after another:
+    # the tip is lifted, the paper flexes, the flap folds back over its own edge
+    "top": (8, 46),
+    "left": (32, 66),
+    "right": (35, 69),
+    "bottom": (42, 78),
+    "end": 92,
 }
 
 
@@ -524,12 +525,11 @@ def curve(points, f):
     return points[-1][1]
 
 
-def follow_curl(flap, mount, last_frame, peel_pts, flex_pts):
-    """Keyframe the seal mount so it sits on the deformed (peeling / flexing) paper."""
-    _, _, _, _, (ex, ey), _ = FLAPS["top"]
-    reach = flap_reach("top")
+def curl_flap(name, flap, last_frame, peel_pts, flex_pts, mount=None):
+    """Key the flap's peel / flex frame by frame; optionally keep the seal on the paper."""
+    _, _, _, _, (ex, ey), _ = FLAPS[name]
+    reach = flap_reach(name)
     keys = flap.data.shape_keys
-    d0 = H / 2
 
     class P:  # minimal stand-in for a vertex coordinate
         def __init__(self, x, y):
@@ -546,11 +546,14 @@ def follow_curl(flap, mount, last_frame, peel_pts, flex_pts):
     for f in range(1, last_frame + 1):
         peel = curve(peel_pts, f)
         flex = curve(flex_pts, f)
-        # paper and seal are keyed from the same numbers, frame by frame
+        # paper (and seal) are keyed from the same numbers, frame by frame
         keys.key_blocks["Peel"].value = peel
         keys.key_blocks["Peel"].keyframe_insert("value", frame=f)
         keys.key_blocks["Flex"].value = flex
         keys.key_blocks["Flex"].keyframe_insert("value", frame=f)
+        if mount is None:
+            continue
+        d0 = H / 2
         a = deformed(d0, peel, flex)
         b = deformed(d0 + 0.05, peel, flex)
         mount.location = a
@@ -561,33 +564,23 @@ def follow_curl(flap, mount, last_frame, peel_pts, flex_pts):
 
 
 def animate(flaps):
-    top = flaps["top"]
-    a, b = TIMING["top"]
-    span = b - a
-    # the top flap: a hesitant release, then a long smooth fold right over
-    ease_keys(top, "rotation_euler", 0, [
-        (a, 0.0),
-        (a + span * 0.2, math.radians(-4)),
-        (b, math.radians(-180)),
-    ])
-    # once folded flat beyond the edge it rests just below the card's path
-    ease_keys(top, "location", 2, [(b, FLAPS["top"][0]), (b + 4, -0.035)])
-    # the tip is peeled up first, as if lifted by a finger, then the paper flexes as it travels
-    peel_pts = [(a - 4, 0.0), (a + span * 0.25, 1.0), (a + span * 0.6, 0.3), (b, 0.0)]
-    flex_pts = [(a, 0.0), (a + span * 0.5, 0.7), (b, 0.0)]
-    follow_curl(top, bpy.data.objects["SealMount"], TIMING["end"], peel_pts, flex_pts)
-
-    # the pocket (sides + bottom) and the folded flap slide away below the card
-    pocket = bpy.data.objects.new("Pocket", None)
-    bpy.context.collection.objects.link(pocket)
-    for name in ("left", "right", "bottom", "top"):
-        flaps[name].parent = pocket
-    pa, pb = TIMING["pocket"]
-    ease_keys(pocket, "location", 1, [
-        (pa, 0.0),
-        (pa + 6, -H * 0.012),          # the first gentle tug
-        (pb, -H * 1.12),
-    ])
+    for name, ob in flaps.items():
+        _, _, axis, _, _, _ = FLAPS[name]
+        a, b = TIMING[name]
+        span = b - a
+        sign = -1 if name in ("top", "left") else 1
+        # a hesitant release, then a long smooth fold right over its own edge
+        ease_keys(ob, "rotation_euler", axis, [
+            (a, 0.0),
+            (a + span * 0.2, math.radians(4) * sign),
+            (b, math.radians(180) * sign),
+        ])
+        # the sealed top flap is lifted most decisively; the others are lighter
+        top = name == "top"
+        peel_pts = [(a - 4, 0.0), (a + span * 0.25, 1.0 if top else 0.7), (a + span * 0.6, 0.3 if top else 0.2), (b, 0.0)]
+        flex_pts = [(a, 0.0), (a + span * 0.5, 0.7 if top else 0.6), (b, 0.0)]
+        curl_flap(name, ob, TIMING["end"], peel_pts, flex_pts,
+                  bpy.data.objects["SealMount"] if top else None)
 
 
 # ---------------------------------------------------------------- main

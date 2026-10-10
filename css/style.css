@@ -363,12 +363,12 @@ button {
 }
 
 .env {
-  --seal-size: max(29vw, 16.2svh); /* seal in the render (camera starts 7.5% further away) */
+  --seal-size: max(31vw, 17.4svh); /* the seal in the full-screen render */
 }
 
 @media (orientation: landscape) {
   .env {
-    --seal-size: max(9.7vw, 17.2svh);
+    --seal-size: max(10.4vw, 18.5svh);
   }
 }
 
@@ -507,6 +507,11 @@ body.is-revealed .hero__video {
   justify-content: center;
   align-items: baseline;
   column-gap: 0.2em;
+  /* soft white light around the lettering, a faint shadow keeps it legible */
+  text-shadow: var(--glow-soft), var(--text-shadow-video);
+  /* a faint reflection, as on the water */
+  -webkit-box-reflect: below -0.28em linear-gradient(transparent 58%, var(--reflection));
+  margin-bottom: 0.18em;
 }
 
 .hero__amp {
@@ -594,7 +599,7 @@ body.is-revealed .hero__video {
 }
 
 body.is-revealed .hero__eyebrow { animation: rise 1.8s var(--ease-silk) 0.6s both; }
-body.is-revealed .hero__amp     { animation: rise 1.8s var(--ease-silk) 1.3s both; }
+body.is-revealed .hero__amp     { animation: rise 1.6s var(--ease-silk) 0.6s both, glow-wave 7s var(--ease-breeze) 3.2s infinite; }
 body.is-revealed .hero__sub     { animation: rise 1.8s var(--ease-silk) 2s both; }
 body.is-revealed .hero__date    { animation: rise 1.8s var(--ease-silk) 2.25s both; }
 body.is-revealed .hero__line    { animation: line-grow 2s var(--ease-velvet) 2.4s both; }
@@ -610,9 +615,14 @@ body.is-revealed .hero__scroll  { animation: fade 2s var(--ease-silk) 3.2s both;
   margin: -0.12em -0.3em;
 }
 
+/* bloom outward from the centre, then a slow wave of light from the centre every few seconds */
 body.is-revealed .split .char {
-  animation: char-in 1.6s var(--ease-silk) both;
-  animation-delay: calc(0.8s + var(--i) * 70ms);
+  animation:
+    char-in 1.6s var(--ease-silk) both,
+    glow-wave 7s var(--ease-breeze) infinite;
+  animation-delay:
+    calc(0.9s + var(--i) * 110ms),
+    calc(3.3s + var(--i) * 90ms);
 }
 
 /* --------------------------------------------------------------------------
@@ -1347,6 +1357,11 @@ body.is-revealed .split .char {
 
 @keyframes char-in {
   to { opacity: 1; transform: none; }
+}
+
+@keyframes glow-wave {
+  0%, 16%, 100% { text-shadow: var(--glow-soft), var(--text-shadow-video); }
+  7%            { text-shadow: var(--glow-bright), var(--text-shadow-video); }
 }
 
 @keyframes line-grow {
