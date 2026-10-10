@@ -5,7 +5,7 @@
 | | |
 |---|---|
 | Ceremony  | 12:00 — Catedrala Mică |
-| Reception | 15:00 — Restaurant Casa Boema |
+| Reception | 14:00 — Restaurant Casa Boema |
 | Godparents | Ciprian & Andreea Nicoară |
 
 A trilingual (Română · English · Español) single-page Save the Date: a full-screen blue letterpress

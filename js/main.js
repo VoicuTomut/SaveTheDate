@@ -352,7 +352,7 @@
       if (p && p.catch) p.catch(function () { reveal(); finish(); });
       setTimeout(reveal, 1300);
       film.addEventListener("ended", finish, { once: true });
-      setTimeout(finish, 4500); // safety net
+      setTimeout(finish, 5200); // safety net
     }
 
     var revealed = false;

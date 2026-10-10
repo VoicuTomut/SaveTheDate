@@ -68,7 +68,7 @@ window.I18N = {
 
     "cal.event": "Nunta Andrei & Camila",
     "cal.details":
-      "12:00 Cununia religioasă — Catedrala Mică, Târgu Mureș\n15:00 Petrecerea — Restaurant Casa Boema, Târgu Mureș",
+      "12:00 Cununia religioasă — Catedrala Mică, Târgu Mureș\n14:00 Petrecerea — Restaurant Casa Boema, Târgu Mureș",
 
     "story.quote": "Te iubesc până la infinit și mai departe",
 
@@ -153,7 +153,7 @@ window.I18N = {
 
     "cal.event": "Wedding of Andrei & Camila",
     "cal.details":
-      "12:00 Religious ceremony — Catedrala Mică, Târgu Mureș\n15:00 Reception — Casa Boema Restaurant, Târgu Mureș",
+      "12:00 Religious ceremony — Catedrala Mică, Târgu Mureș\n14:00 Reception — Casa Boema Restaurant, Târgu Mureș",
 
     "story.quote": "I love you to infinity and beyond",
 
@@ -238,7 +238,7 @@ window.I18N = {
 
     "cal.event": "Boda de Andrei & Camila",
     "cal.details":
-      "12:00 Ceremonia religiosa — Catedrala Mică, Târgu Mureș\n15:00 Celebración — Restaurante Casa Boema, Târgu Mureș",
+      "12:00 Ceremonia religiosa — Catedrala Mică, Târgu Mureș\n14:00 Celebración — Restaurante Casa Boema, Târgu Mureș",
 
     "story.quote": "Te amo hasta el infinito y más allá",
 
