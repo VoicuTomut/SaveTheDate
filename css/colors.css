@@ -24,12 +24,6 @@
   --midnight:   #0f1a3a; /* Deepest blue — video shading                   */
   --white:      #ffffff;
 
-  /* Satin ribbon (pearl white, blue-tinted shadows) */
-  --satin-light:  #ffffff;
-  --satin-mid:    #eef2fb;
-  --satin-shadow: #b8c6e3;
-  --satin-line:   rgba(27, 43, 87, 0.16);
-
   /* ------------------------------------------------------------------
      3. Semantic tokens — use these in components
      ------------------------------------------------------------------ */
@@ -112,22 +106,6 @@
     rgba(212, 223, 240, 0.013) 91.9%,
     rgba(212, 223, 240, 0) 100%
   );
-
-  /* gatefold doors: light at the outer edge, a soft shadow toward the seam */
-  --door-shade: linear-gradient(90deg, var(--paper-light) 0%, var(--paper) 70%, var(--paper-deep) 100%);
-  --door-shade-right: linear-gradient(270deg, var(--paper-light) 0%, var(--paper) 70%, var(--paper-deep) 100%);
-  --door-seam: rgba(27, 43, 87, 0.35);
-  --satin-band: linear-gradient(
-    180deg,
-    var(--satin-shadow) 0%,
-    var(--satin-light) 32%,
-    var(--satin-mid) 60%,
-    var(--satin-shadow) 100%
-  );
-
-  /* fine paper fibre texture (navy noise at 9% alpha) */
-  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.17 0 0 0 0 0.34 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  --paper-edge: rgba(255, 255, 255, 0.75);
 
 
   /* ------------------------------------------------------------------

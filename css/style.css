@@ -298,7 +298,7 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   5. Gatefold invitation — full screen
+   5. Envelope — rendered film (Blender) with a translated text overlay
    -------------------------------------------------------------------------- */
 .env {
   position: fixed;
@@ -307,99 +307,73 @@ button {
   overflow: hidden;
   color: var(--color-text);
   text-align: center;
-  perspective: 1800px;
-  perspective-origin: 50% 50%;
+  background: var(--paper);
+  transition: opacity 0.6s var(--ease-silk);
 }
 
-/* the two paper doors */
-.env__door {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  overflow: hidden;
-  background-image: var(--paper-grain), var(--door-shade);
-  background-size: 180px 180px, 100% 100%;
-  backface-visibility: hidden;
-  will-change: transform;
-  transition: transform 2.4s var(--ease-open) 0.95s;
-}
-
-.env__door--left {
-  left: 0;
-  transform-origin: left center;
-  box-shadow: inset -14px 0 22px -16px var(--door-seam);
-}
-
-.env__door--right {
-  right: 0;
-  transform-origin: right center;
-  background-image: var(--paper-grain), var(--door-shade-right);
-  box-shadow: inset 14px 0 22px -16px var(--door-seam);
-}
-
-/* the fine light edge where the doors meet */
-.env__door--left::after,
-.env__door--right::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--paper-edge);
-}
-
-.env__door--left::after { right: 0; }
-.env__door--right::after { left: 0; }
-
-.env__art {
-  position: absolute;
-  width: min(46vw, 380px);
-}
-
-.env__art--tl { top: 0; left: 0; }
-.env__art--tr { top: 0; right: 0; scale: -1 1; }
-.env__art--bl { bottom: 0; left: 0; scale: 1 -1; }
-.env__art--br { bottom: 0; right: 0; scale: -1 -1; }
-
-/* satin ribbon across the doors */
-.env__ribbon {
-  position: absolute;
-  top: 50%;
-  z-index: 4;
-  width: 50%;
-  height: clamp(26px, 6.5vw, 38px);
-  translate: 0 -50%;
-  background: var(--satin-band);
-  box-shadow: 0 3px 8px rgba(27, 43, 87, 0.16);
-  transition:
-    transform 1.3s var(--ease-silk) 0.25s,
-    opacity 1s var(--ease-silk) 0.45s;
-}
-
-.env__ribbon--left  { left: 0;  transform-origin: left center; }
-.env__ribbon--right { right: 0; transform-origin: right center; }
-
-/* Texts & bow */
-.env__ui {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
+.env.is-done {
+  opacity: 0;
   pointer-events: none;
 }
 
-.env__ui .bow {
-  pointer-events: auto;
+/* same framing as the hero film underneath (both 9:16 / 16:9, cover) */
+.env__film {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.env__ui {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transition: opacity 0.7s var(--ease-silk), transform 1.2s var(--ease-silk);
+}
+
+.env.is-opening .env__ui {
+  opacity: 0;
+  transform: translateY(-12px);
+  pointer-events: none;
 }
 
 .env__top-text,
 .env__bottom-text,
-.bow {
+.env__seal {
   position: absolute;
 }
 
+/* the seal in the film sits at the centre: ~31% of the width on phones, 10% on desktop */
+.env__seal {
+  left: 50%;
+  top: 50%;
+  width: var(--seal-size);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.env__seal:focus-visible {
+  outline: 1px solid var(--white);
+  outline-offset: 6px;
+}
+
+.env {
+  --seal-size: max(31vw, 17.4svh);
+}
+
+@media (orientation: landscape) {
+  .env {
+    --seal-size: max(10.4vw, 18.5svh);
+  }
+}
+
 .env__top-text {
-  top: calc(50% - clamp(150px, 42vw, 220px) * 0.5 - 4.5rem);
+  top: calc(50% - var(--seal-size) / 2 - 4.5rem);
   left: 50%;
   translate: -50% 0;
   width: max-content;
@@ -420,7 +394,7 @@ button {
 
 .env__bottom-text {
   left: 50%;
-  top: calc(50% + clamp(150px, 42vw, 220px) * 0.5 + 1.75rem);
+  top: calc(50% + var(--seal-size) / 2 + 2rem);
   translate: -50% 0;
   width: min(88vw, 520px);
 }
@@ -448,84 +422,6 @@ button {
     rise 1.8s var(--ease-silk) 1.1s both,
     breathe 3.6s var(--ease-breeze) 3s infinite;
 }
-
-/* Satin bow — centred on the ribbon, at the exact centre of the screen */
-.bow {
-  left: 50%;
-  top: 50%;
-  width: clamp(150px, 42vw, 220px);
-  aspect-ratio: 240 / 210;
-  translate: -50% -45.7%; /* knot centre (y = 96 of 210) on the ribbon */
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  animation: bow-in 1.8s var(--ease-silk) 0.15s both;
-}
-
-.bow:focus:not(:focus-visible) {
-  outline: none;
-}
-
-.bow__svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  filter: drop-shadow(0 8px 10px rgba(27, 43, 87, 0.22));
-  transition: transform 1s var(--ease-silk);
-}
-
-.bow:hover .bow__svg {
-  transform: scale(1.03);
-}
-
-.satin-1 { stop-color: var(--satin-light); }
-.satin-2 { stop-color: var(--satin-mid); }
-.satin-3 { stop-color: var(--satin-shadow); }
-
-.bow__part {
-  stroke: var(--satin-line);
-  stroke-width: 0.8;
-}
-
-.bow__inner {
-  fill: var(--satin-shadow);
-  opacity: 0.85;
-}
-
-.bow__fold {
-  fill: none;
-  stroke: var(--satin-line);
-  stroke-width: 1;
-  stroke-linecap: round;
-}
-
-.bow__sheen {
-  fill: none;
-  stroke: var(--white);
-  stroke-width: 3;
-  stroke-linecap: round;
-  opacity: 0.85;
-}
-
-/* Opening: the bow unties, the ribbon slides away, the doors swing open */
-.env.is-opening .bow {
-  animation: untie 1.1s var(--ease-silk) both;
-  pointer-events: none;
-}
-
-.env.is-opening .env__top-text,
-.env.is-opening .env__bottom-text {
-  animation: none;
-  opacity: 0;
-  transition: opacity 0.7s var(--ease-silk);
-}
-
-.env.is-opening .env__ribbon--left  { transform: translateX(-35%) scaleX(0.55); opacity: 0; }
-.env.is-opening .env__ribbon--right { transform: translateX(35%) scaleX(0.55); opacity: 0; }
-
-.env.is-opening .env__door--left  { transform: rotateY(-105deg); }
-.env.is-opening .env__door--right { transform: rotateY(105deg); }
 
 /* --------------------------------------------------------------------------
    7. Hero — clear video
@@ -1435,17 +1331,6 @@ body.is-revealed .split .char {
 @keyframes rise {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: none; }
-}
-
-@keyframes bow-in {
-  from { opacity: 0; transform: scale(0.82) translateY(10px); }
-  to   { opacity: 1; transform: none; }
-}
-
-@keyframes untie {
-  0%   { opacity: 1; transform: none; }
-  30%  { opacity: 1; transform: scale(1.06); }
-  100% { opacity: 0; transform: scale(0.7) translateY(-14px); }
 }
 
 @keyframes breathe {

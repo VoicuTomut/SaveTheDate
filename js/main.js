@@ -183,13 +183,23 @@
         var v = entry.target;
         if (entry.isIntersecting) {
           if (v.preload === "none") { v.preload = "auto"; v.load(); }
-          if (!(v.hasAttribute("data-once") && v.ended)) safePlay(v);
+          if (!v.ended) safePlay(v);
         } else {
           v.pause();
         }
       });
     }, { rootMargin: "200px 0px" });
     auto.forEach(function (v) { io.observe(v); });
+
+    // loop, but rest on the last frame for a moment first
+    $$("video[data-hold]").forEach(function (v) {
+      v.addEventListener("ended", function () {
+        setTimeout(function () {
+          v.currentTime = 0;
+          if (v.getBoundingClientRect().bottom > 0 && v.getBoundingClientRect().top < window.innerHeight) safePlay(v);
+        }, parseInt(v.dataset.hold, 10) || 2500);
+      });
+    });
 
     // pause the hero when it scrolls away (saves battery)
     new IntersectionObserver(function (entries) {
@@ -304,36 +314,54 @@
   }
 
   /* ------------------------------------------------------------------
-     Gatefold — untie the bow, the doors swing open onto the film
+     Envelope — the rendered opening plays in sync with the hero film
+     underneath (frame 1 of both is the same moment), then fades away
      ------------------------------------------------------------------ */
   function initEnvelope() {
     var env = $("#envelope");
-    var bow = $("#bow");
+    var film = $("#env-film");
+    var hero = $("#hero-video");
     var opened = false;
 
-    function open() {
-      if (opened) return;
-      opened = true;
-      var k = reducedMotion ? 0.05 : 1;
+    var landscape = !portrait;
+    film.poster = landscape ? film.dataset.posterLandscape : film.dataset.posterPortrait;
+    film.src = landscape ? film.dataset.srcLandscape : film.dataset.srcPortrait;
+    film.load();
 
-      safePlay($("#hero-video")); // the film is already rolling underneath
-      startMusic();
-      env.classList.add("is-opening");
-
-      setTimeout(function () {
-        document.body.classList.remove("is-locked");
-        document.body.classList.add("is-revealed");
-        if (lenis) lenis.start();
-      }, 1500 * k);
-
+    function finish() {
+      env.classList.add("is-done");
       setTimeout(function () {
         env.remove();
         $("#top").setAttribute("tabindex", "-1");
         $("#top").focus({ preventScroll: true });
-      }, 3600 * k);
+      }, 700);
     }
 
-    bow.addEventListener("click", open);
+    function open() {
+      if (opened) return;
+      opened = true;
+      env.classList.add("is-opening");
+      startMusic();
+
+      hero.currentTime = 0;
+      safePlay(hero);
+
+      if (reducedMotion) { reveal(); finish(); return; }
+
+      var p = film.play();
+      if (p && p.catch) p.catch(function () { reveal(); finish(); });
+      setTimeout(reveal, 1300);
+      film.addEventListener("ended", finish, { once: true });
+      setTimeout(finish, 4500); // safety net
+    }
+
+    function reveal() {
+      document.body.classList.remove("is-locked");
+      document.body.classList.add("is-revealed");
+      if (lenis) lenis.start();
+    }
+
+    $("#env-open").addEventListener("click", function (e) { e.stopPropagation(); open(); });
     env.addEventListener("click", open);
   }
 

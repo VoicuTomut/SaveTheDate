@@ -18,7 +18,7 @@ window.I18N = {
 
     "music.label": "Muzică",
 
-    "envelope.hint": "Atinge fundița pentru a deschide",
+    "envelope.hint": "Atinge sigiliul pentru a deschide",
     "envelope.open": "Deschide invitația",
 
     "hero.eyebrow": "Save the Date",
@@ -99,7 +99,7 @@ window.I18N = {
 
     "music.label": "Music",
 
-    "envelope.hint": "Tap the bow to open",
+    "envelope.hint": "Tap the seal to open",
     "envelope.open": "Open the invitation",
 
     "hero.eyebrow": "Save the Date",
@@ -180,7 +180,7 @@ window.I18N = {
 
     "music.label": "Música",
 
-    "envelope.hint": "Toca el lazo para abrir",
+    "envelope.hint": "Toca el sello para abrir",
     "envelope.open": "Abrir la invitación",
 
     "hero.eyebrow": "Reserva la fecha",
