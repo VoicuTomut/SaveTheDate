@@ -363,12 +363,12 @@ button {
 }
 
 .env {
-  --seal-size: max(31vw, 17.4svh);
+  --seal-size: max(29vw, 16.2svh); /* seal in the render (camera starts 7.5% further away) */
 }
 
 @media (orientation: landscape) {
   .env {
-    --seal-size: max(10.4vw, 18.5svh);
+    --seal-size: max(9.7vw, 17.2svh);
   }
 }
 

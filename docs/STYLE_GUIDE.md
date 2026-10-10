@@ -100,7 +100,7 @@ Rules:
 4. **Our story** — love quote *"Te iubesc până la infinit și mai departe"*, framed film of us walking toward each other,
    Santa Cruz ↔ Târgu Mureș arc with a gliding heart, "11.000 km" and *"Ce înseamnă 11.000 de kilometri…?"*.
 5. **Godparents** — Ciprian & Andreea Nicoară.
-6. **The day** — ceremony 12:00 Catedrala Mică · reception 15:00 Casa Boema; 🇷🇴 & 🇧🇴 *"Două tradiții, o singură petrecere"*;
+6. **The day** — ceremony 12:00 Catedrala Mică · reception 14:00 Casa Boema; 🇷🇴 & 🇧🇴 *"Două tradiții, o singură petrecere"*;
    add to calendar; **photo QR codes** (see the photos / add your photos — shared Google Drive folders).
 7. **Closing film** — sunset lift, played once and resting on the last frame; "Vă așteptăm", names, flags.
 
@@ -163,7 +163,7 @@ Fully trilingual: **Română (default) · English · Español**, auto-detected, 
 | Godparents | Ciprian & Andreea Nicoară                   |
 | Date       | Sunday, 16 May 2027                         |
 | Ceremony   | 12:00 — Catedrala Mică, Târgu Mureș         |
-| Reception  | 15:00 — Restaurant Casa Boema, Târgu Mureș  |
+| Reception  | 14:00 — Restaurant Casa Boema, Târgu Mureș  |
 
 ---
 
