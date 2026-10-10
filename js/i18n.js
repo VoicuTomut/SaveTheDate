@@ -28,7 +28,7 @@ window.I18N = {
     "hero.sound": "Sunet",
 
     "intro.title": "Cu inimile pline de bucurie",
-    "intro.text": "Ne-ar plăcea să vă invităm să sărbătoriți împreună cu noi.",
+    "intro.text": "Avem plăcerea să vă invităm să sărbătoriți împreună cu noi.",
 
     "countdown.title": "Până la marea zi",
     "countdown.days": "zile",
@@ -113,7 +113,7 @@ window.I18N = {
     "hero.sound": "Sound",
 
     "intro.title": "With hearts full of joy",
-    "intro.text": "We would like to invite you to celebrate together with us.",
+    "intro.text": "We have the pleasure of inviting you to celebrate together with us.",
 
     "countdown.title": "Until the big day",
     "countdown.days": "days",
@@ -198,7 +198,7 @@ window.I18N = {
     "hero.sound": "Sonido",
 
     "intro.title": "Con el corazón lleno de alegría",
-    "intro.text": "Nos gustaría invitarlos a celebrar junto a nosotros.",
+    "intro.text": "Tenemos el placer de invitarlos a celebrar junto a nosotros.",
 
     "countdown.title": "Faltan",
     "countdown.days": "días",
