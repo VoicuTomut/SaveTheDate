@@ -363,7 +363,7 @@
       document.body.classList.add("is-revealed");
       if (lenis) lenis.start();
       // let the names appear, then start the guided tour
-      setTimeout(startTour, 5200);
+      setTimeout(startTour, 4200);
     }
 
     $("#env-open").addEventListener("click", function (e) { e.stopPropagation(); open(); });
@@ -371,38 +371,32 @@
   }
 
   /* ------------------------------------------------------------------
-     Guided tour — after the envelope opens the page glides from section
-     to section on its own; any touch, wheel, key or click hands control
-     back to the guest immediately
+     Cinematic auto-scroll — after the envelope opens the page glides all
+     the way down in one continuous, fluid movement (ease-in, steady speed,
+     ease-out at the end). Any touch, wheel, key or click hands control
+     back to the guest, who can then scroll freely.
      ------------------------------------------------------------------ */
-  var TOUR_STOPS = [
-    // [selector, how long to stay (ms)]
-    ["#intro .script-names", 4500],
-    ["#intro .datebox", 5500],
-    ["#story .quote", 3500],
-    ["#story .film", 6500],
-    ["#story .route", 6000],
-    ["#godparents .script-names", 6000],
-    ["#day .event", 5500],
-    ["#day .event + .events__divider + .event", 5500],
-    ["#day .traditions", 4500],
-    ["#day .photos", 5500],
-    ["#closing", 0],
-  ];
-
   function startTour() {
     if (reducedMotion) return;
     var stopped = false;
-    var timer = null;
-    var i = 0;
+    var y = window.scrollY;
+    var last = null;
+    var started = null;
+    var EASE_IN = 2600;  // ms to reach full speed
+
+    function speed() {
+      // about 9% of the screen height per second: calm, but never sluggish
+      return Math.max(60, window.innerHeight * 0.09);
+    }
+
+    function end() {
+      return document.documentElement.scrollHeight - window.innerHeight;
+    }
 
     function stop(e) {
       if (stopped) return;
-      // the language and music buttons don't count as taking over
       if (e && e.target && e.target.closest && e.target.closest(".lang, .music")) return;
       stopped = true;
-      clearTimeout(timer);
-      if (lenis) lenis.scrollTo(window.scrollY, { immediate: true, force: true });
       ["wheel", "touchstart", "keydown", "pointerdown"].forEach(function (type) {
         window.removeEventListener(type, stop, true);
       });
@@ -412,33 +406,28 @@
       window.addEventListener(type, stop, { capture: true, passive: true });
     });
 
-    function targetFor(el) {
-      var rect = el.getBoundingClientRect();
-      var vh = window.innerHeight;
-      var top = window.scrollY + rect.top;
-      if (el.id === "closing") return top;
-      // centre the element, or show its top if it is taller than the screen
-      var y = rect.height < vh * 0.8 ? top + rect.height / 2 - vh / 2 : top - vh * 0.12;
-      return Math.max(0, Math.min(y, document.documentElement.scrollHeight - vh));
+    function frame(now) {
+      if (stopped) return;
+      if (last === null) { last = now; started = now; }
+      var dt = Math.min(64, now - last) / 1000; // ignore long frame gaps (tab switches)
+      last = now;
+
+      var remaining = end() - y;
+      if (remaining <= 0.5) return stop();
+
+      // gentle start, steady glide, soft landing over the last 40% of a screen
+      var rampIn = Math.min(1, (now - started) / EASE_IN);
+      rampIn = rampIn * rampIn * (3 - 2 * rampIn);
+      var rampOut = Math.min(1, remaining / (window.innerHeight * 0.4));
+      var v = speed() * rampIn * Math.max(0.12, Math.sqrt(rampOut));
+
+      y = Math.min(end(), y + v * dt);
+      if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
+      else window.scrollTo(0, y);
+      requestAnimationFrame(frame);
     }
 
-    function next() {
-      if (stopped || i >= TOUR_STOPS.length) return stop();
-      var stop_ = TOUR_STOPS[i++];
-      var el = $(stop_[0]);
-      if (!el) return next();
-      var y = targetFor(el);
-      var distance = Math.abs(y - window.scrollY);
-      var seconds = Math.min(4.5, Math.max(2.2, distance / 380));
-      if (lenis) {
-        lenis.scrollTo(y, { duration: seconds, easing: easeInOutCubic, force: true });
-      } else {
-        window.scrollTo({ top: y, behavior: "smooth" });
-      }
-      timer = setTimeout(next, seconds * 1000 + stop_[1]);
-    }
-
-    next();
+    requestAnimationFrame(frame);
   }
 
   /* ------------------------------------------------------------------
@@ -512,7 +501,7 @@
         entry.target.classList.add("is-visible");
         io.unobserve(entry.target);
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -50px 0px" });
+    }, { threshold: 0.05, rootMargin: "0px 0px -4% 0px" });
 
     targets.forEach(function (el) { io.observe(el); });
   }

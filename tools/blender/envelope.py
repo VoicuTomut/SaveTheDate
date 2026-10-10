@@ -1,4 +1,4 @@
-"""Blender scene: the blue letterpress envelope opening onto the hero film.
+"""Blender scene: the navy letterpress envelope opening onto the hero film.
 
 Builds everything from scratch (no .blend file needed) and renders a PNG sequence.
 
@@ -31,7 +31,7 @@ TEX = HERE / "textures"
 FONTS = HERE / "fonts"
 
 FPS = 30
-KEY_ENERGY = 3080  # calibrated so the paper renders as #d4dff0
+KEY_ENERGY = 3080  # calibrated so the paper renders at its true colour
 
 
 # ---------------------------------------------------------------- arguments
@@ -64,10 +64,10 @@ def srgb(hex_):
     return (*out, 1.0)
 
 
-PAPER = srgb("#d4dff0")
-PAPER_RAISED = srgb("#dde6f4")
-PAPER_INSIDE = srgb("#c3d1ea")
-WAX = srgb("#3554a8")
+PAPER = srgb("#1d2148")          # navy cardstock (renders as ≈ #262b52)
+PAPER_RAISED = srgb("#323b78")   # raised flowers: clearly lighter than the paper   # embossed flowers catch a little light
+PAPER_INSIDE = srgb("#161a3a")   # inside of the envelope
+WAX = srgb("#c9d6ee")            # pale pearl-blue wax, bright on navy
 
 
 # ---------------------------------------------------------------- scene
@@ -160,8 +160,8 @@ def paper_material(flap, embossed):
     t = mat.node_tree
     t.nodes.clear()
     out = t.nodes.new("ShaderNodeOutputMaterial")
-    bsdf = node(t, "ShaderNodeBsdfPrincipled", Roughness=0.62)
-    bsdf.inputs["Specular IOR Level"].default_value = 0.35
+    bsdf = node(t, "ShaderNodeBsdfPrincipled", Roughness=0.68)
+    bsdf.inputs["Specular IOR Level"].default_value = 0.22  # matte cardstock
     t.links.new(bsdf.outputs["BSDF"], out.inputs["Surface"])
 
     uv = t.nodes.new("ShaderNodeTexCoord")
@@ -198,7 +198,7 @@ def paper_material(flap, embossed):
         t.links.new(height.outputs["Color"], lift.inputs["Factor"])
         t.links.new(col.outputs["Result"], lift.inputs["A"])
         t.links.new(lift.outputs["Result"], bsdf.inputs["Base Color"])
-        bump = node(t, "ShaderNodeBump", Strength=0.75, Distance=0.035)
+        bump = node(t, "ShaderNodeBump", Strength=1.5, Distance=0.05)
         t.links.new(height.outputs["Color"], bump.inputs["Height"])
         t.links.new(bump_grain.outputs["Normal"], bump.inputs["Normal"])
         t.links.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
@@ -216,8 +216,9 @@ def wax_material():
     t = mat.node_tree
     bsdf = t.nodes["Principled BSDF"]
     bsdf.inputs["Base Color"].default_value = WAX
-    bsdf.inputs["Roughness"].default_value = 0.34
-    bsdf.inputs["Coat Weight"].default_value = 0.55
+    bsdf.inputs["Roughness"].default_value = 0.3
+    bsdf.inputs["Coat Weight"].default_value = 0.7
+    bsdf.inputs["Sheen Weight"].default_value = 0.25
     bsdf.inputs["Coat Roughness"].default_value = 0.14
     bsdf.inputs["Subsurface Weight"].default_value = 0.12
     bsdf.inputs["Subsurface Radius"].default_value = (0.4, 0.4, 0.8)
@@ -330,15 +331,15 @@ def make_seal(parent):
         ("&", "CormorantGaramond-Italic.ttf", 0.42, 0.0, -0.06),
         ("C", "Ephesis-Regular.ttf", 0.92, 0.31, -0.02),
     ):
-        bpy.ops.object.text_add(location=(r * x, r * y, floor + r * 0.03))
+        bpy.ops.object.text_add(location=(r * x, r * y, floor + r * 0.045))
         txt = bpy.context.active_object
         txt.data.body = ch
         txt.data.font = bpy.data.fonts.load(str(FONTS / font), check_existing=True)
         txt.data.size = r * size
         txt.data.align_x = "CENTER"
         txt.data.align_y = "CENTER"
-        txt.data.extrude = r * 0.03
-        txt.data.bevel_depth = r * 0.007
+        txt.data.extrude = r * 0.045
+        txt.data.bevel_depth = r * 0.006
         txt.data.bevel_resolution = 2
         bpy.ops.object.convert(target="MESH")
         parts.append(txt)

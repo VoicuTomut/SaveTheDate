@@ -32,7 +32,8 @@ def white_art_svg():
     s = (ROOT / "assets" / "florals" / "emboss-corner.svg").read_text(encoding="utf-8")
     start = s.index("<use")
     end = s.index("</svg>")
-    return s[:start] + '<use href="#art" fill="#fff" stroke="#fff"/>' + s[end:]
+    # shapes at mid height, outlines and veins as raised ridges, so petals keep their detail
+    return s[:start] + '<use href="#art" fill="#8c8c8c" stroke="#fff"/>' + s[end:]
 
 
 def height_map(name, w, h, art):
@@ -55,7 +56,7 @@ def height_map(name, w, h, art):
     )
     img = Image.open(raw).convert("L")
     # soften the edges so the relief reads as pressed paper, not a cut-out
-    img = img.filter(ImageFilter.GaussianBlur(2.2))
+    img = img.filter(ImageFilter.GaussianBlur(0.8))
     img.save(OUT / f"height_{name}.png")
     for tmp in (page, raw):
         tmp.unlink()

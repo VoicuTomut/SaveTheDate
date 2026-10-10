@@ -84,6 +84,10 @@ window.I18N = {
     "photos.add": "Adaugă fotografiile tale",
     "photos.hint": "Scanează codul sau atinge-l.",
     "photos.soon": "Link-ul va fi disponibil în curând",
+
+    "family.eyebrow": "Părinții noștri",
+    "family.parents": "Le mulțumim din suflet pentru tot",
+    "family.siblings": "și fraților noștri dragi",
   },
 
   en: {
@@ -165,6 +169,10 @@ window.I18N = {
     "photos.add": "Add your photos",
     "photos.hint": "Scan the code or tap it.",
     "photos.soon": "Link coming soon",
+
+    "family.eyebrow": "Our parents",
+    "family.parents": "With heartfelt thanks for everything",
+    "family.siblings": "and to our dear siblings",
   },
 
   es: {
@@ -246,5 +254,9 @@ window.I18N = {
     "photos.add": "Sube tus fotos",
     "photos.hint": "Escanea el código o tócalo.",
     "photos.soon": "Enlace disponible pronto",
+
+    "family.eyebrow": "Nuestros padres",
+    "family.parents": "Gracias de corazón por todo",
+    "family.siblings": "y a nuestros queridos hermanos",
   },
 };

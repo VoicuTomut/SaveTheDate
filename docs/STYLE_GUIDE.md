@@ -12,8 +12,8 @@ Every color, font, animation and sentence on the site should be traceable back t
 > *A blue letterpress invitation that opens onto the sea.*
 
 Andrei is from **Romania** 🇷🇴, Camila is from **Santa Cruz, Bolivia** 🇧🇴.
-The site feels like receiving a real luxury invitation: a full-screen **blue letterpress envelope** with
-embossed flowers and a **wax seal**. Its opening is **rendered in Blender** (real paper, light, shadows and a
+The site feels like receiving a real luxury invitation: a full-screen **navy letterpress envelope** with
+tone-on-tone embossed flowers and a **pearl-blue wax seal**. Its opening is **rendered in Blender** (real paper, light, shadows and a
 3D wax seal), and the flaps fold away onto our film by the sea.
 
 References: minimal digital save-the-date videos (embossed tone-on-tone florals, wax seal, soft reveal)
@@ -45,7 +45,8 @@ All colors live as CSS custom properties in [`css/colors.css`](../css/colors.css
 | `--ink`          | `#1B2B57` | Primary text (10.2:1 on paper)                     |
 | `--ink-soft`     | `#3D5486` | Secondary text (5.6:1 on paper)                    |
 | `--cornflower`   | `#2E4A8E` | Eyebrows, links, icons (6.3:1 on paper)            |
-| `--seal`         | `#3554A8` | Wax seal colour (Blender material)                 |
+| `--envelope-navy`| `#262B52` | Navy cardstock of the envelope (Blender render)    |
+| *(wax)*          | `#C9D6EE` | Pale pearl-blue wax seal (Blender material)        |
 | `--midnight`     | `#0F1A3A` | Video shading (only behind text)                   |
 | `--white`        | `#FFFFFF` | Text on video                                      |
 
