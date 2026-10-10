@@ -72,7 +72,8 @@
      Split names into letters
      ------------------------------------------------------------------ */
   function splitLetters() {
-    var offset = 0;
+    // letters bloom outward from the centre: --i is each letter's distance from it
+    var chars = [];
     $$("[data-split]").forEach(function (el) {
       var text = el.textContent;
       el.textContent = "";
@@ -81,10 +82,13 @@
         var span = document.createElement("span");
         span.className = "char";
         span.textContent = ch;
-        span.style.setProperty("--i", offset++);
         el.appendChild(span);
+        chars.push(span);
       });
-      offset += 4; // breathe for the "&"
+    });
+    var mid = (chars.length - 1) / 2;
+    chars.forEach(function (span, i) {
+      span.style.setProperty("--i", Math.abs(i - mid).toFixed(1));
     });
   }
 
