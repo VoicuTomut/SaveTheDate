@@ -1286,20 +1286,6 @@ body.is-revealed .split .char {
   padding-left: 0.32em;
 }
 
-.closing__flags {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.25rem;
-}
-
-.closing__flags-line {
-  width: 56px;
-  height: 1px;
-  background: var(--color-line-light);
-}
-
 .flag {
   display: flex;
   width: 26px;

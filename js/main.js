@@ -191,6 +191,22 @@
     }, { rootMargin: "200px 0px" });
     auto.forEach(function (v) { io.observe(v); });
 
+    // the closing film starts from its first frame only once it is truly on screen,
+    // so its opening moments are never missed; it then rests on the sunrise
+    $$("video[data-play-when-visible]").forEach(function (v) {
+      pickSource(v);
+      var started = false;
+      new IntersectionObserver(function (entries) {
+        var e = entries[0];
+        if (e.isIntersecting && e.intersectionRatio >= 0.6) {
+          if (!started) { started = true; v.currentTime = 0; }
+          if (!v.ended) safePlay(v);
+        } else if (!e.isIntersecting) {
+          v.pause();
+        }
+      }, { threshold: [0, 0.6] }).observe(v);
+    });
+
     // loop, but rest on the last frame for a moment first
     $$("video[data-hold]").forEach(function (v) {
       v.addEventListener("ended", function () {

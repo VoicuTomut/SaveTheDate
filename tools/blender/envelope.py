@@ -321,6 +321,7 @@ def make_flap(name):
     ob.shape_key_add(name="Basis")
     for key, start, radius in (("Peel", reach * 0.62, reach * 0.28), ("Flex", reach * 0.05, reach * 1.6)):
         sk = ob.shape_key_add(name=key)
+        sk.value = 0.0                 # new keys start fully on in Blender 5: start flat
         for v, kv in zip(ob.data.vertices, sk.data):
             kv.co = curl(v.co, ex, ey, start, radius)
     for poly in ob.data.polygons:
@@ -414,11 +415,15 @@ def make_seal(parent):
         ob.location.z += top_z
         ob.select_set(False)
 
-    # ride along with the top flap
+    # ride on a mount that follows the curling paper of the top flap
+    mount = bpy.data.objects.new("SealMount", None)
+    bpy.context.collection.objects.link(mount)
+    mount.parent = parent
+    mount.location = (0, -H / 2, 0)            # seal centre, in the flap's hinge space
     for ob in parts:
-        world = ob.matrix_world.copy()
-        ob.parent = parent
-        ob.matrix_world = world
+        ob.location.z -= top_z
+        ob.parent = mount
+        ob.location.z += 0.004
     return parts
 
 
@@ -451,10 +456,11 @@ def make_table():
 
 def make_camera():
     cam = bpy.data.cameras.new("Camera")
-    cam.lens = 60
+    # long lens: flaps fold back towards their own edge instead of looming over the centre
+    cam.lens = 200
     cam.sensor_width = 36
     cam.sensor_fit = "HORIZONTAL"
-    cam.clip_end = 500
+    cam.clip_end = 2000
     ob = bpy.data.objects.new("Camera", cam)
     bpy.context.collection.objects.link(ob)
     framed = (W / 2) * cam.lens / (cam.sensor_width / 2)   # envelope exactly fills the frame
@@ -483,12 +489,10 @@ def ease_keys(ob, path, index, frames_values):
 
 
 TIMING = {
-    # a natural opening: the top flap is peeled first, then the others follow,
-    # overlapping and unhurried
-    "top": (10, 58),
-    "left": (38, 80),
-    "right": (41, 83),
-    "bottom": (48, 90),
+    # 1. the sealed top flap is peeled open and folds back
+    "top": (10, 50),
+    # 2. the card (the film) is drawn out: the envelope pocket slides away below
+    "pocket": (46, 88),
     "end": 96,
 }
 
@@ -499,32 +503,91 @@ def key_value(block, frames_values):
         block.keyframe_insert("value", frame=f)
 
 
+def smooth_keys(id_data):
+    ad = id_data.animation_data
+    action = ad.action if ad else None
+    for fc in getattr(action, "fcurves", []) or []:
+        for kp in fc.keyframe_points:
+            kp.interpolation = "BEZIER"
+            kp.handle_left_type = kp.handle_right_type = "AUTO_CLAMPED"
+
+
+def curve(points, f):
+    """Smooth (ease-in-out) interpolation through (frame, value) points."""
+    if f <= points[0][0]:
+        return points[0][1]
+    for (f0, v0), (f1, v1) in zip(points, points[1:]):
+        if f <= f1:
+            t = (f - f0) / (f1 - f0)
+            t = t * t * (3 - 2 * t)
+            return v0 + (v1 - v0) * t
+    return points[-1][1]
+
+
+def follow_curl(flap, mount, last_frame, peel_pts, flex_pts):
+    """Keyframe the seal mount so it sits on the deformed (peeling / flexing) paper."""
+    _, _, _, _, (ex, ey), _ = FLAPS["top"]
+    reach = flap_reach("top")
+    keys = flap.data.shape_keys
+    d0 = H / 2
+
+    class P:  # minimal stand-in for a vertex coordinate
+        def __init__(self, x, y):
+            self.x, self.y, self.z = x, y, 0.0
+
+    def deformed(d, peel, flex):
+        x, y = d * ex, d * ey
+        px, py, pz = curl(P(x, y), ex, ey, reach * 0.62, reach * 0.28)
+        fx, fy, fz = curl(P(x, y), ex, ey, reach * 0.05, reach * 1.6)
+        return (x + peel * (px - x) + flex * (fx - x),
+                y + peel * (py - y) + flex * (fy - y),
+                peel * pz + flex * fz)
+
+    for f in range(1, last_frame + 1):
+        peel = curve(peel_pts, f)
+        flex = curve(flex_pts, f)
+        # paper and seal are keyed from the same numbers, frame by frame
+        keys.key_blocks["Peel"].value = peel
+        keys.key_blocks["Peel"].keyframe_insert("value", frame=f)
+        keys.key_blocks["Flex"].value = flex
+        keys.key_blocks["Flex"].keyframe_insert("value", frame=f)
+        a = deformed(d0, peel, flex)
+        b = deformed(d0 + 0.05, peel, flex)
+        mount.location = a
+        along = math.hypot(b[0] - a[0], b[1] - a[1])
+        mount.rotation_euler = (-math.atan2(b[2] - a[2], along), 0, 0)
+        mount.keyframe_insert("location", frame=f)
+        mount.keyframe_insert("rotation_euler", frame=f)
+
+
 def animate(flaps):
-    for name, ob in flaps.items():
-        _, _, axis, angle, _, _ = FLAPS[name]
-        a, b = TIMING[name]
-        span = b - a
-        top = name == "top"
-        # rotation: a hesitant release, then a long smooth fold
-        ease_keys(ob, "rotation_euler", axis, [
-            (a, 0.0),
-            (a + span * 0.18, math.radians(angle) * 0.05),
-            (b, math.radians(angle)),
-        ])
-        keys = ob.data.shape_keys.key_blocks
-        # the tip peels up before the flap swings (strongest on the sealed top flap)
-        peel = 1.0 if top else 0.55
-        key_value(keys["Peel"], [
-            (a - 6, 0.0), (a + span * 0.2, peel), (a + span * 0.55, peel * 0.35), (b, 0.0),
-        ])
-        # the paper bows while it travels, then settles flat
-        key_value(keys["Flex"], [
-            (a, 0.0), (a + span * 0.45, 0.75 if top else 0.55), (b, 0.0),
-        ])
-        for fc in ob.data.shape_keys.animation_data.action.fcurves if ob.data.shape_keys.animation_data and hasattr(ob.data.shape_keys.animation_data.action, "fcurves") else []:
-            for kp in fc.keyframe_points:
-                kp.interpolation = "BEZIER"
-                kp.handle_left_type = kp.handle_right_type = "AUTO_CLAMPED"
+    top = flaps["top"]
+    a, b = TIMING["top"]
+    span = b - a
+    # the top flap: a hesitant release, then a long smooth fold right over
+    ease_keys(top, "rotation_euler", 0, [
+        (a, 0.0),
+        (a + span * 0.2, math.radians(-4)),
+        (b, math.radians(-180)),
+    ])
+    # once folded flat beyond the edge it rests just below the card's path
+    ease_keys(top, "location", 2, [(b, FLAPS["top"][0]), (b + 4, -0.035)])
+    # the tip is peeled up first, as if lifted by a finger, then the paper flexes as it travels
+    peel_pts = [(a - 4, 0.0), (a + span * 0.25, 1.0), (a + span * 0.6, 0.3), (b, 0.0)]
+    flex_pts = [(a, 0.0), (a + span * 0.5, 0.7), (b, 0.0)]
+    follow_curl(top, bpy.data.objects["SealMount"], TIMING["end"], peel_pts, flex_pts)
+
+    # the pocket (sides + bottom) and the folded flap slide away below the card
+    pocket = bpy.data.objects.new("Pocket", None)
+    bpy.context.collection.objects.link(pocket)
+    for name in ("left", "right", "bottom", "top"):
+        flaps[name].parent = pocket
+    pa, pb = TIMING["pocket"]
+    ease_keys(pocket, "location", 1, [
+        (pa, 0.0),
+        (pa + 6, -H * 0.012),          # the first gentle tug
+        (pb, -H * 1.12),
+    ])
 
 
 # ---------------------------------------------------------------- main
