@@ -141,9 +141,10 @@ Controls: small language pill (top right) and a small round music button (bottom
 | `closing(-portrait)`| sunset lift, cut at 4.9 s (before she is set down); loops, holding the last frame 2.5 s | Closing |
 | `curtain(-portrait)`| Blender cloth render (`tools/blender/curtain.py`) | Curtain opening |
 
-- **Music:** `assets/audio/song.mp3` — Chopin, Nocturne Op. 9 No. 2 (public domain). Starts softly when the gatefold
-  opens, loops; the music button stops it **instantly** (iPhone ignores volume changes, so muting never relies on a fade);
-  it pauses when the guest leaves the tab/app. The choice is remembered.
+- **Music:** *Bendita Tu Luz* — Maná ft. Juan Luis Guerra, through Spotify's official embed (licensed playback; never
+  downloaded or re-hosted — the label blocks YouTube embedding). Our music button plays/pauses it via Spotify's iFrame
+  API and it tries to start with the curtain tap; it shows as a slim card above the button while playing. Full song for
+  guests logged into Spotify, a 30-second preview otherwise. Pauses when the guest leaves the tab/app; choice remembered.
 - **Photo QR codes:** the two Google Drive links live in `DRIVE_LINKS` in `js/main.js`; until filled, the codes show
   "link coming soon".
 
