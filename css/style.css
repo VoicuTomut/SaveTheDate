@@ -326,6 +326,16 @@ button {
   border: 0;
 }
 
+/* the browser blocked automatic sound: a soft glow invites one tap on the card */
+.song.needs-tap {
+  animation: song-glow 2.4s var(--ease-breeze) infinite;
+}
+
+@keyframes song-glow {
+  0%, 100% { box-shadow: var(--shadow-lift), 0 0 0 0 rgba(201, 214, 240, 0.0); }
+  50%      { box-shadow: var(--shadow-lift), 0 0 0 6px rgba(201, 214, 240, 0.55); }
+}
+
 /* --------------------------------------------------------------------------
    5. Curtain — rendered film (Blender) with a translated text overlay
    -------------------------------------------------------------------------- */
