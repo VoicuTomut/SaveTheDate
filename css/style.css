@@ -296,6 +296,36 @@ button {
   animation: breathe 2.4s var(--ease-breeze) infinite;
 }
 
+/* Song card — Spotify's compact player, above the music button */
+.song {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 34px + 0.6rem);
+  z-index: 200;
+  width: min(300px, calc(100vw - 2rem));
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lift);
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  transform-origin: bottom right;
+  pointer-events: none;
+  transition: opacity 0.8s var(--ease-silk), transform 0.8s var(--ease-silk);
+}
+
+.song.is-open {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.song iframe {
+  display: block;
+  width: 100%;
+  height: 80px;
+  border: 0;
+}
+
 /* --------------------------------------------------------------------------
    5. Curtain — rendered film (Blender) with a translated text overlay
    -------------------------------------------------------------------------- */

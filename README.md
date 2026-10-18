@@ -34,7 +34,7 @@ No build step — plain HTML, CSS and JavaScript.
 - `css/style.css` — layout, components, animations
 - `js/i18n.js` — all copy in RO / EN / ES
 - `js/main.js` — curtain, music, smooth scroll, auto-scroll, countdown, calendar, photo QR codes
-- `assets/` — optimized videos (EXIF/GPS stripped), embossed SVG flowers, `audio/song.mp3`
+- `assets/` — optimized videos (EXIF/GPS stripped), embossed SVG flowers
 - `tools/generate_emboss.py` — regenerates the embossed flower artwork
 - `tools/blender/` — the velvet curtain scene (see its README)
 - `docs/STYLE_GUIDE.md` — design rules
@@ -42,7 +42,6 @@ No build step — plain HTML, CSS and JavaScript.
 
 ## Credits
 
-- Music: Frédéric Chopin — *Nocturne in E-flat major, Op. 9 No. 2*, performed by Frank Levy.
-  [Public Domain Mark 1.0](https://creativecommons.org/publicdomain/mark/1.0/), via
-  [archive.org](https://archive.org/details/nocturneineflatmajorop.9no.2).
+- Music: *Bendita Tu Luz* — Maná ft. Juan Luis Guerra 4.40, played through Spotify's official embed
+  ([Spotify](https://open.spotify.com/track/3k5G5wH5if2Z6mkAeyjXSn)); the track is streamed, not hosted here.
 - Hero video sharpened with [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) (x4plus).

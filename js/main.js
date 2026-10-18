@@ -229,73 +229,77 @@
   }
 
   /* ------------------------------------------------------------------
-     Music — starts with the envelope tap, fades in, can be muted
+     Music — "Bendita Tu Luz" (Maná ft. Juan Luis Guerra), through Spotify's
+     official embed (licensed playback, nothing re-hosted). Our button plays /
+     pauses it via Spotify's iFrame API; it tries to start with the curtain tap.
+     Full song for guests logged into Spotify, a 30-second preview otherwise.
      ------------------------------------------------------------------ */
-  var music = { audio: null, btn: null, available: false, fadeTimer: null };
+  var SONG_URI = "spotify:track:3k5G5wH5if2Z6mkAeyjXSn";
+  var music = { ctrl: null, btn: null, card: null, wanted: false, playing: false };
 
-  function fadeVolume(to, ms, done) {
-    var a = music.audio;
-    clearInterval(music.fadeTimer);
-    var from = a.volume;
-    var start = performance.now();
-    music.fadeTimer = setInterval(function () {
-      var k = Math.min(1, (performance.now() - start) / ms);
-      a.volume = from + (to - from) * easeInOutCubic(k);
-      if (k >= 1) { clearInterval(music.fadeTimer); if (done) done(); }
-    }, 30);
+  function reflect(playing) {
+    music.playing = playing;
+    music.btn.classList.toggle("is-playing", playing);
+    music.btn.setAttribute("aria-pressed", String(playing));
   }
 
   function setPlaying(on, remember) {
-    var a = music.audio;
-    music.btn.classList.toggle("is-playing", on);
-    music.btn.setAttribute("aria-pressed", String(on));
-    clearInterval(music.fadeTimer);
-    if (on) {
-      a.muted = false;
-      a.volume = 0;
-      var p = a.play();
-      if (p && p.catch) p.catch(function () {
-        music.btn.classList.remove("is-playing");
-        music.btn.setAttribute("aria-pressed", "false");
-      });
-      fadeVolume(0.55, 2500); // on iPhone the volume is fixed by the system; the song simply starts
-    } else {
-      // stop immediately: never rely on a fade (iPhone ignores volume changes)
-      a.pause();
-      a.muted = true;
+    music.wanted = on;
+    music.card.hidden = false;
+    music.card.classList.toggle("is-open", on);
+    reflect(on);
+    if (music.ctrl) {
+      if (on) music.ctrl.resume ? music.ctrl.resume() : music.ctrl.play();
+      else music.ctrl.pause();
     }
     if (remember !== false) store("std-music", on ? "on" : "off");
   }
 
+  // Spotify's API calls this global once it has loaded
+  window.onSpotifyIframeApiReady = function (IFrameAPI) {
+    IFrameAPI.createController($("#song-player"), { uri: SONG_URI, width: "100%", height: 80 }, function (ctrl) {
+      music.ctrl = ctrl;
+      // Spotify's neutral dark theme instead of the album's red, to sit quietly in the blue design
+      var frame = $("#song-card iframe");
+      if (frame && frame.src.indexOf("theme=0") < 0) frame.src += (frame.src.indexOf("?") < 0 ? "?" : "&") + "theme=0";
+      music.btn.hidden = false;
+      // keep our button in step with the card's own play button
+      ctrl.addListener("playback_update", function (e) {
+        if (e && e.data) reflect(!e.data.isPaused);
+      });
+      ctrl.addListener("ready", function () {
+        if (music.wanted) ctrl.play();
+      });
+    });
+  };
+
   function initMusic() {
-    music.audio = $("#music");
     music.btn = $("#music-btn");
-    // only show the control if a song file is present
-    fetch(music.audio.getAttribute("src"), { method: "HEAD" }).then(function (r) {
-      music.available = r.ok;
-      if (r.ok) music.btn.hidden = false;
-    }).catch(function () { /* no song yet */ });
+    music.card = $("#song-card");
+    var api = document.createElement("script");
+    api.src = "https://open.spotify.com/embed/iframe-api/v1";
+    api.async = true;
+    document.head.appendChild(api);
 
     music.btn.addEventListener("click", function () {
-      setPlaying(!music.btn.classList.contains("is-playing"));
+      setPlaying(!music.playing);
     });
 
-    // silence when the guest switches app or tab, or locks the phone; resume on return
+    // pause when the guest switches app or tab, or locks the phone; resume on return
     var wasPlaying = false;
     document.addEventListener("visibilitychange", function () {
-      if (!music.available || !music.btn.classList.contains("is-shown")) return;
+      if (!music.btn.classList.contains("is-shown")) return;
       if (document.hidden) {
-        wasPlaying = music.btn.classList.contains("is-playing");
+        wasPlaying = music.playing;
         if (wasPlaying) setPlaying(false, false);
       } else if (wasPlaying) {
         setPlaying(true, false);
       }
     });
-    window.addEventListener("pagehide", function () { music.audio.pause(); });
   }
 
   function startMusic() {
-    if (!music.available) return;
+    music.btn.hidden = false;
     music.btn.classList.add("is-shown");
     if (store("std-music") !== "off") setPlaying(true);
   }
