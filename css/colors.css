@@ -10,21 +10,22 @@
   /* ------------------------------------------------------------------
      1. Palette — Paper
      ------------------------------------------------------------------ */
-  --paper:        #d4dff0; /* Powder cornflower — the page, everywhere   */
-  --paper-light:  #e2eaf6; /* Raised paper — envelope flaps, light side  */
-  --paper-deep:   #c3d1ea; /* Paper in shadow — envelope interior        */
-  --paper-raised: #dbe4f3; /* Embossed surface (matches the SVG art)     */
+  --paper:        #a7bad9; /* Denim blue — the page, everywhere          */
+  --paper-light:  #b6c7e2; /* Lighter denim — cards, raised surfaces     */
+  --paper-deep:   #93a8cc; /* Denim in shadow                            */
+  --paper-raised: #b0c2de; /* Embossed surface (matches the SVG art)     */
 
   /* ------------------------------------------------------------------
      2. Palette — Ink & blues
      ------------------------------------------------------------------ */
-  --ink:        #1b2b57; /* Navy ink — primary text        10.2:1 on paper */
-  --ink-soft:   #3d5486; /* Soft ink — secondary text       5.6:1 on paper */
-  --cornflower: #2e4a8e; /* Accent — titles, links          6.3:1 on paper */
+  --ink:        #1b2b57; /* Navy ink — primary text        7.0:1 on paper */
+  --ink-soft:   #24365f; /* Soft ink — secondary text 6.0:1 on paper */
+  --cornflower: #203a78; /* Accent — titles, links 5.5:1 on paper */
   --midnight:   #0f1a3a; /* Deepest blue — video shading                   */
-  --envelope-navy: #262b52; /* Navy cardstock of the envelope (Blender render) */
-  --envelope-ink:  #e6ecf8; /* Text on the navy envelope                      */
-  --envelope-ink-soft: rgba(230, 236, 248, 0.72);
+  --curtain-velvet: #0b1452; /* Royal-navy velvet curtain (Blender render), shown while it loads */
+  --curtain-ink:      #c9d6f0;  /* pale blue lettering on the velvet curtain */
+  --curtain-ink-soft: rgba(201, 214, 240, 0.78);
+  --curtain-emboss:   0 -1px 1px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 18px rgba(150, 175, 230, 0.18);
   --white:      #ffffff;
 
   /* ------------------------------------------------------------------
@@ -73,41 +74,41 @@
      Eased (many-stop) gradients avoid the visible band a linear fade leaves. */
   --fade-from-paper: linear-gradient(
     180deg,
-    rgba(212, 223, 240, 1) 0%,
-    rgba(212, 223, 240, 0.987) 8.1%,
-    rgba(212, 223, 240, 0.951) 15.5%,
-    rgba(212, 223, 240, 0.896) 22.5%,
-    rgba(212, 223, 240, 0.825) 29%,
-    rgba(212, 223, 240, 0.741) 35.3%,
-    rgba(212, 223, 240, 0.648) 41.2%,
-    rgba(212, 223, 240, 0.55) 47.1%,
-    rgba(212, 223, 240, 0.45) 52.9%,
-    rgba(212, 223, 240, 0.352) 58.8%,
-    rgba(212, 223, 240, 0.259) 64.7%,
-    rgba(212, 223, 240, 0.175) 71%,
-    rgba(212, 223, 240, 0.104) 77.5%,
-    rgba(212, 223, 240, 0.049) 84.5%,
-    rgba(212, 223, 240, 0.013) 91.9%,
-    rgba(212, 223, 240, 0) 100%
+    rgba(167, 186, 217, 1) 0%,
+    rgba(167, 186, 217, 0.987) 8.1%,
+    rgba(167, 186, 217, 0.951) 15.5%,
+    rgba(167, 186, 217, 0.896) 22.5%,
+    rgba(167, 186, 217, 0.825) 29%,
+    rgba(167, 186, 217, 0.741) 35.3%,
+    rgba(167, 186, 217, 0.648) 41.2%,
+    rgba(167, 186, 217, 0.55) 47.1%,
+    rgba(167, 186, 217, 0.45) 52.9%,
+    rgba(167, 186, 217, 0.352) 58.8%,
+    rgba(167, 186, 217, 0.259) 64.7%,
+    rgba(167, 186, 217, 0.175) 71%,
+    rgba(167, 186, 217, 0.104) 77.5%,
+    rgba(167, 186, 217, 0.049) 84.5%,
+    rgba(167, 186, 217, 0.013) 91.9%,
+    rgba(167, 186, 217, 0) 100%
   );
   --fade-to-paper: linear-gradient(
     0deg,
-    rgba(212, 223, 240, 1) 0%,
-    rgba(212, 223, 240, 0.987) 8.1%,
-    rgba(212, 223, 240, 0.951) 15.5%,
-    rgba(212, 223, 240, 0.896) 22.5%,
-    rgba(212, 223, 240, 0.825) 29%,
-    rgba(212, 223, 240, 0.741) 35.3%,
-    rgba(212, 223, 240, 0.648) 41.2%,
-    rgba(212, 223, 240, 0.55) 47.1%,
-    rgba(212, 223, 240, 0.45) 52.9%,
-    rgba(212, 223, 240, 0.352) 58.8%,
-    rgba(212, 223, 240, 0.259) 64.7%,
-    rgba(212, 223, 240, 0.175) 71%,
-    rgba(212, 223, 240, 0.104) 77.5%,
-    rgba(212, 223, 240, 0.049) 84.5%,
-    rgba(212, 223, 240, 0.013) 91.9%,
-    rgba(212, 223, 240, 0) 100%
+    rgba(167, 186, 217, 1) 0%,
+    rgba(167, 186, 217, 0.987) 8.1%,
+    rgba(167, 186, 217, 0.951) 15.5%,
+    rgba(167, 186, 217, 0.896) 22.5%,
+    rgba(167, 186, 217, 0.825) 29%,
+    rgba(167, 186, 217, 0.741) 35.3%,
+    rgba(167, 186, 217, 0.648) 41.2%,
+    rgba(167, 186, 217, 0.55) 47.1%,
+    rgba(167, 186, 217, 0.45) 52.9%,
+    rgba(167, 186, 217, 0.352) 58.8%,
+    rgba(167, 186, 217, 0.259) 64.7%,
+    rgba(167, 186, 217, 0.175) 71%,
+    rgba(167, 186, 217, 0.104) 77.5%,
+    rgba(167, 186, 217, 0.049) 84.5%,
+    rgba(167, 186, 217, 0.013) 91.9%,
+    rgba(167, 186, 217, 0) 100%
   );
 
 

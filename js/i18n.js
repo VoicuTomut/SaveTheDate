@@ -10,15 +10,13 @@ window.I18N = {
 
     "lang.label": "Limba",
 
-    "envelope.for": "O zi specială vă așteaptă",
-
     "date.month": "Mai",
     "date.weekday": "Duminică",
     "date.time": "Ora 12:00",
 
     "music.label": "Muzică",
 
-    "envelope.hint": "Atinge sigiliul pentru a deschide",
+    "envelope.hint": "Atinge pentru a deschide",
     "envelope.open": "Deschide invitația",
 
     "hero.eyebrow": "Save the Date",
@@ -95,15 +93,13 @@ window.I18N = {
 
     "lang.label": "Language",
 
-    "envelope.for": "A special day awaits you",
-
     "date.month": "May",
     "date.weekday": "Sunday",
     "date.time": "At 12:00",
 
     "music.label": "Music",
 
-    "envelope.hint": "Tap the seal to open",
+    "envelope.hint": "Tap to open",
     "envelope.open": "Open the invitation",
 
     "hero.eyebrow": "Save the Date",
@@ -180,15 +176,13 @@ window.I18N = {
 
     "lang.label": "Idioma",
 
-    "envelope.for": "Un día muy especial los espera",
-
     "date.month": "Mayo",
     "date.weekday": "Domingo",
     "date.time": "A las 12:00",
 
     "music.label": "Música",
 
-    "envelope.hint": "Toca el sello para abrir",
+    "envelope.hint": "Toca para abrir",
     "envelope.open": "Abrir la invitación",
 
     "hero.eyebrow": "Reserva la fecha",

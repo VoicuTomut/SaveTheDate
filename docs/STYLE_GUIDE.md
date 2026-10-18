@@ -12,16 +12,16 @@ Every color, font, animation and sentence on the site should be traceable back t
 > *A blue letterpress invitation that opens onto the sea.*
 
 Andrei is from **Romania** 🇷🇴, Camila is from **Santa Cruz, Bolivia** 🇧🇴.
-The site feels like receiving a real luxury invitation: a full-screen **navy letterpress envelope** with
-tone-on-tone embossed flowers and a **pearl-blue wax seal**. Its opening is **rendered in Blender** (real paper, light, shadows and a
-3D wax seal), and the flaps fold away onto our film by the sea.
+The site opens like a theatre: a full-screen **royal-navy velvet curtain** with "Save the Date" pressed into it.
+A tap draws it open — **cloth-simulated and rendered in Blender** (real velvet, weight, folds and light) — onto our
+film by the sea, on a calm **denim-blue** page.
 
-References: minimal digital save-the-date videos (embossed tone-on-tone florals, wax seal, soft reveal)
+References: minimal digital save-the-date videos (velvet curtain reveal, embossed tone-on-tone florals, soft reveal)
 and fields of blue flowers (nemophila, cornflower).
 
 | Keyword        | In practice                                                                 |
 | -------------- | --------------------------------------------------------------------------- |
-| **Luxurious**  | Letterpress paper, embossed flowers, wax seal, refined serif + formal script |
+| **Luxurious**  | Velvet curtain, embossed flowers, refined serif + formal script               |
 | **Clean**      | One paper color everywhere, lots of air, no busy decoration                 |
 | **Continuous** | Pages flow into each other; videos fade into the paper — no hard breaks     |
 | **Clear**      | Videos at full quality, never tinted or blurred; text always crisp           |
@@ -38,15 +38,15 @@ All colors live as CSS custom properties in [`css/colors.css`](../css/colors.css
 
 | Token            | Hex       | Role                                               |
 | ---------------- | --------- | -------------------------------------------------- |
-| `--paper`        | `#D4DFF0` | Powder cornflower paper — the page, everywhere     |
-| `--paper-light`  | `#E2EAF6` | Envelope flaps, light side                         |
-| `--paper-deep`   | `#C3D1EA` | Envelope interior, shadows                         |
-| `--paper-raised` | `#DBE4F3` | Embossed flower surface                            |
-| `--ink`          | `#1B2B57` | Primary text (10.2:1 on paper)                     |
-| `--ink-soft`     | `#3D5486` | Secondary text (5.6:1 on paper)                    |
-| `--cornflower`   | `#2E4A8E` | Eyebrows, links, icons (6.3:1 on paper)            |
-| `--envelope-navy`| `#262B52` | Navy cardstock of the envelope (Blender render)    |
-| *(wax)*          | `#C9D6EE` | Pale pearl-blue wax seal (Blender material)        |
+| `--paper`        | `#A7BAD9` | Denim blue — the page, everywhere                  |
+| `--paper-light`  | `#B6C7E2` | Lighter denim — cards, raised surfaces             |
+| `--paper-deep`   | `#93A8CC` | Denim in shadow                                    |
+| `--paper-raised` | `#B0C2DE` | Embossed flower surface                            |
+| `--ink`          | `#1B2B57` | Primary text (7.0:1 on paper)                      |
+| `--ink-soft`     | `#24365F` | Secondary text (6.0:1 on paper)                    |
+| `--cornflower`   | `#203A78` | Eyebrows, links, icons (5.5:1 on paper)            |
+| `--curtain-velvet`| `#0B1452` | Royal-navy velvet curtain (Blender render)        |
+| `--curtain-ink`  | `#C9D6F0` | Pale blue lettering pressed into the velvet        |
 | `--midnight`     | `#0F1A3A` | Video shading (only behind text)                   |
 | `--white`        | `#FFFFFF` | Text on video                                      |
 
@@ -65,7 +65,7 @@ Google Fonts with the `latin-ext` subset (Romanian `ă â î ș ț`, Spanish `á
 
 | Role          | Font                 | Usage                                                  |
 | ------------- | -------------------- | ------------------------------------------------------ |
-| **Script**    | *Ephesis*            | Names, love quote, envelope line, closing              |
+| **Script**    | *Ephesis*            | Names, love quote, "Save the Date" on the curtain, closing |
 | **Serif**     | *Cormorant Garamond* | Titles, dates, times, tracked uppercase labels         |
 | **Body**      | *Jost* (300)         | Paragraphs                                             |
 
@@ -92,9 +92,9 @@ Rules:
 
 ### Page structure
 
-1. **Envelope** — full screen, rendered in Blender: four embossed paper flaps and a 3D wax seal "A & C"; HTML overlay
-   *"O zi specială vă așteaptă"* (translated). Tap the seal → the flaps fold away (paper bends, soft shadows) onto the
-   hero film, which plays in sync underneath; music fades in.
+1. **Curtain** — full screen, royal-navy velvet rendered in Blender; HTML overlay *"Save the Date"* (stacked script),
+   *ANDREI & CAMILA · 16 · 05 · 2027* and a translated hint. A tap draws the curtain open (cloth physics: the top leads,
+   the hem trails, the folds gather) onto the hero film, which plays in sync underneath; music fades in.
 2. **Hero film** — beach kiss video (AI-sharpened), clear; names, date, place over a bottom shade.
 3. **Invitation** — script names, one simple sentence, date box (*MAI · DUMINICĂ | 16 | 2027 · ORA 12:00*), countdown.
 4. **Our story** — love quote *"Te iubesc până la infinit și mai departe"*, framed film of us walking toward each other,
@@ -113,15 +113,15 @@ Controls: small language pill (top right) and a small round music button (bottom
 | Token           | Value                            | Use                               |
 | --------------- | -------------------------------- | --------------------------------- |
 | `--ease-silk`   | `cubic-bezier(0.16, 1, 0.3, 1)`  | Entrances, reveals, carousel      |
-| `--ease-velvet` | `cubic-bezier(0.76, 0, 0.24, 1)` | Envelope flaps, line drawing      |
+| `--ease-velvet` | `cubic-bezier(0.76, 0, 0.24, 1)` | Line drawing                      |
 | `--ease-breeze` | `cubic-bezier(0.45, 0, 0.55, 1)` | Looping: breathing hint, heart    |
 
-- Durations are long: reveals 1.4–1.6 s, envelope 2 s, carousel 1.2 s.
+- Durations are long: reveals 0.9–1.1 s, curtain about 2 s.
 - **Smooth scrolling** via Lenis (falls back to native).
 - Reveals: **fade + 26px rise only** — no blur, so text is crisp at every frame.
-- Envelope: a pre-rendered film (2.4 s, 30 fps, motion blur) — the realism comes from Blender, not CSS. The hero video
-  is the texture under the flaps in the render, and the live hero video starts at the same moment, so the hand-off
-  is seamless. The scene is fully reproducible from `tools/blender/` (see the README there).
+- Curtain: a pre-rendered film (3.3 s, 30 fps, motion blur), cloth-simulated in Blender — the realism comes from physics,
+  not CSS. The hero video is the texture behind the curtain in the render, and the live hero video starts at the same
+  moment, so the hand-off is seamless. Fully reproducible from `tools/blender/` (see the README there).
 - Respect `prefers-reduced-motion`: instant reveals, no autoplay.
 - Animate only `transform` and `opacity`.
 
@@ -139,7 +139,7 @@ Controls: small language pill (top right) and a small round music button (bottom
 | `hero(-portrait)`   | beach kiss (edit), Real-ESRGAN x4plus | Hero  |
 | `story`             | walking together  | Our story       |
 | `closing(-portrait)`| sunset lift, cut at 4.9 s (before she is set down); loops, holding the last frame 2.5 s | Closing |
-| `envelope(-portrait)`| Blender render (`tools/blender/envelope.py`) | Envelope opening |
+| `curtain(-portrait)`| Blender cloth render (`tools/blender/curtain.py`) | Curtain opening |
 
 - **Music:** `assets/audio/song.mp3` — Chopin, Nocturne Op. 9 No. 2 (public domain). Starts softly when the gatefold
   opens, loops; the music button stops it **instantly** (iPhone ignores volume changes, so muting never relies on a fade);
@@ -188,7 +188,7 @@ Fully trilingual: **Română (default) · English · Español**, auto-detected, 
 │   └── style.css             # layout, components, motion
 ├── js/
 │   ├── i18n.js               # RO / EN / ES copy
-│   └── main.js               # envelope, music, carousel, butterflies, reveals, …
+│   └── main.js               # curtain, music, auto-scroll, reveals, countdown, …
 ├── assets/
 │   ├── florals/              # embossed SVG flowers (generated)
 │   ├── img/                  # optimized photos
@@ -196,7 +196,7 @@ Fully trilingual: **Română (default) · English · Español**, auto-detected, 
 │   └── audio/                # background song
 ├── tools/
 │   ├── generate_emboss.py    # regenerates assets/florals
-│   └── blender/              # envelope scene: textures, fonts, render script
+│   └── blender/              # velvet curtain scene (cloth simulation + render script)
 ├── docs/
 │   └── STYLE_GUIDE.md
 └── resources/                # raw originals (git-ignored)

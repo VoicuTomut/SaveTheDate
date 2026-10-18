@@ -8,9 +8,9 @@
 | Reception | 14:00 — Restaurant Casa Boema |
 | Godparents | Ciprian & Andreea Nicoară |
 
-A trilingual (Română · English · Español) single-page Save the Date: a full-screen blue letterpress
-envelope with embossed flowers and a wax seal opens onto our film by the sea, followed by the date,
-our story, the day's details, godparents, a photo & video carousel and a closing film — with optional background music.
+A trilingual (Română · English · Español) single-page Save the Date: a royal-navy velvet curtain
+(cloth-simulated in Blender) draws open onto our film by the sea, followed by the date, our story,
+godparents and parents, the day's details, photo QR codes and a closing film — with background music.
 
 ## Live site
 
@@ -33,9 +33,10 @@ No build step — plain HTML, CSS and JavaScript.
 - `css/colors.css` — color tokens (only place with color values)
 - `css/style.css` — layout, components, animations
 - `js/i18n.js` — all copy in RO / EN / ES
-- `js/main.js` — envelope, music, smooth scroll, carousel, butterflies, countdown, calendar
-- `assets/` — optimized photos & videos (EXIF/GPS stripped), embossed SVG flowers, `audio/song.mp3`
+- `js/main.js` — curtain, music, smooth scroll, auto-scroll, countdown, calendar, photo QR codes
+- `assets/` — optimized videos (EXIF/GPS stripped), embossed SVG flowers, `audio/song.mp3`
 - `tools/generate_emboss.py` — regenerates the embossed flower artwork
+- `tools/blender/` — the velvet curtain scene (see its README)
 - `docs/STYLE_GUIDE.md` — design rules
 - `resources/` — raw originals (git-ignored)
 

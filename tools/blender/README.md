@@ -1,30 +1,27 @@
-# Envelope render (Blender)
+# Curtain render (Blender)
 
-The opening envelope is a real 3D scene rendered with Cycles: blue letterpress paper with the embossed
-flowers as relief, four flaps with the website's rounded-tip shapes, and a wax seal with the stamped
-**A & C** monogram. The hero video is mapped under the flaps, so the render ends exactly where the live
-video continues.
+The opening is a real 3D scene rendered with Cycles: two panels of royal-navy **velvet** hang in
+front of the hero film. They are **cloth-simulated**: the heading is pinned to a rod in pleats, gravity
+and the fabric's weight and stiffness shape the drapes, and self-collision keeps the folds full. On
+opening, the rings slide along the rod; the fabric follows physically — the top leads, the hem trails
+and swings, the folds gather — and the gathered curtain leaves the frame. The hero film plays as a
+texture behind, so the render ends exactly where the live video continues.
+
+Velvet look: saturated royal-blue body, royal-blue sheen, no white gloss, a fine pile, and a low raking
+light so crests glow while troughs fall to near-black (colours measured from the reference fabric).
 
 ## Rebuild
 
 ```bash
-# 1. textures (height map of the embossed flowers + flap masks) — needs Pillow and Chrome
-python tools/blender/make_textures.py
+# render both orientations (Blender 4.x / 5.x, GPU recommended); the cloth is baked first
+blender -b --factory-startup -P tools/blender/curtain.py -- --orient portrait  --frames 1-100 --samples 24
+blender -b --factory-startup -P tools/blender/curtain.py -- --orient landscape --frames 1-100 --samples 24
 
-# 2. render both orientations (Blender 4.x / 5.x, GPU recommended)
-blender -b --factory-startup -P tools/blender/envelope.py -- --orient portrait  --frames 1-72 --samples 32
-blender -b --factory-startup -P tools/blender/envelope.py -- --orient landscape --frames 1-72 --samples 32
-
-# 3. encode
-ffmpeg -framerate 30 -i tools/blender/build/portrait/f%04d.png  -c:v libx264 -crf 20 -pix_fmt yuv420p -movflags +faststart assets/video/envelope-portrait.mp4
-ffmpeg -framerate 30 -i tools/blender/build/landscape/f%04d.png -c:v libx264 -crf 20 -pix_fmt yuv420p -movflags +faststart assets/video/envelope.mp4
+# encode
+ffmpeg -framerate 30 -i tools/blender/build/portrait/f%04d.png  -c:v libx264 -crf 20 -pix_fmt yuv420p -movflags +faststart assets/video/curtain-portrait.mp4
+ffmpeg -framerate 30 -i tools/blender/build/landscape/f%04d.png -c:v libx264 -crf 20 -pix_fmt yuv420p -movflags +faststart assets/video/curtain.mp4
 ```
 
-Quick preview of one frame: `--frames 30 --samples 16 --scale 40`.
+Quick preview: `--frames 1-100 --samples 6 --scale 20` (the simulation always runs from the start).
 
-## Files
-
-- `envelope.py` — builds the scene, animates the flaps and renders
-- `make_textures.py` — generates `textures/height_*.png` and `textures/mask_*.png`
-- `fonts/` — Ephesis and Cormorant Garamond (SIL Open Font License, see the OFL files) for the seal monogram
-- `build/` — rendered frames (git-ignored)
+`build/` holds the rendered frames (git-ignored).

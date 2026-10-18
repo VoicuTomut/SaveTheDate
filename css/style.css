@@ -178,8 +178,7 @@ button {
 
 .script-names,
 .quote,
-.closing__names,
-.env__for {
+.closing__names {
   padding-inline: 0.35em; /* script swashes need breathing room */
 }
 
@@ -298,16 +297,16 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   5. Envelope — rendered film (Blender) with a translated text overlay
+   5. Curtain — rendered film (Blender) with a translated text overlay
    -------------------------------------------------------------------------- */
 .env {
   position: fixed;
   inset: 0;
   z-index: 100;
   overflow: hidden;
-  color: var(--envelope-ink);
+  color: var(--curtain-ink);
   text-align: center;
-  background: var(--envelope-navy);
+  background: var(--curtain-velvet);
   transition: opacity 0.6s var(--ease-silk);
 }
 
@@ -329,95 +328,85 @@ button {
   position: absolute;
   inset: 0;
   z-index: 2;
-  transition: opacity 0.7s var(--ease-silk), transform 1.2s var(--ease-silk);
+  transition: opacity 0.9s var(--ease-silk), transform 1.4s var(--ease-silk);
 }
 
 .env.is-opening .env__ui {
   opacity: 0;
-  transform: translateY(-12px);
+  transform: scale(0.97);
   pointer-events: none;
 }
 
-.env__top-text,
-.env__bottom-text,
-.env__seal {
+/* "Save the Date", pressed softly into the velvet */
+.env__center {
   position: absolute;
-}
-
-/* the seal in the film sits at the centre: ~31% of the width on phones, 10% on desktop */
-.env__seal {
   left: 50%;
   top: 50%;
-  width: var(--seal-size);
-  aspect-ratio: 1;
   translate: -50% -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.5rem;
   border: 0;
-  border-radius: 50%;
   background: transparent;
+  color: var(--curtain-ink);
   cursor: pointer;
+  animation: rise 2s var(--ease-silk) 0.3s both;
 }
 
-.env__seal:focus-visible {
-  outline: 1px solid var(--white);
-  outline-offset: 6px;
+.env__center:focus:not(:focus-visible) {
+  outline: none;
 }
 
-.env {
-  --seal-size: max(31vw, 17.4svh); /* the seal in the full-screen render */
-}
-
-@media (orientation: landscape) {
-  .env {
-    --seal-size: max(10.4vw, 18.5svh);
-  }
-}
-
-.env__top-text {
-  top: calc(50% - var(--seal-size) / 2 - 4.5rem);
-  left: 50%;
-  translate: -50% 0;
-  width: max-content;
-  max-width: 90vw;
-  font-family: var(--font-serif);
-  font-size: var(--fs-small);
-  font-weight: 600;
-  letter-spacing: var(--tracking);
-  padding-left: var(--tracking);
-  text-transform: uppercase;
-  color: var(--envelope-ink-soft);
-  animation: rise 1.6s var(--ease-silk) 0.3s both;
-}
-
-.env__top-text span {
-  margin-inline: 0.3em;
-}
-
-.env__bottom-text {
-  left: 50%;
-  top: calc(50% + var(--seal-size) / 2 + 2rem);
-  translate: -50% 0;
-  width: min(88vw, 520px);
-}
-
-.env__for {
+.env__title {
   font-family: var(--font-script);
-  font-size: clamp(1.75rem, 7.4vw, 3rem);
-  line-height: 1.35;
-  color: var(--envelope-ink);
-  text-wrap: balance;
-  padding-inline: 0.35em;
-  animation: rise 1.8s var(--ease-silk) 0.6s both;
+  font-size: clamp(3.6rem, 18vw, 7rem);
+  line-height: 0.95;
+  max-width: min-content;     /* one word per line, like engraved stationery */
+  text-align: center;
+  padding-inline: 0.3em;
+  text-shadow: var(--curtain-emboss);
+}
+
+.env__names,
+.env__date {
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  padding-left: 0.4em;
+  text-transform: uppercase;
+  color: var(--curtain-ink-soft);
+  text-shadow: var(--curtain-emboss);
+  white-space: nowrap;
+}
+
+.env__names {
+  margin-top: 0.6rem;
+}
+
+.env__names i {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  text-transform: none;
+  letter-spacing: 0;
+  padding-inline: 0.15em;
 }
 
 .env__hint {
-  margin-top: 0.9rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(9svh, 4.5rem);
   font-family: var(--font-serif);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.32em;
   padding-left: 0.32em;
   text-transform: uppercase;
-  color: var(--envelope-ink-soft);
+  color: var(--curtain-ink-soft);
   animation:
     rise 1.8s var(--ease-silk) 1.1s both,
     breathe 3.6s var(--ease-breeze) 3s infinite;

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Andrei &amp; Camila · 16 mai 2027</title>
   <meta name="description" content="Save the Date · Andrei &amp; Camila · 16.05.2027 · Târgu Mureș">
-  <meta name="theme-color" content="#262b52">
+  <meta name="theme-color" content="#0b1452">
 
   <!-- Link preview (WhatsApp, Messenger, …) -->
   <meta property="og:type" content="website">
@@ -52,26 +52,26 @@
   <audio id="music" src="assets/audio/song.mp3" loop preload="none"></audio>
 
   <!-- ================================================================
-       1. Envelope — a real envelope rendered in Blender (tools/blender).
-          The closed envelope is the film's first frame; a tap plays the
-          opening, which ends exactly on the hero film underneath.
+       1. Curtain — navy velvet, rendered in Blender (tools/blender/curtain.py).
+          The closed curtain is the film's first frame; a tap draws it open
+          onto the hero film, which plays in sync underneath.
        ================================================================ -->
-  <div class="env" id="envelope" role="dialog" aria-modal="true" aria-labelledby="env-for">
+  <div class="env" id="envelope" role="dialog" aria-modal="true" aria-labelledby="env-title">
     <video class="env__film" id="env-film" muted playsinline preload="auto"
-           poster="assets/video/envelope-portrait-poster.jpg"
-           data-src-portrait="assets/video/envelope-portrait.mp4"
-           data-src-landscape="assets/video/envelope.mp4"
-           data-poster-portrait="assets/video/envelope-portrait-poster.jpg"
-           data-poster-landscape="assets/video/envelope-poster.jpg"
+           poster="assets/video/curtain-portrait-poster.jpg"
+           data-src-portrait="assets/video/curtain-portrait.mp4"
+           data-src-landscape="assets/video/curtain.mp4"
+           data-poster-portrait="assets/video/curtain-portrait-poster.jpg"
+           data-poster-landscape="assets/video/curtain-poster.jpg"
            aria-hidden="true"></video>
 
     <div class="env__ui">
-      <p class="env__top-text" aria-hidden="true">Save the Date <span>·</span> 16.05.2027</p>
-      <button type="button" class="env__seal" id="env-open" aria-label="Deschide invitația" data-i18n-aria="envelope.open"></button>
-      <div class="env__bottom-text">
-        <p class="env__for" id="env-for" data-i18n="envelope.for">O zi specială vă așteaptă</p>
-        <p class="env__hint" data-i18n="envelope.hint">Atinge sigiliul pentru a deschide</p>
-      </div>
+      <button type="button" class="env__center" id="env-open" aria-label="Deschide invitația" data-i18n-aria="envelope.open">
+        <span class="env__title" id="env-title" data-i18n="hero.eyebrow">Save the Date</span>
+        <span class="env__names">Andrei <i>&amp;</i> Camila</span>
+        <span class="env__date">16 · 05 · 2027</span>
+      </button>
+      <p class="env__hint" data-i18n="envelope.hint">Atinge pentru a deschide</p>
     </div>
   </div>
 
