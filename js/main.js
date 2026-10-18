@@ -235,12 +235,23 @@
      Full song for guests logged into Spotify, a 30-second preview otherwise.
      ------------------------------------------------------------------ */
   var SONG_URI = "spotify:track:3k5G5wH5if2Z6mkAeyjXSn";
-  var music = { ctrl: null, btn: null, card: null, wanted: false, playing: false };
+  var music = { ctrl: null, btn: null, card: null, wanted: false, playing: false, started: false, confirmed: false };
 
   function reflect(playing) {
     music.playing = playing;
     music.btn.classList.toggle("is-playing", playing);
     music.btn.setAttribute("aria-pressed", String(playing));
+    if (playing) music.card.classList.remove("needs-tap");
+  }
+
+  function startSpotify() {
+    if (!music.ctrl) return;              // not ready yet: the controller callback starts it
+    if (!music.started) {
+      music.started = true;
+      music.ctrl.play();                  // the very first start must be play()
+    } else {
+      music.ctrl.resume();
+    }
   }
 
   function setPlaying(on, remember) {
@@ -248,9 +259,19 @@
     music.card.hidden = false;
     music.card.classList.toggle("is-open", on);
     reflect(on);
-    if (music.ctrl) {
-      if (on) music.ctrl.resume ? music.ctrl.resume() : music.ctrl.play();
-      else music.ctrl.pause();
+    if (on) {
+      startSpotify();
+      // if the browser still refuses (iPhone), invite one tap on the card itself
+      clearTimeout(music.checkTimer);
+      music.checkTimer = setTimeout(function () {
+        if (music.wanted && !music.confirmed) {
+          music.card.classList.add("is-open", "needs-tap");
+          reflect(false);
+          music.wanted = true;
+        }
+      }, 3500);
+    } else if (music.ctrl) {
+      music.ctrl.pause();
     }
     if (remember !== false) store("std-music", on ? "on" : "off");
   }
@@ -259,17 +280,16 @@
   window.onSpotifyIframeApiReady = function (IFrameAPI) {
     IFrameAPI.createController($("#song-player"), { uri: SONG_URI, width: "100%", height: 80 }, function (ctrl) {
       music.ctrl = ctrl;
-      // Spotify's neutral dark theme instead of the album's red, to sit quietly in the blue design
-      var frame = $("#song-card iframe");
-      if (frame && frame.src.indexOf("theme=0") < 0) frame.src += (frame.src.indexOf("?") < 0 ? "?" : "&") + "theme=0";
       music.btn.hidden = false;
       // keep our button in step with the card's own play button
       ctrl.addListener("playback_update", function (e) {
-        if (e && e.data) reflect(!e.data.isPaused);
+        if (!e || !e.data) return;
+        var playing = !e.data.isPaused;
+        if (playing) music.confirmed = true;
+        if (playing || music.confirmed) reflect(playing);
       });
-      ctrl.addListener("ready", function () {
-        if (music.wanted) ctrl.play();
-      });
+      // the curtain may have been opened before the player was ready: start now
+      if (music.wanted) startSpotify();
     });
   };
 
