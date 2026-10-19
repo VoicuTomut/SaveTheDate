@@ -14,8 +14,7 @@ Every color, font, animation and sentence on the site should be traceable back t
 Andrei is from **Romania** 🇷🇴, Camila is from **Santa Cruz, Bolivia** 🇧🇴.
 The site opens like a theatre: a full-screen, **clean royal-navy velvet curtain**. A tap draws it open —
 **cloth-simulated and rendered in Blender** (real velvet, weight, folds and light) — onto a **deep-navy** page where
-*"Save the Date"* appears in pale, engraved script. A second tap (or a scroll) lets **a drop of water** fall: rings of
-water ripple across the screen and our film by the sea emerges through them.
+*"Save the Date"* appears in pale, engraved script. Scrolling down glides on to our film by the sea.
 
 References: minimal digital save-the-date videos (velvet curtain reveal, embossed tone-on-tone florals, soft reveal)
 and fields of blue flowers (nemophila, cornflower).
@@ -96,8 +95,8 @@ Rules:
 
 1. **Curtain** — full screen, clean royal-navy velvet (Blender cloth render) — nothing written on it.
    Tap → the curtain draws open onto the deep-navy page; *"Save the Date"* emerges word by word in engraved script;
-   the song starts. Tap again, scroll or swipe → **a drop of water** falls on the text and the hero film emerges through
-   the ripples (WebGL refraction in `js/ripple.js`; a soft circular reveal where WebGL is missing).
+   a small breathing hint ("Atinge pentru a deschide") sits at the bottom of the curtain, and a scroll cue under
+   Save the Date. Scroll, swipe or tap → the screen glides up like a page scroll onto the playing hero film.
 2. **Hero film** — beach kiss video (AI-sharpened), clear; names, date, place over a bottom shade.
 3. **Invitation** — script names, one simple sentence, date box (*MAI · DUMINICĂ | 16 | 2027 · ORA 12:00*), countdown.
 4. **Our story** — love quote *"Te iubesc până la infinit și mai departe"*, framed film of us walking toward each other,

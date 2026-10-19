@@ -1,6 +1,6 @@
 /* ==========================================================================
    Save the Date — Andrei & Camila
-   Intro (curtain · Save the Date · water drop) · language · smooth scroll · countdown ·
+   Intro (curtain · Save the Date · scroll to the film) · language · smooth scroll · countdown ·
    reveals · videos · calendar · photo QR codes
    ========================================================================== */
 (function () {
@@ -262,13 +262,12 @@
   }
 
   /* ------------------------------------------------------------------
-     Intro — clean curtain → Save the Date → water drop → the film
+     Intro — clean curtain → Save the Date → scroll → the film
      ------------------------------------------------------------------ */
   function initEnvelope() {
     var env = $("#envelope");
     var film = $("#env-film");
     var hero = $("#hero-video");
-    var water = $("#env-water");
     var step = "curtain";          // curtain → opening → std → dropping → done
 
     var landscape = !portrait;
@@ -279,8 +278,9 @@
     // 1. tap: the curtain opens onto the navy page, "Save the Date" emerges
     function openCurtain() {
       step = "opening";
+      env.classList.add("is-opening");
       hero.currentTime = 0;
-      hero.pause();                 // the film waits under the water
+      hero.pause();                 // the film waits underneath
       var p = reducedMotion ? null : film.play();
       var shown = false;
       function showStd() {
@@ -297,69 +297,24 @@
       }
     }
 
-    // draw the Save the Date screen into a canvas for the water shader
-    function snapshot(w, h) {
-      var c = document.createElement("canvas");
-      c.width = w;
-      c.height = h;
-      var g = c.getContext("2d");
-      var css = getComputedStyle(document.documentElement);
-      g.fillStyle = css.getPropertyValue("--paper").trim() || "#0f1a3d";
-      g.fillRect(0, 0, w, h);
-      var spans = $$(".std__title span");
-      var dpr = w / window.innerWidth;
-      spans.forEach(function (sp) {
-        var r = sp.getBoundingClientRect();
-        var st = getComputedStyle(sp);
-        g.font = st.fontStyle + " " + st.fontWeight + " " + parseFloat(st.fontSize) * dpr + "px " + st.fontFamily;
-        g.textAlign = "center";
-        g.textBaseline = "middle";
-        g.fillStyle = css.getPropertyValue("--std-ink").trim() || "#b7c7ea";
-        g.shadowColor = "rgba(140, 170, 235, 0.3)";
-        g.shadowBlur = 26 * dpr;
-        g.fillText(sp.textContent, (r.left + r.width / 2) * dpr, (r.top + r.height / 2) * dpr);
-      });
-      return c;
-    }
-
-    // 2. tap or scroll: a drop of water, the film emerges through the ripples
+    // 2. scroll / swipe / tap: the Save the Date screen glides up like a page
+    //    scroll, and the film is already playing underneath
     function drop() {
       step = "dropping";
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      var w = Math.round(window.innerWidth * dpr), h = Math.round(window.innerHeight * dpr);
-      water.width = w;
-      water.height = h;
-      var from = snapshot(w, h);
       hero.currentTime = 0;
       safePlay(hero);
-      var went = false;
-      var go = function () {
-        if (went) return;
-        went = true;
-        window.WaterDrop.play(water, from, hero, env, {
-          duration: reducedMotion ? 10 : 2800,
-          drop: [0.5, 0.47],
-        }).then(finish);
-        setTimeout(reveal, reducedMotion ? 0 : 1200);
-      };
-      // wait for a film frame so the ripples reveal a picture, not black
-      // (rewinding resets readyState, and "loadeddata" may have fired long ago)
-      if (hero.readyState >= 2) go();
-      else {
-        hero.addEventListener("canplay", go, { once: true });
-        hero.addEventListener("seeked", go, { once: true });
-        setTimeout(go, 700);
-      }
+      reveal();
+      env.classList.add("is-leaving");
+      setTimeout(finish, reducedMotion ? 0 : 1300);
     }
 
     function finish() {
       step = "done";
-      env.classList.add("is-done");
       setTimeout(function () {
         env.remove();
         $("#top").setAttribute("tabindex", "-1");
         $("#top").focus({ preventScroll: true });
-      }, 700);
+      }, 50);
     }
 
     var revealed = false;
