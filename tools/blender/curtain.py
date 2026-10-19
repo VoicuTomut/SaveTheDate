@@ -15,8 +15,8 @@ Options
 Two velvet panels hang in soft vertical folds in front of the hero film. On
 opening they draw apart: the top leads and the hem trails (a natural drape),
 the folds gather and deepen as the fabric bunches at the sides, and the
-gathered curtain finally slips out of frame, revealing the page's deep navy,
-where the site then writes "Save the Date".
+gathered curtain finally slips out of frame, revealing "Save the Date" on the
+page's deep navy (the site's own screen, captured into textures/std_*.png).
 """
 
 import argparse
@@ -127,21 +127,32 @@ def node(tree, kind, **inputs):
 
 # ---------------------------------------------------------------- film behind the curtain
 def make_backdrop():
-    """Behind the curtain: the page's deep navy (#0f1a3d), self-lit so its colour is
-    exact; the site shows "Save the Date" there once the curtain has opened."""
-    bpy.ops.mesh.primitive_plane_add(size=1)
-    ob = bpy.context.active_object
-    ob.name = "Backdrop"
-    ob.scale = (W * 1.2, H * 1.2, 1)
-    mat = bpy.data.materials.new("Backdrop")
-    mat.use_nodes = True
-    t = mat.node_tree
-    t.nodes.clear()
-    out = t.nodes.new("ShaderNodeOutputMaterial")
-    emit = node(t, "ShaderNodeEmission", Strength=1.0)
-    emit.inputs["Color"].default_value = srgb("#0f1a3d")
-    t.links.new(emit.outputs["Emission"], out.inputs["Surface"])
-    ob.data.materials.append(mat)
+    """Behind the curtain: the site's own Save the Date screen (captured from the page,
+    textures/std_<orient>.png), self-lit so its colours are exact. The curtain reveals
+    it, and the live page shows the identical screen once the curtain has opened."""
+    def emissive(name, size, z, image=None):
+        bpy.ops.mesh.primitive_plane_add(size=1, location=(0, 0, z))
+        ob = bpy.context.active_object
+        ob.name = name
+        ob.scale = (size[0], size[1], 1)
+        mat = bpy.data.materials.new(name)
+        mat.use_nodes = True
+        t = mat.node_tree
+        t.nodes.clear()
+        out = t.nodes.new("ShaderNodeOutputMaterial")
+        emit = node(t, "ShaderNodeEmission", Strength=1.0)
+        if image:
+            tex = t.nodes.new("ShaderNodeTexImage")
+            tex.image = bpy.data.images.load(str(image))
+            tex.extension = "EXTEND"
+            t.links.new(tex.outputs["Color"], emit.inputs["Color"])
+        else:
+            emit.inputs["Color"].default_value = srgb("#0f1a3d")
+        t.links.new(emit.outputs["Emission"], out.inputs["Surface"])
+        ob.data.materials.append(mat)
+
+    emissive("Navy", (W * 1.4, H * 1.4), -0.01)
+    emissive("SaveTheDate", (W, H), 0.0, HERE / "textures" / f"std_{ARGS.orient}.png")
 
 
 # ---------------------------------------------------------------- velvet
