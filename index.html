@@ -45,8 +45,7 @@
   <!-- ================================================================
        1. Intro — (a) a clean velvet curtain (Blender render; tap to open),
           (b) "Save the Date" appears on the deep-navy page,
-          (c) a tap or scroll lets a drop of water fall: the film emerges
-          through the ripples (js/ripple.js)
+          (c) a scroll, swipe or tap slides it up onto the film
        ================================================================ -->
   <div class="env" id="envelope" role="dialog" aria-modal="true" aria-label="Save the Date">
     <div class="std" id="std" aria-hidden="true">
@@ -59,8 +58,9 @@
            data-poster-portrait="assets/video/curtain-portrait-poster.jpg"
            data-poster-landscape="assets/video/curtain-poster.jpg"
            aria-hidden="true"></video>
-    <canvas class="env__water" id="env-water" aria-hidden="true"></canvas>
     <button type="button" class="env__tap" id="env-open" aria-label="Deschide invitația" data-i18n-aria="envelope.open"></button>
+    <p class="env__hint env__hint--open" data-i18n="envelope.hint">Atinge pentru a deschide</p>
+    <p class="env__hint env__hint--scroll" aria-hidden="true"><span data-i18n="hero.scroll">Derulează</span><i></i></p>
   </div>
 
   <main id="main">
@@ -305,7 +305,6 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
   <script src="js/i18n.js" defer></script>
-  <script src="js/ripple.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
