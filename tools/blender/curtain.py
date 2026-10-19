@@ -1,4 +1,4 @@
-"""Blender scene: a navy velvet theatre curtain that draws open onto the hero film.
+"""Blender scene: a navy velvet theatre curtain that draws open onto the deep-navy page.
 
 Builds everything from scratch (no .blend file needed) and renders a PNG sequence.
 
@@ -15,8 +15,8 @@ Options
 Two velvet panels hang in soft vertical folds in front of the hero film. On
 opening they draw apart: the top leads and the hem trails (a natural drape),
 the folds gather and deepen as the fabric bunches at the sides, and the
-gathered curtain finally slips out of frame. The film keeps playing behind,
-so the render ends exactly where the live video continues.
+gathered curtain finally slips out of frame, revealing the page's deep navy,
+where the site then writes "Save the Date".
 """
 
 import argparse
@@ -49,7 +49,6 @@ ARGS = parse_args()
 PORTRAIT = ARGS.orient == "portrait"
 PX_W, PX_H = (1080, 1920) if PORTRAIT else (1920, 1080)
 W, H = (9.0, 16.0) if PORTRAIT else (16.0, 9.0)   # world units, 1 unit = 120 px
-VIDEO = ROOT / "assets" / "video" / ("hero-portrait.mp4" if PORTRAIT else "hero.mp4")
 
 
 def srgb(hex_):
@@ -127,25 +126,20 @@ def node(tree, kind, **inputs):
 
 
 # ---------------------------------------------------------------- film behind the curtain
-def make_film():
+def make_backdrop():
+    """Behind the curtain: the page's deep navy (#0f1a3d), self-lit so its colour is
+    exact; the site shows "Save the Date" there once the curtain has opened."""
     bpy.ops.mesh.primitive_plane_add(size=1)
     ob = bpy.context.active_object
-    ob.name = "Film"
-    ob.scale = (W, H, 1)
-    mat = bpy.data.materials.new("Film")
+    ob.name = "Backdrop"
+    ob.scale = (W * 1.2, H * 1.2, 1)
+    mat = bpy.data.materials.new("Backdrop")
     mat.use_nodes = True
     t = mat.node_tree
     t.nodes.clear()
     out = t.nodes.new("ShaderNodeOutputMaterial")
-    tex = t.nodes.new("ShaderNodeTexImage")
-    img = bpy.data.images.load(str(VIDEO))
-    img.source = "MOVIE"
-    tex.image = img
-    tex.image_user.frame_duration = 300
-    tex.image_user.frame_start = 1
-    tex.image_user.use_auto_refresh = True
     emit = node(t, "ShaderNodeEmission", Strength=1.0)
-    t.links.new(tex.outputs["Color"], emit.inputs["Color"])
+    emit.inputs["Color"].default_value = srgb("#0f1a3d")
     t.links.new(emit.outputs["Emission"], out.inputs["Surface"])
     ob.data.materials.append(mat)
 
@@ -351,7 +345,7 @@ def make_camera():
 def main():
     sc = reset()
     make_lights()
-    make_film()
+    make_backdrop()
     for side in (-1, 1):
         make_panel(side)
     make_camera()

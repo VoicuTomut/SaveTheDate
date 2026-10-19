@@ -1,8 +1,8 @@
 /* ==========================================================================
    Save the Date — Andrei & Camila
    Color tokens. This is the ONLY stylesheet allowed to contain raw colors.
-   Theme: blue letterpress paper with tone-on-tone embossed flowers
-   (nemophila & cornflower), ink-navy text, a deep cornflower wax seal.
+   Theme: deep navy paper with tone-on-tone embossed flowers (nemophila &
+   cornflower), pale blue-ivory lettering, a royal velvet curtain.
    See docs/STYLE_GUIDE.md § 2 for usage rules.
    ========================================================================== */
 
@@ -10,22 +10,23 @@
   /* ------------------------------------------------------------------
      1. Palette — Paper
      ------------------------------------------------------------------ */
-  --paper:        #a7bad9; /* Denim blue — the page, everywhere          */
-  --paper-light:  #b6c7e2; /* Lighter denim — cards, raised surfaces     */
-  --paper-deep:   #93a8cc; /* Denim in shadow                            */
-  --paper-raised: #b0c2de; /* Embossed surface (matches the SVG art)     */
+  --paper:        #0f1a3d; /* Deep navy — the page, everywhere           */
+  --paper-light:  #17244f; /* Lighter navy — cards, raised surfaces      */
+  --paper-deep:   #0a1230; /* Navy in shadow                             */
+  --paper-raised: #162350; /* Embossed surface (matches the SVG art)     */
 
   /* ------------------------------------------------------------------
      2. Palette — Ink & blues
      ------------------------------------------------------------------ */
-  --ink:        #1b2b57; /* Navy ink — primary text        7.0:1 on paper */
-  --ink-soft:   #24365f; /* Soft ink — secondary text 6.0:1 on paper */
-  --cornflower: #203a78; /* Accent — titles, links 5.5:1 on paper */
+  --ink:        #e6ecf8; /* Blue-ivory — primary text       14.3:1 on paper */
+  --ink-soft:   #b9c6e2; /* Soft blue — secondary text       9.9:1 on paper */
+  --cornflower: #9fb6ec; /* Light cornflower — titles, links 8.4:1 on paper */
   --midnight:   #0f1a3a; /* Deepest blue — video shading                   */
   --curtain-velvet: #0b1452; /* Royal-navy velvet curtain (Blender render), shown while it loads */
-  --curtain-ink:      #c9d6f0;  /* pale blue lettering on the velvet curtain */
-  --curtain-ink-soft: rgba(201, 214, 240, 0.78);
-  --curtain-emboss:   0 -1px 1px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 18px rgba(150, 175, 230, 0.18);
+  --curtain-ink:      #c9d6f0;
+  /* "Save the Date" on the navy page: pale, softly engraved (reference: pale script on dark velvet) */
+  --std-ink:     #b7c7ea;
+  --std-engrave: 0 -1px 1px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(220, 232, 255, 0.18), 0 0 26px rgba(140, 170, 235, 0.22);
   --white:      #ffffff;
 
   /* ------------------------------------------------------------------
@@ -36,13 +37,17 @@
   --color-text-muted:     var(--ink-soft);
   --color-heading:        var(--cornflower);
   --color-text-on-video:  var(--white);   /* always over a shaded area */
-  --color-line:           rgba(27, 43, 87, 0.22);
-  --color-line-strong:    rgba(27, 43, 87, 0.45);
+  --color-line:           rgba(201, 214, 240, 0.18);
+  --color-line-strong:    rgba(201, 214, 240, 0.36);
   --color-line-light:     rgba(255, 255, 255, 0.7);
   --color-focus:          var(--cornflower);
 
   /* Glass controls (language, music) */
-  --color-glass:          rgba(27, 43, 87, 0.5);
+  --color-glass:          rgba(27, 43, 87, 0.55);
+
+  /* QR codes stay dark-on-light: many phone cameras can't read inverted codes */
+  --qr-bg:                #e6ecf8;
+  --qr-ink:               #0f1a3d;
   --color-glass-border:   rgba(255, 255, 255, 0.35);
   --color-glass-text:     var(--white);
 
@@ -74,49 +79,49 @@
      Eased (many-stop) gradients avoid the visible band a linear fade leaves. */
   --fade-from-paper: linear-gradient(
     180deg,
-    rgba(167, 186, 217, 1) 0%,
-    rgba(167, 186, 217, 0.987) 8.1%,
-    rgba(167, 186, 217, 0.951) 15.5%,
-    rgba(167, 186, 217, 0.896) 22.5%,
-    rgba(167, 186, 217, 0.825) 29%,
-    rgba(167, 186, 217, 0.741) 35.3%,
-    rgba(167, 186, 217, 0.648) 41.2%,
-    rgba(167, 186, 217, 0.55) 47.1%,
-    rgba(167, 186, 217, 0.45) 52.9%,
-    rgba(167, 186, 217, 0.352) 58.8%,
-    rgba(167, 186, 217, 0.259) 64.7%,
-    rgba(167, 186, 217, 0.175) 71%,
-    rgba(167, 186, 217, 0.104) 77.5%,
-    rgba(167, 186, 217, 0.049) 84.5%,
-    rgba(167, 186, 217, 0.013) 91.9%,
-    rgba(167, 186, 217, 0) 100%
+    rgba(15, 26, 61, 1) 0%,
+    rgba(15, 26, 61, 0.987) 8.1%,
+    rgba(15, 26, 61, 0.951) 15.5%,
+    rgba(15, 26, 61, 0.896) 22.5%,
+    rgba(15, 26, 61, 0.825) 29%,
+    rgba(15, 26, 61, 0.741) 35.3%,
+    rgba(15, 26, 61, 0.648) 41.2%,
+    rgba(15, 26, 61, 0.55) 47.1%,
+    rgba(15, 26, 61, 0.45) 52.9%,
+    rgba(15, 26, 61, 0.352) 58.8%,
+    rgba(15, 26, 61, 0.259) 64.7%,
+    rgba(15, 26, 61, 0.175) 71%,
+    rgba(15, 26, 61, 0.104) 77.5%,
+    rgba(15, 26, 61, 0.049) 84.5%,
+    rgba(15, 26, 61, 0.013) 91.9%,
+    rgba(15, 26, 61, 0) 100%
   );
   --fade-to-paper: linear-gradient(
     0deg,
-    rgba(167, 186, 217, 1) 0%,
-    rgba(167, 186, 217, 0.987) 8.1%,
-    rgba(167, 186, 217, 0.951) 15.5%,
-    rgba(167, 186, 217, 0.896) 22.5%,
-    rgba(167, 186, 217, 0.825) 29%,
-    rgba(167, 186, 217, 0.741) 35.3%,
-    rgba(167, 186, 217, 0.648) 41.2%,
-    rgba(167, 186, 217, 0.55) 47.1%,
-    rgba(167, 186, 217, 0.45) 52.9%,
-    rgba(167, 186, 217, 0.352) 58.8%,
-    rgba(167, 186, 217, 0.259) 64.7%,
-    rgba(167, 186, 217, 0.175) 71%,
-    rgba(167, 186, 217, 0.104) 77.5%,
-    rgba(167, 186, 217, 0.049) 84.5%,
-    rgba(167, 186, 217, 0.013) 91.9%,
-    rgba(167, 186, 217, 0) 100%
+    rgba(15, 26, 61, 1) 0%,
+    rgba(15, 26, 61, 0.987) 8.1%,
+    rgba(15, 26, 61, 0.951) 15.5%,
+    rgba(15, 26, 61, 0.896) 22.5%,
+    rgba(15, 26, 61, 0.825) 29%,
+    rgba(15, 26, 61, 0.741) 35.3%,
+    rgba(15, 26, 61, 0.648) 41.2%,
+    rgba(15, 26, 61, 0.55) 47.1%,
+    rgba(15, 26, 61, 0.45) 52.9%,
+    rgba(15, 26, 61, 0.352) 58.8%,
+    rgba(15, 26, 61, 0.259) 64.7%,
+    rgba(15, 26, 61, 0.175) 71%,
+    rgba(15, 26, 61, 0.104) 77.5%,
+    rgba(15, 26, 61, 0.049) 84.5%,
+    rgba(15, 26, 61, 0.013) 91.9%,
+    rgba(15, 26, 61, 0) 100%
   );
 
 
   /* ------------------------------------------------------------------
      5. Shadows (blue-tinted, soft)
      ------------------------------------------------------------------ */
-  --shadow-soft:  0 10px 30px rgba(27, 43, 87, 0.12);
-  --shadow-lift:  0 24px 60px rgba(27, 43, 87, 0.22);
+  --shadow-soft:  0 10px 30px rgba(0, 0, 0, 0.28);
+  --shadow-lift:  0 24px 60px rgba(0, 0, 0, 0.42);
   --text-shadow-video: 0 2px 18px rgba(15, 26, 58, 0.55);
   /* white light on the names over the film */
   --glow-soft:   0 0 14px rgba(255, 255, 255, 0.45), 0 0 34px rgba(255, 255, 255, 0.18);

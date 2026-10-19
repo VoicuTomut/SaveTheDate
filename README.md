@@ -8,9 +8,10 @@
 | Reception | 14:00 — Restaurant Casa Boema |
 | Godparents | Ciprian & Andreea Nicoară |
 
-A trilingual (Română · English · Español) single-page Save the Date: a royal-navy velvet curtain
-(cloth-simulated in Blender) draws open onto our film by the sea, followed by the date, our story,
-godparents and parents, the day's details, photo QR codes and a closing film — with background music.
+A trilingual (Română · English · Español) single-page Save the Date on deep navy: a clean royal-navy velvet
+curtain (cloth-simulated in Blender) draws open onto "Save the Date"; a drop of water then ripples our film
+by the sea into view, followed by the date, our story, godparents and parents, the day's details, photo QR
+codes and a closing film.
 
 ## Live site
 
@@ -33,7 +34,8 @@ No build step — plain HTML, CSS and JavaScript.
 - `css/colors.css` — color tokens (only place with color values)
 - `css/style.css` — layout, components, animations
 - `js/i18n.js` — all copy in RO / EN / ES
-- `js/main.js` — curtain, music, smooth scroll, auto-scroll, countdown, calendar, photo QR codes
+- `js/main.js` — intro (curtain → Save the Date → water drop), music, smooth scroll, auto-scroll, countdown, calendar, photo QR codes
+- `js/ripple.js` — the WebGL water-drop transition
 - `assets/` — optimized videos (EXIF/GPS stripped), embossed SVG flowers
 - `tools/generate_emboss.py` — regenerates the embossed flower artwork
 - `tools/blender/` — the velvet curtain scene (see its README)
@@ -42,6 +44,4 @@ No build step — plain HTML, CSS and JavaScript.
 
 ## Credits
 
-- Music: *Bendita Tu Luz* — Maná ft. Juan Luis Guerra 4.40, played through Spotify's official embed
-  ([Spotify](https://open.spotify.com/track/3k5G5wH5if2Z6mkAeyjXSn)); the track is streamed, not hosted here.
 - Hero video sharpened with [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) (x4plus).
