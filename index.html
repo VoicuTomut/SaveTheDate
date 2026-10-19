@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Andrei &amp; Camila · 16 mai 2027</title>
   <meta name="description" content="Save the Date · Andrei &amp; Camila · 16.05.2027 · Târgu Mureș">
-  <meta name="theme-color" content="#0b1452">
+  <meta name="theme-color" content="#0f1a3d">
 
   <!-- Link preview (WhatsApp, Messenger, …) -->
   <meta property="og:type" content="website">
@@ -33,7 +33,7 @@
 <body class="is-locked">
 
   <!-- ================================================================
-       Controls: language + music
+       Controls: language
        ================================================================ -->
   <nav class="lang" aria-label="Limba" data-i18n-aria="lang.label">
     <button type="button" class="lang__btn" data-lang="ro" aria-pressed="true">RO</button>
@@ -41,25 +41,17 @@
     <button type="button" class="lang__btn" data-lang="es" aria-pressed="false">ES</button>
   </nav>
 
-  <button type="button" class="music" id="music-btn" aria-pressed="false" hidden>
-    <svg class="music__icon" viewBox="0 0 24 24" aria-hidden="true">
-      <path class="music__speaker" d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z"/>
-      <path class="music__waves" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>
-      <path class="music__mute" d="M16 9.5l5 5M21 9.5l-5 5"/>
-    </svg>
-    <span class="visually-hidden" data-i18n="music.label">Muzică</span>
-  </button>
-  <!-- "Bendita Tu Luz" (Maná ft. Juan Luis Guerra) via Spotify's official embed -->
-  <aside class="song" id="song-card" hidden aria-label="Bendita Tu Luz · Maná">
-    <div id="song-player"></div>
-  </aside>
 
   <!-- ================================================================
-       1. Curtain — navy velvet, rendered in Blender (tools/blender/curtain.py).
-          The closed curtain is the film's first frame; a tap draws it open
-          onto the hero film, which plays in sync underneath.
+       1. Intro — (a) a clean velvet curtain (Blender render; tap to open),
+          (b) "Save the Date" appears on the deep-navy page,
+          (c) a tap or scroll lets a drop of water fall: the film emerges
+          through the ripples (js/ripple.js)
        ================================================================ -->
-  <div class="env" id="envelope" role="dialog" aria-modal="true" aria-labelledby="env-title">
+  <div class="env" id="envelope" role="dialog" aria-modal="true" aria-label="Save the Date">
+    <div class="std" id="std" aria-hidden="true">
+      <p class="std__title"><span>Save</span><span>the</span><span>Date</span></p>
+    </div>
     <video class="env__film" id="env-film" muted playsinline preload="auto"
            poster="assets/video/curtain-portrait-poster.jpg"
            data-src-portrait="assets/video/curtain-portrait.mp4"
@@ -67,15 +59,8 @@
            data-poster-portrait="assets/video/curtain-portrait-poster.jpg"
            data-poster-landscape="assets/video/curtain-poster.jpg"
            aria-hidden="true"></video>
-
-    <div class="env__ui">
-      <button type="button" class="env__center" id="env-open" aria-label="Deschide invitația" data-i18n-aria="envelope.open">
-        <span class="env__title" id="env-title" data-i18n="hero.eyebrow">Save the Date</span>
-        <span class="env__names">Andrei <i>&amp;</i> Camila</span>
-        <span class="env__date">16 · 05 · 2027</span>
-      </button>
-      <p class="env__hint" data-i18n="envelope.hint">Atinge pentru a deschide</p>
-    </div>
+    <canvas class="env__water" id="env-water" aria-hidden="true"></canvas>
+    <button type="button" class="env__tap" id="env-open" aria-label="Deschide invitația" data-i18n-aria="envelope.open"></button>
   </div>
 
   <main id="main">
@@ -320,6 +305,7 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
   <script src="js/i18n.js" defer></script>
+  <script src="js/ripple.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

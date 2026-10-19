@@ -18,10 +18,10 @@ from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / "assets" / "florals"
 
-PAPER_RAISED = "#b0c2de"          # raised surface, a touch lighter than --paper (#a7bad9)
-LINE = "rgba(40, 62, 120, 0.32)"  # fine pressed outline
-HIGHLIGHT = "rgba(255, 255, 255, 0.95)"
-SHADOW = "rgba(27, 43, 87, 0.30)"
+PAPER_RAISED = "#162350"          # raised surface, a touch lighter than --paper (#0f1a3d)
+LINE = "rgba(120, 150, 215, 0.30)"  # fine pressed outline
+HIGHLIGHT = "rgba(150, 178, 238, 0.42)"  # moonlight on the raised edges
+SHADOW = "rgba(0, 0, 0, 0.62)"
 
 
 def f(n):

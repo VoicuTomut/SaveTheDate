@@ -1,6 +1,6 @@
 /* ==========================================================================
    Save the Date — Andrei & Camila
-   Envelope · language · music · smooth scroll · parallax · countdown ·
+   Intro (curtain · Save the Date · water drop) · language · smooth scroll · countdown ·
    reveals · videos · calendar · photo QR codes
    ========================================================================== */
 (function () {
@@ -229,102 +229,6 @@
   }
 
   /* ------------------------------------------------------------------
-     Music — "Bendita Tu Luz" (Maná ft. Juan Luis Guerra), through Spotify's
-     official embed (licensed playback, nothing re-hosted). Our button plays /
-     pauses it via Spotify's iFrame API; it tries to start with the curtain tap.
-     Full song for guests logged into Spotify, a 30-second preview otherwise.
-     ------------------------------------------------------------------ */
-  var SONG_URI = "spotify:track:3k5G5wH5if2Z6mkAeyjXSn";
-  var music = { ctrl: null, btn: null, card: null, wanted: false, playing: false, started: false, confirmed: false };
-
-  function reflect(playing) {
-    music.playing = playing;
-    music.btn.classList.toggle("is-playing", playing);
-    music.btn.setAttribute("aria-pressed", String(playing));
-    if (playing) music.card.classList.remove("needs-tap");
-  }
-
-  function startSpotify() {
-    if (!music.ctrl) return;              // not ready yet: the controller callback starts it
-    if (!music.started) {
-      music.started = true;
-      music.ctrl.play();                  // the very first start must be play()
-    } else {
-      music.ctrl.resume();
-    }
-  }
-
-  function setPlaying(on, remember) {
-    music.wanted = on;
-    music.card.hidden = false;
-    music.card.classList.toggle("is-open", on);
-    reflect(on);
-    if (on) {
-      startSpotify();
-      // if the browser still refuses (iPhone), invite one tap on the card itself
-      clearTimeout(music.checkTimer);
-      music.checkTimer = setTimeout(function () {
-        if (music.wanted && !music.confirmed) {
-          music.card.classList.add("is-open", "needs-tap");
-          reflect(false);
-          music.wanted = true;
-        }
-      }, 3500);
-    } else if (music.ctrl) {
-      music.ctrl.pause();
-    }
-    if (remember !== false) store("std-music", on ? "on" : "off");
-  }
-
-  // Spotify's API calls this global once it has loaded
-  window.onSpotifyIframeApiReady = function (IFrameAPI) {
-    IFrameAPI.createController($("#song-player"), { uri: SONG_URI, width: "100%", height: 80 }, function (ctrl) {
-      music.ctrl = ctrl;
-      music.btn.hidden = false;
-      // keep our button in step with the card's own play button
-      ctrl.addListener("playback_update", function (e) {
-        if (!e || !e.data) return;
-        var playing = !e.data.isPaused;
-        if (playing) music.confirmed = true;
-        if (playing || music.confirmed) reflect(playing);
-      });
-      // the curtain may have been opened before the player was ready: start now
-      if (music.wanted) startSpotify();
-    });
-  };
-
-  function initMusic() {
-    music.btn = $("#music-btn");
-    music.card = $("#song-card");
-    var api = document.createElement("script");
-    api.src = "https://open.spotify.com/embed/iframe-api/v1";
-    api.async = true;
-    document.head.appendChild(api);
-
-    music.btn.addEventListener("click", function () {
-      setPlaying(!music.playing);
-    });
-
-    // pause when the guest switches app or tab, or locks the phone; resume on return
-    var wasPlaying = false;
-    document.addEventListener("visibilitychange", function () {
-      if (!music.btn.classList.contains("is-shown")) return;
-      if (document.hidden) {
-        wasPlaying = music.playing;
-        if (wasPlaying) setPlaying(false, false);
-      } else if (wasPlaying) {
-        setPlaying(true, false);
-      }
-    });
-  }
-
-  function startMusic() {
-    music.btn.hidden = false;
-    music.btn.classList.add("is-shown");
-    if (store("std-music") !== "off") setPlaying(true);
-  }
-
-  /* ------------------------------------------------------------------
      Photos — QR codes to the shared Google Drive folders.
      Paste the two folder links here; until then the codes show "soon".
      ------------------------------------------------------------------ */
@@ -358,45 +262,104 @@
   }
 
   /* ------------------------------------------------------------------
-     Envelope — the rendered opening plays in sync with the hero film
-     underneath (frame 1 of both is the same moment), then fades away
+     Intro — clean curtain → Save the Date → water drop → the film
      ------------------------------------------------------------------ */
   function initEnvelope() {
     var env = $("#envelope");
     var film = $("#env-film");
     var hero = $("#hero-video");
-    var opened = false;
+    var water = $("#env-water");
+    var step = "curtain";          // curtain → opening → std → dropping → done
 
     var landscape = !portrait;
     film.poster = landscape ? film.dataset.posterLandscape : film.dataset.posterPortrait;
     film.src = landscape ? film.dataset.srcLandscape : film.dataset.srcPortrait;
     film.load();
 
+    // 1. tap: the curtain opens onto the navy page, "Save the Date" emerges
+    function openCurtain() {
+      step = "opening";
+      hero.currentTime = 0;
+      hero.pause();                 // the film waits under the water
+      var p = reducedMotion ? null : film.play();
+      var shown = false;
+      function showStd() {
+        if (shown) return;
+        shown = true;
+        env.classList.add("is-std");
+        step = "std";
+      }
+      if (!p) showStd();
+      else {
+        if (p.catch) p.catch(showStd);
+        film.addEventListener("ended", showStd, { once: true });
+        setTimeout(showStd, 3600);  // safety net
+      }
+    }
+
+    // draw the Save the Date screen into a canvas for the water shader
+    function snapshot(w, h) {
+      var c = document.createElement("canvas");
+      c.width = w;
+      c.height = h;
+      var g = c.getContext("2d");
+      var css = getComputedStyle(document.documentElement);
+      g.fillStyle = css.getPropertyValue("--paper").trim() || "#0f1a3d";
+      g.fillRect(0, 0, w, h);
+      var spans = $$(".std__title span");
+      var dpr = w / window.innerWidth;
+      spans.forEach(function (sp) {
+        var r = sp.getBoundingClientRect();
+        var st = getComputedStyle(sp);
+        g.font = st.fontStyle + " " + st.fontWeight + " " + parseFloat(st.fontSize) * dpr + "px " + st.fontFamily;
+        g.textAlign = "center";
+        g.textBaseline = "middle";
+        g.fillStyle = css.getPropertyValue("--std-ink").trim() || "#b7c7ea";
+        g.shadowColor = "rgba(140, 170, 235, 0.3)";
+        g.shadowBlur = 26 * dpr;
+        g.fillText(sp.textContent, (r.left + r.width / 2) * dpr, (r.top + r.height / 2) * dpr);
+      });
+      return c;
+    }
+
+    // 2. tap or scroll: a drop of water, the film emerges through the ripples
+    function drop() {
+      step = "dropping";
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var w = Math.round(window.innerWidth * dpr), h = Math.round(window.innerHeight * dpr);
+      water.width = w;
+      water.height = h;
+      var from = snapshot(w, h);
+      hero.currentTime = 0;
+      safePlay(hero);
+      var went = false;
+      var go = function () {
+        if (went) return;
+        went = true;
+        window.WaterDrop.play(water, from, hero, env, {
+          duration: reducedMotion ? 10 : 2800,
+          drop: [0.5, 0.47],
+        }).then(finish);
+        setTimeout(reveal, reducedMotion ? 0 : 1200);
+      };
+      // wait for a film frame so the ripples reveal a picture, not black
+      // (rewinding resets readyState, and "loadeddata" may have fired long ago)
+      if (hero.readyState >= 2) go();
+      else {
+        hero.addEventListener("canplay", go, { once: true });
+        hero.addEventListener("seeked", go, { once: true });
+        setTimeout(go, 700);
+      }
+    }
+
     function finish() {
+      step = "done";
       env.classList.add("is-done");
       setTimeout(function () {
         env.remove();
         $("#top").setAttribute("tabindex", "-1");
         $("#top").focus({ preventScroll: true });
       }, 700);
-    }
-
-    function open() {
-      if (opened) return;
-      opened = true;
-      env.classList.add("is-opening");
-      startMusic();
-
-      hero.currentTime = 0;
-      safePlay(hero);
-
-      if (reducedMotion) { reveal(); finish(); return; }
-
-      var p = film.play();
-      if (p && p.catch) p.catch(function () { reveal(); finish(); });
-      setTimeout(reveal, 1300);
-      film.addEventListener("ended", finish, { once: true });
-      setTimeout(finish, 5200); // safety net
     }
 
     var revealed = false;
@@ -410,8 +373,23 @@
       setTimeout(startTour, 4200);
     }
 
-    $("#env-open").addEventListener("click", function (e) { e.stopPropagation(); open(); });
-    env.addEventListener("click", open);
+    function next(e) {
+      if (e) e.preventDefault();
+      if (step === "curtain") openCurtain();
+      else if (step === "std") drop();
+    }
+
+    $("#env-open").addEventListener("click", next);
+    // a scroll or swipe on the Save the Date screen also lets the drop fall
+    env.addEventListener("wheel", function (e) { if (step === "std") next(e); }, { passive: false });
+    var touchY = null;
+    env.addEventListener("touchstart", function (e) { touchY = e.touches[0].clientY; }, { passive: true });
+    env.addEventListener("touchmove", function (e) {
+      if (step === "std" && touchY !== null && touchY - e.touches[0].clientY > 30) { touchY = null; next(); }
+    }, { passive: true });
+    window.addEventListener("keydown", function (e) {
+      if ((e.key === "ArrowDown" || e.key === " " || e.key === "PageDown") && (step === "std" || step === "curtain")) next(e);
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -439,7 +417,7 @@
 
     function stop(e) {
       if (stopped) return;
-      if (e && e.target && e.target.closest && e.target.closest(".lang, .music")) return;
+      if (e && e.target && e.target.closest && e.target.closest(".lang")) return;
       stopped = true;
       ["wheel", "touchstart", "keydown", "pointerdown"].forEach(function (type) {
         window.removeEventListener(type, stop, true);
@@ -620,7 +598,6 @@
   initLang();
   initSmoothScroll();
   initVideos();
-  initMusic();
   initEnvelope();
   initPhotos();
   initCountdown();

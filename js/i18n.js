@@ -14,8 +14,6 @@ window.I18N = {
     "date.weekday": "Duminică",
     "date.time": "Ora 12:00",
 
-    "music.label": "Muzică",
-
     "envelope.hint": "Atinge pentru a deschide",
     "envelope.open": "Deschide invitația",
 
@@ -97,8 +95,6 @@ window.I18N = {
     "date.weekday": "Sunday",
     "date.time": "At 12:00",
 
-    "music.label": "Music",
-
     "envelope.hint": "Tap to open",
     "envelope.open": "Open the invitation",
 
@@ -179,8 +175,6 @@ window.I18N = {
     "date.month": "Mayo",
     "date.weekday": "Domingo",
     "date.time": "A las 12:00",
-
-    "music.label": "Música",
 
     "envelope.hint": "Toca para abrir",
     "envelope.open": "Abrir la invitación",

@@ -12,9 +12,10 @@ Every color, font, animation and sentence on the site should be traceable back t
 > *A blue letterpress invitation that opens onto the sea.*
 
 Andrei is from **Romania** 🇷🇴, Camila is from **Santa Cruz, Bolivia** 🇧🇴.
-The site opens like a theatre: a full-screen **royal-navy velvet curtain** with "Save the Date" pressed into it.
-A tap draws it open — **cloth-simulated and rendered in Blender** (real velvet, weight, folds and light) — onto our
-film by the sea, on a calm **denim-blue** page.
+The site opens like a theatre: a full-screen, **clean royal-navy velvet curtain**. A tap draws it open —
+**cloth-simulated and rendered in Blender** (real velvet, weight, folds and light) — onto a **deep-navy** page where
+*"Save the Date"* appears in pale, engraved script. A second tap (or a scroll) lets **a drop of water** fall: rings of
+water ripple across the screen and our film by the sea emerges through them.
 
 References: minimal digital save-the-date videos (velvet curtain reveal, embossed tone-on-tone florals, soft reveal)
 and fields of blue flowers (nemophila, cornflower).
@@ -38,15 +39,16 @@ All colors live as CSS custom properties in [`css/colors.css`](../css/colors.css
 
 | Token            | Hex       | Role                                               |
 | ---------------- | --------- | -------------------------------------------------- |
-| `--paper`        | `#A7BAD9` | Denim blue — the page, everywhere                  |
-| `--paper-light`  | `#B6C7E2` | Lighter denim — cards, raised surfaces             |
-| `--paper-deep`   | `#93A8CC` | Denim in shadow                                    |
-| `--paper-raised` | `#B0C2DE` | Embossed flower surface                            |
-| `--ink`          | `#1B2B57` | Primary text (7.0:1 on paper)                      |
-| `--ink-soft`     | `#24365F` | Secondary text (6.0:1 on paper)                    |
-| `--cornflower`   | `#203A78` | Eyebrows, links, icons (5.5:1 on paper)            |
+| `--paper`        | `#0F1A3D` | Deep navy — the page, everywhere                   |
+| `--paper-light`  | `#17244F` | Lighter navy — raised surfaces                     |
+| `--paper-deep`   | `#0A1230` | Navy in shadow                                     |
+| `--paper-raised` | `#162350` | Embossed flower surface                            |
+| `--ink`          | `#E6ECF8` | Primary text, blue-ivory (14.3:1 on paper)         |
+| `--ink-soft`     | `#B9C6E2` | Secondary text (9.9:1 on paper)                    |
+| `--cornflower`   | `#9FB6EC` | Eyebrows, links, icons (8.4:1 on paper)            |
 | `--curtain-velvet`| `#0B1452` | Royal-navy velvet curtain (Blender render)        |
-| `--curtain-ink`  | `#C9D6F0` | Pale blue lettering pressed into the velvet        |
+| `--std-ink`      | `#B7C7EA` | "Save the Date" on the navy page (engraved glow)   |
+| `--qr-bg` / `--qr-ink` | `#E6ECF8` / `#0F1A3D` | QR codes stay dark-on-light so every camera reads them |
 | `--midnight`     | `#0F1A3A` | Video shading (only behind text)                   |
 | `--white`        | `#FFFFFF` | Text on video                                      |
 
@@ -92,9 +94,10 @@ Rules:
 
 ### Page structure
 
-1. **Curtain** — full screen, royal-navy velvet rendered in Blender; HTML overlay *"Save the Date"* (stacked script),
-   *ANDREI & CAMILA · 16 · 05 · 2027* and a translated hint. A tap draws the curtain open (cloth physics: the top leads,
-   the hem trails, the folds gather) onto the hero film, which plays in sync underneath; music fades in.
+1. **Curtain** — full screen, clean royal-navy velvet (Blender cloth render) — nothing written on it.
+   Tap → the curtain draws open onto the deep-navy page; *"Save the Date"* emerges word by word in engraved script;
+   the song starts. Tap again, scroll or swipe → **a drop of water** falls on the text and the hero film emerges through
+   the ripples (WebGL refraction in `js/ripple.js`; a soft circular reveal where WebGL is missing).
 2. **Hero film** — beach kiss video (AI-sharpened), clear; names, date, place over a bottom shade.
 3. **Invitation** — script names, one simple sentence, date box (*MAI · DUMINICĂ | 16 | 2027 · ORA 12:00*), countdown.
 4. **Our story** — love quote *"Te iubesc până la infinit și mai departe"*, framed film of us walking toward each other,
@@ -141,10 +144,7 @@ Controls: small language pill (top right) and a small round music button (bottom
 | `closing(-portrait)`| sunset lift, cut at 4.9 s (before she is set down); loops, holding the last frame 2.5 s | Closing |
 | `curtain(-portrait)`| Blender cloth render (`tools/blender/curtain.py`) | Curtain opening |
 
-- **Music:** *Bendita Tu Luz* — Maná ft. Juan Luis Guerra, through Spotify's official embed (licensed playback; never
-  downloaded or re-hosted — the label blocks YouTube embedding). Our music button plays/pauses it via Spotify's iFrame
-  API and it tries to start with the curtain tap; it shows as a slim card above the button while playing. Full song for
-  guests logged into Spotify, a 30-second preview otherwise. Pauses when the guest leaves the tab/app; choice remembered.
+- **Music:** none for now (the Spotify song was removed at the couple's request).
 - **Photo QR codes:** the two Google Drive links live in `DRIVE_LINKS` in `js/main.js`; until filled, the codes show
   "link coming soon".
 
