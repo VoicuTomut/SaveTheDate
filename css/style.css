@@ -420,19 +420,21 @@ button {
 .env__invite {
   position: absolute;
   left: 50%;
-  top: 50%;
+  bottom: max(11svh, 5rem);
   z-index: 5;
-  translate: -50% -50%;
+  translate: -50% 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.4rem;
+  gap: 0.9rem;
+  opacity: 0.62;              /* discreet: present, but the velvet stays the star */
   pointer-events: none;
-  animation: rise 1.4s var(--ease-silk) 0.6s both;
-  transition: opacity 0.5s var(--ease-silk);
+  animation: fade 1.6s var(--ease-silk) 1.4s both;
+  transition: opacity 0.2s linear;
 }
 
 .env.is-opening .env__invite {
+  animation: none;
   opacity: 0;
 }
 
@@ -440,11 +442,10 @@ button {
   position: relative;
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 1.5px solid rgba(225, 234, 255, 0.85);
-  box-shadow: 0 0 24px rgba(160, 190, 255, 0.35);
+  border: 1px solid rgba(225, 234, 255, 0.7);
 }
 
 .env__ring::before,
@@ -453,8 +454,8 @@ button {
   position: absolute;
   inset: -1.5px;
   border-radius: 50%;
-  border: 1.5px solid rgba(225, 234, 255, 0.7);
-  animation: tap-pulse 2.4s var(--ease-silk) infinite;
+  border: 1px solid rgba(225, 234, 255, 0.5);
+  animation: tap-pulse 3s var(--ease-silk) infinite;
 }
 
 .env__ring::after {
@@ -462,21 +463,20 @@ button {
 }
 
 .env__dot {
-  width: 14px;
-  height: 14px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: rgba(235, 241, 255, 0.95);
-  box-shadow: 0 0 16px rgba(190, 210, 255, 0.9);
+  background: rgba(235, 241, 255, 0.9);
   animation: breathe 2.4s var(--ease-breeze) infinite;
 }
 
 .env__invite-text {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  padding-left: 0.28em;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--ink);
@@ -484,8 +484,8 @@ button {
 }
 
 @keyframes tap-pulse {
-  from { transform: scale(1); opacity: 0.8; }
-  to   { transform: scale(2.1); opacity: 0; }
+  from { transform: scale(1); opacity: 0.6; }
+  to   { transform: scale(1.8); opacity: 0; }
 }
 
 .env__hint--scroll {
