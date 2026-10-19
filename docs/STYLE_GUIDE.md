@@ -14,7 +14,7 @@ Every color, font, animation and sentence on the site should be traceable back t
 Andrei is from **Romania** 🇷🇴, Camila is from **Santa Cruz, Bolivia** 🇧🇴.
 The site opens like a theatre: a full-screen, **clean royal-navy velvet curtain**. A tap draws it open —
 **cloth-simulated and rendered in Blender** (real velvet, weight, folds and light) — onto a **deep-navy** page where
-*"Save the Date"* appears in pale, engraved script. Scrolling down glides on to our film by the sea.
+*"Save the Date"* is already waiting in pale, engraved script. Scrolling fades it away onto our film by the sea.
 
 References: minimal digital save-the-date videos (velvet curtain reveal, embossed tone-on-tone florals, soft reveal)
 and fields of blue flowers (nemophila, cornflower).
@@ -93,10 +93,10 @@ Rules:
 
 ### Page structure
 
-1. **Curtain** — full screen, clean royal-navy velvet (Blender cloth render) — nothing written on it.
-   Tap → the curtain draws open onto the deep-navy page; *"Save the Date"* emerges word by word in engraved script;
-   a small breathing hint ("Atinge pentru a deschide") sits at the bottom of the curtain, and a scroll cue under
-   Save the Date. Scroll, swipe or tap → the screen glides up like a page scroll onto the playing hero film.
+1. **Curtain** — full screen, clean royal-navy velvet (Blender cloth render), with only a discreet "tap to open" ring.
+   Tap → the curtain draws open and reveals *"Save the Date"*, already there on the deep-navy page (it is in the render
+   itself, captured from the site, so the hand-off to the live page is invisible). A scroll cue sits under it.
+   Scroll, swipe or tap → Save the Date fades away onto the playing hero film.
 2. **Hero film** — beach kiss video (AI-sharpened), clear; names, date, place over a bottom shade.
 3. **Invitation** — script names, one simple sentence, date box (*MAI · DUMINICĂ | 16 | 2027 · ORA 12:00*), countdown.
 4. **Our story** — love quote *"Te iubesc până la infinit și mai departe"*, framed film of us walking toward each other,

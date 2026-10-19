@@ -283,33 +283,38 @@
       hero.pause();                 // the film waits underneath
       var p = reducedMotion ? null : film.play();
       var shown = false;
-      function showStd() {
+      function showStd(fallback) {
         if (shown) return;
         shown = true;
+        if (fallback === true) env.classList.add("is-std-fallback");
         env.classList.add("is-std");
         step = "std";
       }
-      if (!p) showStd();
+      if (!p) showStd(true);
       else {
-        if (p.catch) p.catch(showStd);
+        if (p.catch) p.catch(function () { showStd(true); });
         film.addEventListener("ended", showStd, { once: true });
         setTimeout(showStd, 3600);  // safety net
       }
     }
 
-    // 2. scroll / swipe / tap: the Save the Date screen glides up like a page
-    //    scroll, and the film is already playing underneath
+    // 2. scroll / swipe / tap: Save the Date fades away onto the film,
+    //    which is already playing underneath
     function drop() {
       step = "dropping";
+      if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
       hero.currentTime = 0;
       safePlay(hero);
       reveal();
       env.classList.add("is-leaving");
-      setTimeout(finish, reducedMotion ? 0 : 1300);
+      setTimeout(finish, reducedMotion ? 0 : 1150);
     }
 
     function finish() {
       step = "done";
+      // land exactly on the film, whatever the scroll gesture did meanwhile
+      if (lenis) { lenis.scrollTo(0, { immediate: true, force: true }); lenis.start(); }
+      else window.scrollTo(0, 0);
       setTimeout(function () {
         env.remove();
         $("#top").setAttribute("tabindex", "-1");
@@ -323,7 +328,6 @@
       revealed = true;
       document.body.classList.remove("is-locked");
       document.body.classList.add("is-revealed");
-      if (lenis) lenis.start();
       // let the names appear, then start the guided tour
       setTimeout(startTour, 4200);
     }
