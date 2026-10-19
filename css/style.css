@@ -416,16 +416,76 @@ button {
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
 }
 
-.env__hint--open {
-  animation:
-    rise 1.6s var(--ease-silk) 1.2s both,
-    breathe 3.2s var(--ease-breeze) 3s infinite;
+/* "tap to open": a pulsing ring in the centre of the curtain, with the words under it */
+.env__invite {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 5;
+  translate: -50% -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  pointer-events: none;
+  animation: rise 1.4s var(--ease-silk) 0.6s both;
+  transition: opacity 0.5s var(--ease-silk);
 }
 
-.env.is-opening .env__hint--open {
-  animation: none;
+.env.is-opening .env__invite {
   opacity: 0;
-  transition: opacity 0.5s var(--ease-silk);
+}
+
+.env__ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(225, 234, 255, 0.85);
+  box-shadow: 0 0 24px rgba(160, 190, 255, 0.35);
+}
+
+.env__ring::before,
+.env__ring::after {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(225, 234, 255, 0.7);
+  animation: tap-pulse 2.4s var(--ease-silk) infinite;
+}
+
+.env__ring::after {
+  animation-delay: 1.2s;
+}
+
+.env__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(235, 241, 255, 0.95);
+  box-shadow: 0 0 16px rgba(190, 210, 255, 0.9);
+  animation: breathe 2.4s var(--ease-breeze) infinite;
+}
+
+.env__invite-text {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  padding-left: 0.28em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.75);
+}
+
+@keyframes tap-pulse {
+  from { transform: scale(1); opacity: 0.8; }
+  to   { transform: scale(2.1); opacity: 0; }
 }
 
 .env__hint--scroll {
