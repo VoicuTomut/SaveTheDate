@@ -71,8 +71,6 @@ window.I18N = {
     "traditions.title": "Două tradiții, o singură petrecere",
 
     "story.distance": "11.000 km",
-    "story.distanceNote":
-      "Ce înseamnă 11.000 de kilometri, când ne iubim până la infinit și mai departe?",
 
     "photos.eyebrow": "Fotografii",
     "photos.title": "Să păstrăm amintirile împreună",
@@ -152,8 +150,6 @@ window.I18N = {
     "traditions.title": "Two traditions, one celebration",
 
     "story.distance": "11,000 km",
-    "story.distanceNote":
-      "What are 11,000 kilometres, when we love each other to infinity and beyond?",
 
     "photos.eyebrow": "Photos",
     "photos.title": "Let's keep the memories together",
@@ -233,8 +229,6 @@ window.I18N = {
     "traditions.title": "Dos tradiciones, una sola fiesta",
 
     "story.distance": "11.000 km",
-    "story.distanceNote":
-      "¿Qué son 11.000 kilómetros, cuando nos amamos hasta el infinito y más allá?",
 
     "photos.eyebrow": "Fotos",
     "photos.title": "Guardemos los recuerdos juntos",
