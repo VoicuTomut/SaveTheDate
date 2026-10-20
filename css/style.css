@@ -9,8 +9,8 @@
    1. Tokens (non-color)
    -------------------------------------------------------------------------- */
 :root {
-  --font-script: "Ephesis", "Great Vibes", cursive;
-  --font-std: "Imperial Script", "Ephesis", cursive;  /* Save the Date on the intro */
+  --font-script: "Imperial Script", "Ephesis", cursive;
+  --font-std: var(--font-script);  /* Save the Date on the intro */
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-sans: "Jost", "Segoe UI", system-ui, sans-serif;
 

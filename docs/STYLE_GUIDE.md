@@ -66,8 +66,7 @@ Google Fonts with the `latin-ext` subset (Romanian `ă â î ș ț`, Spanish `á
 
 | Role          | Font                 | Usage                                                  |
 | ------------- | -------------------- | ------------------------------------------------------ |
-| **Script**    | *Ephesis*            | Names, love quote, closing                             |
-| **Intro script** | *Imperial Script* | "Save the Date" revealed by the curtain (`--font-std`) |
+| **Script**    | *Imperial Script*    | Save the Date, names, love quote, godparents, parents, closing |
 | **Serif**     | *Cormorant Garamond* | Titles, dates, times, tracked uppercase labels         |
 | **Body**      | *Jost* (300)         | Paragraphs                                             |
 
