@@ -10,6 +10,7 @@
    -------------------------------------------------------------------------- */
 :root {
   --font-script: "Ephesis", "Great Vibes", cursive;
+  --font-std: "Imperial Script", "Ephesis", cursive;  /* Save the Date on the intro */
   --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-sans: "Jost", "Segoe UI", system-ui, sans-serif;
 
@@ -354,7 +355,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: var(--font-script);
+  font-family: var(--font-std, var(--font-script));
   font-size: clamp(4.2rem, 21vw, 8.5rem);
   line-height: 0.92;
   color: var(--std-ink);
@@ -510,7 +511,7 @@ button {
 .env.is-leaving {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 1.1s var(--ease-silk);
+  transition: opacity 2s var(--ease-silk);
 }
 
 /* --------------------------------------------------------------------------

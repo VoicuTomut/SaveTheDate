@@ -281,6 +281,7 @@
       env.classList.add("is-opening");
       hero.currentTime = 0;
       hero.pause();                 // the film waits underneath
+      film.playbackRate = 0.75;     // a slower, more graceful opening
       var p = reducedMotion ? null : film.play();
       var shown = false;
       function showStd(fallback) {
@@ -294,7 +295,7 @@
       else {
         if (p.catch) p.catch(function () { showStd(true); });
         film.addEventListener("ended", showStd, { once: true });
-        setTimeout(showStd, 3600);  // safety net
+        setTimeout(showStd, 5200);  // safety net
       }
     }
 
@@ -307,7 +308,7 @@
       safePlay(hero);
       reveal();
       env.classList.add("is-leaving");
-      setTimeout(finish, reducedMotion ? 0 : 1150);
+      setTimeout(finish, reducedMotion ? 0 : 2050);
     }
 
     function finish() {

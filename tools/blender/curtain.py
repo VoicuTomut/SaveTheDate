@@ -42,6 +42,9 @@ def parse_args():
     p.add_argument("--samples", type=int, default=24)
     p.add_argument("--scale", type=int, default=100)
     p.add_argument("--out", default=None)
+    p.add_argument("--transparent", action="store_true",
+                   help="render only the curtain over a transparent background (RGBA PNGs), to be "
+                        "composited over any Save the Date screen with tools/composite_curtain.py")
     return p.parse_args(argv)
 
 
@@ -356,7 +359,11 @@ def make_camera():
 def main():
     sc = reset()
     make_lights()
-    make_backdrop()
+    if ARGS.transparent:
+        sc.render.film_transparent = True
+        sc.render.image_settings.color_mode = "RGBA"
+    else:
+        make_backdrop()
     for side in (-1, 1):
         make_panel(side)
     make_camera()
@@ -365,9 +372,12 @@ def main():
     first, last = (ARGS.frames.split("-") + [None])[:2]
     sc.frame_start = int(first)
     sc.frame_end = int(last or first)
-    out = Path(ARGS.out) if ARGS.out else HERE / "build" / ARGS.orient
+    # absolute: Blender resolves relative paths against the drive root, not the shell
+    out = Path(ARGS.out).resolve() if ARGS.out else HERE / "build" / ARGS.orient
     out.mkdir(parents=True, exist_ok=True)
     sc.render.image_settings.file_format = "PNG"
+    if ARGS.transparent:
+        sc.render.image_settings.color_mode = "RGBA"
     sc.render.filepath = str(out / "f")
     bpy.ops.render.render(animation=True)
 
