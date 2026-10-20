@@ -13,18 +13,19 @@ light so crests glow while troughs fall to near-black (colours measured from the
 
 ## Rebuild
 
-```bash
-# 0. if the Save the Date screen changed, re-capture textures/std_portrait.png (390×693 @2.77x)
-#    and textures/std_landscape.png (1440×810 @1.33x) from the page with the curtain hidden
-# render both orientations (Blender 4.x / 5.x, GPU recommended); the cloth is baked first
-blender -b --factory-startup -P tools/blender/curtain.py -- --orient portrait  --frames 1-100 --samples 24
-blender -b --factory-startup -P tools/blender/curtain.py -- --orient landscape --frames 1-100 --samples 24
+The curtain is rendered **once** over a transparent background; any Save the Date lettering is then
+composited under it in about 20 seconds, so trying a new style never needs a new render.
 
-# encode
-ffmpeg -framerate 30 -i tools/blender/build/portrait/f%04d.png  -c:v libx264 -crf 20 -pix_fmt yuv420p -movflags +faststart assets/video/curtain-portrait.mp4
-ffmpeg -framerate 30 -i tools/blender/build/landscape/f%04d.png -c:v libx264 -crf 20 -pix_fmt yuv420p -movflags +faststart assets/video/curtain.mp4
+```bash
+# 1. render the curtain over transparency (only when the curtain itself changes; ~20 min on GPU)
+blender -b --factory-startup -P tools/blender/curtain.py -- --orient portrait  --frames 1-100 --samples 24 --transparent --out tools/blender/build/portrait-alpha
+blender -b --factory-startup -P tools/blender/curtain.py -- --orient landscape --frames 1-100 --samples 24 --transparent --out tools/blender/build/landscape-alpha
+
+# 2. compose with a lettering (needs a local server on :5577 and playwright-core)
+python tools/composite_curtain.py --font "Imperial Script"                    # writes assets/video/curtain*.mp4
+python tools/composite_curtain.py --font "Pinyon Script" --preview previews/  # quick preview only
 ```
 
-Quick preview: `--frames 1-100 --samples 6 --scale 20` (the simulation always runs from the start).
+Without `--transparent`, `curtain.py` renders the finished opening with `textures/std_*.png` as backdrop.
 
 `build/` holds the rendered frames (git-ignored).

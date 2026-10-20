@@ -66,7 +66,8 @@ Google Fonts with the `latin-ext` subset (Romanian `ă â î ș ț`, Spanish `á
 
 | Role          | Font                 | Usage                                                  |
 | ------------- | -------------------- | ------------------------------------------------------ |
-| **Script**    | *Ephesis*            | Names, love quote, "Save the Date" on the curtain, closing |
+| **Script**    | *Ephesis*            | Names, love quote, closing                             |
+| **Intro script** | *Imperial Script* | "Save the Date" revealed by the curtain (`--font-std`) |
 | **Serif**     | *Cormorant Garamond* | Titles, dates, times, tracked uppercase labels         |
 | **Body**      | *Jost* (300)         | Paragraphs                                             |
 
@@ -118,7 +119,7 @@ Controls: small language pill (top right) and a small round music button (bottom
 | `--ease-velvet` | `cubic-bezier(0.76, 0, 0.24, 1)` | Line drawing                      |
 | `--ease-breeze` | `cubic-bezier(0.45, 0, 0.55, 1)` | Looping: breathing hint, heart    |
 
-- Durations are long: reveals 0.9–1.1 s, curtain about 2 s.
+- Durations are long: reveals 0.9–1.1 s; the curtain plays at 0.75× (about 4.4 s); Save the Date fades over 2 s.
 - **Smooth scrolling** via Lenis (falls back to native).
 - Reveals: **fade + 26px rise only** — no blur, so text is crisp at every frame.
 - Curtain: a pre-rendered film (3.3 s, 30 fps, motion blur), cloth-simulated in Blender — the realism comes from physics,
