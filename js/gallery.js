@@ -87,7 +87,9 @@
   function updateCount() {
     var el = $(".gallery__count");
     if (!all.length) { el.textContent = ""; return; }
-    el.textContent = t("gallery.count", { photos: all.length, guests: guests().length });
+    var n = all.length, g = guests().length;
+    el.textContent = (n === 1 ? t("gallery.photo") : t("gallery.photos", { n: n })) + " · " +
+                     (g === 1 ? t("gallery.guest") : t("gallery.guests", { n: g }));
   }
 
   function renderFilter() {

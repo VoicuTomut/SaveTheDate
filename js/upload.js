@@ -154,7 +154,7 @@
       pickLabel.dataset.i18n = "upload.more";
       pickLabel.textContent = t("upload.more");
       if (failed) setStatus("upload.failed", { failed: failed });
-      else setStatus("upload.done", { name: name, total: total - failed });
+      else setStatus(total === 1 ? "upload.doneOne" : "upload.done", { name: name, total: total });
     });
   }
 
@@ -172,7 +172,7 @@
   fileInput.addEventListener("change", function () {
     var files = Array.prototype.slice.call(fileInput.files || []);
     var name = nameInput.value.trim();
-    if (!files.length || !name) return;
+    if (busy || !files.length || !name) return;
     store("std-guest", name);
     uploadAll(files, name);
   });
