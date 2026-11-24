@@ -7,7 +7,7 @@ window.STD_CONFIG = {
   // Google Apps Script web app (tools/apps-script/Code.gs):
   // saves RSVP replies to the Google Sheet and guests' photos to Google Drive.
   // Looks like https://script.google.com/macros/s/AKfy…/exec
-  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyCV-tX6_zXg2EfnSSDxAKJG_fBIVIIqjU8_bPEzcGrVY2AYk8OY3xWQBsWTodRRUHD/exec",
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbySdlG0B8NzjsrR1tTfkb6L0_xYwoQowbykaYkVGDQuUMTZCtiWFiSyFrr7jj7YCxIr/exec",
 
   // The Google Drive folder the photos are saved in, shared as "Anyone with the link · Viewer".
   // The gallery page shows the photos itself; this link is its "Download all photos".
