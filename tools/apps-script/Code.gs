@@ -11,7 +11,7 @@
  */
 
 // ID of the Google Drive folder for guests' photos: the part after /folders/ in its link.
-var PHOTOS_FOLDER_ID = "PASTE_THE_FOLDER_ID_HERE";
+var PHOTOS_FOLDER_ID = "1FUQrxSLakVRPNqEv4f8bNg1HQhF5I3gH";
 
 var SHEET_NAME = "RSVP";
 var HEADERS = ["Date", "Name", "Attending", "Adults", "Children", "Details / allergies", "Language"];

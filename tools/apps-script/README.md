@@ -20,7 +20,7 @@ Guests never need a Google account. It is free and takes about 10 minutes, once.
 
 1. Create a new [Google Sheet](https://sheets.new), e.g. **Nunta – Confirmări**.
 2. **Extensions → Apps Script**. Delete what is there and paste all of [`Code.gs`](Code.gs).
-3. On the line `var PHOTOS_FOLDER_ID = "PASTE_THE_FOLDER_ID_HERE";` paste the folder ID from step 1.3. Save.
+3. Check the line `var PHOTOS_FOLDER_ID = "…";` holds the folder ID from step 1.3 (already set for our folder). Save.
 4. **Deploy → New deployment** → gear icon → **Web app**:
    - *Execute as*: **Me**
    - *Who has access*: **Anyone**
