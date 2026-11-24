@@ -5,6 +5,7 @@
  *  - RSVP (reply card)  → a new row in the "RSVP" sheet of the spreadsheet this script is bound to
  *  - Photos (upload.html) → files in the Drive folder PHOTOS_FOLDER_ID,
  *                           named "<guest name> – <date time> – <n>.jpg"
+ *  - Gallery (gallery.html) → GET ?list=photos returns the photos to show
  *
  * Guests never need a Google account: the web app runs as the owner.
  */
@@ -27,9 +28,30 @@ function doPost(e) {
   }
 }
 
-// opening the web app URL in a browser just confirms it is running
-function doGet() {
+// ?list=photos → the photos for gallery.html (newest first); otherwise a health check
+function doGet(e) {
+  if (e && e.parameter && e.parameter.list === "photos") return json_(listPhotos_());
   return json_({ ok: true, service: "Save the Date" });
+}
+
+function listPhotos_() {
+  var cache = CacheService.getScriptCache();
+  var hit = cache.get("photos");
+  if (hit) return JSON.parse(hit);
+
+  var photos = [];
+  var it = DriveApp.getFolderById(PHOTOS_FOLDER_ID).getFiles();
+  while (it.hasNext()) {
+    var f = it.next();
+    if (!/^image\//.test(f.getMimeType())) continue;
+    var by = (f.getDescription() || "").replace(/^Uploaded by /, "") || f.getName().split(" – ")[0];
+    photos.push({ id: f.getId(), by: by, t: f.getDateCreated().getTime() });
+  }
+  photos.sort(function (a, b) { return b.t - a.t; });
+  var out = { ok: true, photos: photos };
+  var str = JSON.stringify(out);
+  if (str.length < 90000) cache.put("photos", str, 60); // fresh within a minute
+  return out;
 }
 
 function saveRsvp_(b) {
@@ -77,6 +99,7 @@ function savePhoto_(b) {
   var blob = Utilities.newBlob(bytes, mime, fileName);
   var file = DriveApp.getFolderById(PHOTOS_FOLDER_ID).createFile(blob);
   file.setDescription("Uploaded by " + name);
+  CacheService.getScriptCache().remove("photos"); // show it in the gallery right away
   return { ok: true, id: file.getId() };
 }
 

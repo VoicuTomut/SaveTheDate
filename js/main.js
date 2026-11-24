@@ -230,14 +230,14 @@
   }
 
   /* ------------------------------------------------------------------
-     Photos — two QR codes: the shared album, and upload.html where guests
-     add their photos without an account. Links live in js/config.js;
+     Photos — two QR codes: gallery.html (everyone's photos, on the site)
+     and upload.html where guests add theirs without an account. Links live in js/config.js;
      until filled, the codes show "soon".
      ------------------------------------------------------------------ */
   var CONFIG = window.STD_CONFIG || {};
   var DRIVE_LINKS = {
-    view: CONFIG.ALBUM_URL || "",
-    upload: CONFIG.SCRIPT_URL ? new URL("upload.html", location.href).href.split("?")[0] : "",
+    view: CONFIG.SCRIPT_URL ? new URL("gallery.html", location.href).href : (CONFIG.ALBUM_URL || ""),
+    upload: CONFIG.SCRIPT_URL ? new URL("upload.html", location.href).href : "",
   };
 
   function renderQr(box, url) {

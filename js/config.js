@@ -9,7 +9,7 @@ window.STD_CONFIG = {
   // Looks like https://script.google.com/macros/s/AKfy…/exec
   SCRIPT_URL: "",
 
-  // Shared Google Drive folder where everyone can see the photos
-  // (the same folder the script uploads into, shared as "Anyone with the link · Viewer").
+  // The Google Drive folder the photos are saved in, shared as "Anyone with the link · Viewer".
+  // The gallery page shows the photos itself; this link is its "Download all photos".
   ALBUM_URL: "",
 };

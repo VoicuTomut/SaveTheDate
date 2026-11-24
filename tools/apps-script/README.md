@@ -4,6 +4,7 @@ One small script in your own Google account does both jobs:
 
 - **Reply card (RSVP)** → a new row in a Google Sheet
 - **Add your photos** (`upload.html`) → photos saved in a Google Drive folder, named after the guest
+- **See the photos** (`gallery.html`) → the site's own gallery lists that folder (guests never see Drive)
 
 Guests never need a Google account. It is free and takes about 10 minutes, once.
 
@@ -11,7 +12,7 @@ Guests never need a Google account. It is free and takes about 10 minutes, once.
 
 1. In [Google Drive](https://drive.google.com), create a folder, e.g. **Nunta Andrei & Camila – Fotografii**.
 2. **Share → General access → Anyone with the link → Viewer**, then **Copy link**.
-   This is the album guests see (`ALBUM_URL` below).
+   Needed so the gallery can show the photos; the link itself is the gallery's "Download all photos" (`ALBUM_URL` below).
 3. The folder ID is the part of the link after `/folders/`
    (`https://drive.google.com/drive/folders/`**`1AbC…xyz`**).
 

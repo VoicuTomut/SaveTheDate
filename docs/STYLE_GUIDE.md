@@ -105,7 +105,7 @@ Rules:
    Santa Cruz ↔ Târgu Mureș arc with a gliding heart, "11.000 km" and *"Ce înseamnă 11.000 de kilometri…?"*.
 5. **Godparents** — Ciprian & Andreea Nicoară.
 6. **The day** — ceremony 12:00 Catedrala Mică · reception 14:00 Casa Boema; 🇷🇴 & 🇧🇴 *"Două tradiții, o singură petrecere"*;
-   add to calendar; **photo QR codes** (see the photos → shared Drive folder; add your photos → `upload.html`, no account).
+   add to calendar; **photo QR codes** (see the photos → `gallery.html`; add your photos → `upload.html`, no account).
 7. **For our guests** — *Details* card (attire: elegant · formal, a touch of royal blue, no colour code required;
    party until midnight; parking; Hotel Sandoria) and *Reply* card (RSVP by 1 April 2027: name, accepts / declines,
    adults, children, additional details or allergies → Google Sheet). Questions: Andrei & Camila's WhatsApp numbers as
@@ -151,6 +151,9 @@ Controls: small language pill (top right) and a small round music button (bottom
 
 - **Music:** *Sin Principio Ni Final* (Los Nocheros) from `assets/audio/sin-principio-ni-final.mp3`, starting with the
   curtain tap and fading in; the round button pauses / resumes it (remembered). No file → no button.
+- **Gallery (`gallery.html`):** guests' photos shown on the site itself, never a Drive page — a masonry wall in
+  reading order (newest first), each photo a mounted print with a thin white inner frame; filter by guest; lightbox with
+  the guest's name in script, swipe / arrows, download. Images are served by Google from the shared Drive folder.
 - **RSVP & photo uploads:** one Google Apps Script (`tools/apps-script/`); its URL and the album link live in
   `js/config.js`. Until filled, the codes show "link coming soon" and the forms say "available soon".
 
@@ -197,13 +200,15 @@ Fully trilingual: **Română (default) · English · Español**, auto-detected, 
 │   ├── config.js             # Apps Script + album links
 │   ├── i18n.js               # RO / EN / ES copy
 │   ├── main.js               # curtain, music, auto-scroll, reveals, countdown, RSVP, …
-│   └── upload.js             # upload.html: guests' photos, no account
+│   ├── upload.js             # upload.html: guests' photos, no account
+│   └── gallery.js            # gallery.html
 ├── assets/
 │   ├── florals/              # embossed SVG flowers (generated)
 │   ├── img/                  # optimized photos
 │   ├── video/                # optimized videos + posters
 │   └── audio/                # background song
 ├── upload.html               # add your photos (QR target)
+├── gallery.html              # everyone's photos: masonry wall, guest filter, lightbox
 ├── tools/
 │   ├── apps-script/          # RSVP → Google Sheet, photos → Google Drive (setup in its README)
 │   ├── generate_emboss.py    # regenerates assets/florals
