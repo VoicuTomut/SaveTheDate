@@ -5,6 +5,8 @@ One small script in your own Google account does both jobs:
 - **Reply card (RSVP)** → a new row in a Google Sheet
 - **Add your photos** (`upload.html`) → photos saved in a Google Drive folder, named after the guest
 - **See the photos** (`gallery.html`) → the site's own gallery lists that folder (guests never see Drive)
+- **Likes** on photos → counts kept by the script
+- **Delete** photos from the gallery → only you, with a secret key (step 4)
 
 Guests never need a Google account. It is free and takes about 10 minutes, once.
 
@@ -39,10 +41,21 @@ ALBUM_URL:  "https://drive.google.com/drive/folders/…",
 
 Commit and push. The QR codes, the reply card and the upload page switch on by themselves.
 
+## 4. Only you can delete photos
+
+1. In Apps Script: **⚙ Project Settings → Script Properties → Add script property**
+   - Property: `ADMIN_KEY`
+   - Value: a long secret only you know (e.g. three random words and a number). Never put it in GitHub.
+2. On your phone, open once: `https://voicutomut.github.io/SaveTheDate/gallery.html?admin=YOUR-SECRET`
+   The secret is removed from the address bar and remembered on that phone; each photo now shows a small **×**.
+   *Ieșire / Exit* at the top turns it off. Deleted photos go to the Drive trash (restorable for 30 days).
+   You can also simply delete photos in the Drive folder; the gallery follows within a minute.
+
 ## Changing the script later
 
-Edit `Code.gs` in Apps Script, then **Deploy → Manage deployments → ✏️ → Version: New version → Deploy**.
-The URL stays the same.
+Paste the new `Code.gs` over the old one in Apps Script, save, then **Deploy → Manage deployments → ✏️ →
+Version: New version → Deploy**. The URL stays the same. (*Deploy → New deployment* would create a **new** URL
+that then has to go into `js/config.js`.)
 
 ## What you get
 

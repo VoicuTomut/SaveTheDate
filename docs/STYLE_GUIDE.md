@@ -76,7 +76,7 @@ Rules:
   with equal `padding-left` so they stay optically centred.
 - **Text must never be cut:** fluid sizes with `clamp()`, wrapping allowed, `text-wrap: balance` for script lines,
   no fixed widths on text.
-- Script never below `1.75rem`.
+- Script never below `1.75rem`, always weight 400 with `font-synthesis: none` (it has one weight; never a fake bold).
 - The "&" between names is always Cormorant Garamond *italic 300*, never the script ampersand.
 - Script lines get extra inline padding so swashes are never clipped.
 - Numbers use lining figures (`font-variant-numeric: lining-nums`).
@@ -152,8 +152,9 @@ Controls: small language pill (top right) and a small round music button (bottom
 - **Music:** *Sin Principio Ni Final* (Los Nocheros) from `assets/audio/sin-principio-ni-final.mp3`, starting with the
   curtain tap and fading in; the round button pauses / resumes it (remembered). No file → no button.
 - **Gallery (`gallery.html`):** guests' photos shown on the site itself, never a Drive page — a masonry wall in
-  reading order (newest first), each photo a mounted print with a thin white inner frame; filter by guest; lightbox with
-  the guest's name in script, swipe / arrows, download. Images are served by Google from the shared Drive folder.
+  reading order (newest first), each photo a mounted print with a thin white inner frame and a caption strip (who took
+  it · hairline heart with likes); guest filter as small tracked names on one line; lightbox with the guest's name in
+  script, likes, swipe / arrows, download. Only the couple (secret key) sees a × to delete photos. Images are served by Google from the shared Drive folder.
 - **RSVP & photo uploads:** one Google Apps Script (`tools/apps-script/`); its URL and the album link live in
   `js/config.js`. Until filled, the codes show "link coming soon" and the forms say "available soon".
 

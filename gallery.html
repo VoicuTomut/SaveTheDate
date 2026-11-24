@@ -32,6 +32,11 @@
       <a class="btn gallery__add" href="upload.html" data-i18n="photos.add">Adaugă fotografiile tale</a>
     </header>
 
+    <p class="gallery__admin" hidden>
+      <span data-i18n="gallery.admin">Mod administrator — poți șterge fotografii</span>
+      <button type="button" class="link gallery__admin-exit" data-i18n="gallery.adminExit">Ieșire</button>
+    </p>
+
     <nav class="gallery__filter" aria-label="Filtru" hidden></nav>
 
     <div class="gallery__grid" id="grid"></div>
@@ -56,6 +61,7 @@
       <figcaption class="lightbox__caption">
         <span class="lightbox__by"></span>
         <span class="lightbox__count"></span>
+        <button type="button" class="like like--big" aria-pressed="false"></button>
       </figcaption>
     </figure>
     <button type="button" class="lightbox__btn lightbox__close" aria-label="Închide" data-i18n-aria="gallery.close"></button>

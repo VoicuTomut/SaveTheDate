@@ -145,6 +145,13 @@ window.I18N = {
     "gallery.prev": "Fotografia anterioară",
     "gallery.next": "Fotografia următoare",
     "upload.gallery": "Vezi toate fotografiile",
+    "gallery.like": "Îmi place",
+    "gallery.unlike": "Nu-mi mai place",
+    "gallery.delete": "Șterge fotografia",
+    "gallery.confirmDelete": "Ștergi fotografia de la {name}? (rămâne 30 de zile în coșul din Google Drive)",
+    "gallery.deleteFailed": "Fotografia nu a putut fi ștearsă. Încearcă din nou.",
+    "gallery.admin": "Mod administrator — poți șterge fotografii",
+    "gallery.adminExit": "Ieșire",
   },
 
   en: {
@@ -287,6 +294,13 @@ window.I18N = {
     "gallery.prev": "Previous photo",
     "gallery.next": "Next photo",
     "upload.gallery": "See all the photos",
+    "gallery.like": "Like",
+    "gallery.unlike": "Unlike",
+    "gallery.delete": "Delete photo",
+    "gallery.confirmDelete": "Delete the photo by {name}? (it stays 30 days in the Google Drive trash)",
+    "gallery.deleteFailed": "The photo could not be deleted. Please try again.",
+    "gallery.admin": "Admin mode — you can delete photos",
+    "gallery.adminExit": "Exit",
   },
 
   es: {
@@ -429,5 +443,12 @@ window.I18N = {
     "gallery.prev": "Foto anterior",
     "gallery.next": "Foto siguiente",
     "upload.gallery": "Ver todas las fotos",
+    "gallery.like": "Me gusta",
+    "gallery.unlike": "Ya no me gusta",
+    "gallery.delete": "Borrar foto",
+    "gallery.confirmDelete": "¿Borrar la foto de {name}? (queda 30 días en la papelera de Google Drive)",
+    "gallery.deleteFailed": "No se pudo borrar la foto. Inténtalo de nuevo.",
+    "gallery.admin": "Modo administrador — puedes borrar fotos",
+    "gallery.adminExit": "Salir",
   },
 };
