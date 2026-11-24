@@ -31,11 +31,15 @@ No build step — plain HTML, CSS and JavaScript.
 ## Structure
 
 - `index.html` — page markup
+- `upload.html` — guests add their photos (no account); opened by the "Add your photos" QR code
 - `css/colors.css` — color tokens (only place with color values)
 - `css/style.css` — layout, components, animations
+- `js/config.js` — links to fill in: Apps Script web app + shared photo album
 - `js/i18n.js` — all copy in RO / EN / ES
-- `js/main.js` — intro (curtain → Save the Date → scroll to the film), music, smooth scroll, auto-scroll, countdown, calendar, photo QR codes
+- `js/main.js` — intro (curtain → Save the Date → scroll to the film), music, smooth scroll, auto-scroll, countdown, calendar, photo QR codes, RSVP
 - `assets/` — optimized videos (EXIF/GPS stripped), embossed SVG flowers
+- `tools/apps-script/` — the Google Apps Script behind the RSVP (→ Sheet) and photo uploads (→ Drive); setup steps in its README
+- `assets/audio/` — background song (`sin-principio-ni-final.mp3`)
 - `tools/generate_emboss.py` — regenerates the embossed flower artwork
 - `tools/blender/` — the velvet curtain scene (see its README)
 - `docs/STYLE_GUIDE.md` — design rules

@@ -41,6 +41,18 @@
     <button type="button" class="lang__btn" data-lang="es" aria-pressed="false">ES</button>
   </nav>
 
+  <!-- Music: "Sin Principio Ni Final" (Los Nocheros). Starts when the curtain opens;
+       the button appears only once assets/audio/sin-principio-ni-final.mp3 exists. -->
+  <button type="button" class="music" id="music-btn" aria-pressed="false" hidden
+          aria-label="Muzică" data-i18n-aria="music.label">
+    <svg class="music__icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path class="music__speaker" d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z"/>
+      <path class="music__waves" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>
+      <path class="music__mute" d="M16 9.5l5 5M21 9.5l-5 5"/>
+    </svg>
+  </button>
+  <audio id="song" loop preload="none" data-src="assets/audio/sin-principio-ni-final.mp3"></audio>
+
 
   <!-- ================================================================
        1. Intro — (a) a clean velvet curtain (Blender render; tap to open),
@@ -281,7 +293,110 @@
     </section>
 
     <!-- ================================================================
-         7. Closing — sunset video
+         7. For our guests — details card · reply card (RSVP) · questions
+         ================================================================ -->
+    <section class="page page--paper" id="details">
+      <div class="page__inner page__inner--wide">
+        <img class="sprig reveal" src="assets/florals/emboss-sprig.svg" alt="" aria-hidden="true">
+        <p class="eyebrow reveal" data-i18n="details.eyebrow">Pentru invitații noștri</p>
+
+        <div class="suite">
+          <article class="card reveal" aria-labelledby="details-title">
+            <img class="corner corner--tl" src="assets/florals/emboss-corner.svg" alt="" aria-hidden="true">
+            <img class="corner corner--br" src="assets/florals/emboss-corner.svg" alt="" aria-hidden="true">
+            <h2 class="card__title" id="details-title" data-i18n="details.title">Detalii</h2>
+            <div class="card__item">
+              <h3 class="card__label" data-i18n="details.attire">Ținuta</h3>
+              <p class="card__text" data-i18n="details.attireText">Elegant · formal</p>
+              <p class="card__small"><span class="royal" aria-hidden="true"></span><span data-i18n="details.attireNote">cu o notă de albastru regal, dacă doriți</span></p>
+              <p class="card__fine" data-i18n="details.attireFree">niciun cod de culoare nu este impus</p>
+            </div>
+            <div class="card__item">
+              <h3 class="card__label" data-i18n="details.party">Petrecerea</h3>
+              <p class="card__text" data-i18n="details.partyText">până la miezul nopții</p>
+            </div>
+            <div class="card__item">
+              <h3 class="card__label" data-i18n="details.parking">Parcare</h3>
+              <p class="card__text" data-i18n="details.parkingText">disponibilă la restaurant</p>
+            </div>
+            <div class="card__item">
+              <h3 class="card__label" data-i18n="details.stay">Cazare</h3>
+              <p class="card__text" data-i18n="details.stayText">vă recomandăm</p>
+              <p class="card__venue">Hotel Sandoria</p>
+              <a class="link" href="https://hotelsandoria.ro/" target="_blank" rel="noopener">
+                <span data-i18n="details.stayLink">Vezi hotelul</span> <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+
+          <form class="card reply reveal" id="rsvp" novalidate aria-labelledby="rsvp-title">
+            <img class="corner corner--tr" src="assets/florals/emboss-corner.svg" alt="" aria-hidden="true">
+            <img class="corner corner--bl" src="assets/florals/emboss-corner.svg" alt="" aria-hidden="true">
+            <h2 class="card__title" id="rsvp-title" data-i18n="rsvp.title">Răspuns</h2>
+            <p class="reply__by" data-i18n="rsvp.by">Vă rugăm să răspundeți</p>
+            <p class="reply__date" data-i18n="rsvp.date">până la 1 aprilie 2027</p>
+
+            <div class="reply__fields">
+              <label class="line">
+                <span class="line__label" data-i18n="rsvp.name">Numele</span>
+                <input class="line__input line__input--script" name="name" autocomplete="name" required
+                       placeholder="Maria Popescu" data-i18n-ph="rsvp.namePh">
+              </label>
+              <fieldset class="choices">
+                <legend class="visually-hidden" data-i18n="rsvp.title">Răspuns</legend>
+                <label class="choice"><input type="radio" name="attending" value="yes" checked><span class="choice__dot"></span><span data-i18n="rsvp.yes">acceptă cu bucurie</span></label>
+                <label class="choice"><input type="radio" name="attending" value="no"><span class="choice__dot"></span><span data-i18n="rsvp.no">refuză</span></label>
+              </fieldset>
+              <div class="tally">
+                <div class="tally__row">
+                  <span class="tally__label" id="adults-label" data-i18n="rsvp.adults">Adulți</span>
+                  <span class="stepper" data-min="1" data-max="10">
+                    <button type="button" data-step="-1" aria-label="−" data-i18n-aria="rsvp.less"></button>
+                    <output name="adults" aria-labelledby="adults-label" aria-live="polite">1</output>
+                    <button type="button" data-step="1" aria-label="+" data-i18n-aria="rsvp.more"></button>
+                  </span>
+                </div>
+                <div class="tally__row">
+                  <span class="tally__label" id="kids-label" data-i18n="rsvp.kids">Copii</span>
+                  <span class="stepper" data-min="0" data-max="10">
+                    <button type="button" data-step="-1" aria-label="−" data-i18n-aria="rsvp.less"></button>
+                    <output name="kids" aria-labelledby="kids-label" aria-live="polite">0</output>
+                    <button type="button" data-step="1" aria-label="+" data-i18n-aria="rsvp.more"></button>
+                  </span>
+                </div>
+              </div>
+              <label class="line">
+                <span class="line__label" data-i18n="rsvp.notes">Detalii adiționale sau alergii</span>
+                <input class="line__input" name="notes" maxlength="500"
+                       placeholder="ex. un copil fără gluten" data-i18n-ph="rsvp.notesPh">
+              </label>
+              <button type="submit" class="btn" data-i18n="rsvp.send">Trimite</button>
+              <p class="reply__status" role="status" aria-live="polite"></p>
+            </div>
+            <p class="reply__thanks" hidden></p>
+          </form>
+        </div>
+
+        <div class="ask reveal">
+          <p class="eyebrow" data-i18n="ask.eyebrow">Pentru orice întrebare</p>
+          <p class="ask__title" data-i18n="ask.title">Scrieți-ne pe WhatsApp</p>
+          <div class="ask__people">
+            <div class="ask__person">
+              <span class="ask__name">Andrei</span>
+              <span class="ask__num">+40 757 796 991</span>
+            </div>
+            <span class="ask__amp" aria-hidden="true">&amp;</span>
+            <div class="ask__person">
+              <span class="ask__name">Camila</span>
+              <span class="ask__num">+34 651 402 043</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         8. Closing — sunset video
          ================================================================ -->
     <footer class="closing" id="closing">
       <div class="closing__media">
@@ -306,6 +421,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
+  <script src="js/config.js" defer></script>
   <script src="js/i18n.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>

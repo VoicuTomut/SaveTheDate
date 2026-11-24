@@ -88,7 +88,9 @@ Rules:
 - **Mobile first** — most guests open the link from WhatsApp.
 - Pages: centred single column, max `640px` (text) / `980px` (wide content), generous vertical padding.
 - Embossed flower corners decorate paper pages; on phones they shrink so they never touch text.
-- Thin `1px` lines (ink at 22–45% opacity) separate items; no boxes or cards.
+- Thin `1px` lines (ink at 22–45% opacity) separate items; no boxes or cards — except the two stationery cards
+  (details + reply), drawn like an invitation's enclosure and reply cards: raised navy paper, fine double rule,
+  embossed corners. Side by side on desktop, stacked on phones.
 - Photos and film get a thin white inner frame line, like a mounted print.
 
 ### Page structure
@@ -103,8 +105,12 @@ Rules:
    Santa Cruz ↔ Târgu Mureș arc with a gliding heart, "11.000 km" and *"Ce înseamnă 11.000 de kilometri…?"*.
 5. **Godparents** — Ciprian & Andreea Nicoară.
 6. **The day** — ceremony 12:00 Catedrala Mică · reception 14:00 Casa Boema; 🇷🇴 & 🇧🇴 *"Două tradiții, o singură petrecere"*;
-   add to calendar; **photo QR codes** (see the photos / add your photos — shared Google Drive folders).
-7. **Closing film** — sunset lift, played once and resting on the last frame; "Vă așteptăm", names, flags.
+   add to calendar; **photo QR codes** (see the photos → shared Drive folder; add your photos → `upload.html`, no account).
+7. **For our guests** — *Details* card (attire: elegant · formal, a touch of royal blue, no colour code required;
+   party until midnight; parking; Hotel Sandoria) and *Reply* card (RSVP by 1 April 2027: name, accepts / declines,
+   adults, children, additional details or allergies → Google Sheet). Questions: Andrei & Camila's WhatsApp numbers as
+   plain text (no links, no QR).
+8. **Closing film** — sunset lift, played once and resting on the last frame; "Vă așteptăm", names, flags.
 
 Controls: small language pill (top right) and a small round music button (bottom right), both glass so they read on paper and video.
 
@@ -143,9 +149,10 @@ Controls: small language pill (top right) and a small round music button (bottom
 | `closing(-portrait)`| sunset lift, cut at 4.9 s (before she is set down); loops, holding the last frame 2.5 s | Closing |
 | `curtain(-portrait)`| Blender cloth render (`tools/blender/curtain.py`) | Curtain opening |
 
-- **Music:** none for now (the Spotify song was removed at the couple's request).
-- **Photo QR codes:** the two Google Drive links live in `DRIVE_LINKS` in `js/main.js`; until filled, the codes show
-  "link coming soon".
+- **Music:** *Sin Principio Ni Final* (Los Nocheros) from `assets/audio/sin-principio-ni-final.mp3`, starting with the
+  curtain tap and fading in; the round button pauses / resumes it (remembered). No file → no button.
+- **RSVP & photo uploads:** one Google Apps Script (`tools/apps-script/`); its URL and the album link live in
+  `js/config.js`. Until filled, the codes show "link coming soon" and the forms say "available soon".
 
 ---
 
@@ -187,14 +194,18 @@ Fully trilingual: **Română (default) · English · Español**, auto-detected, 
 │   ├── colors.css            # color tokens (only place with color values)
 │   └── style.css             # layout, components, motion
 ├── js/
+│   ├── config.js             # Apps Script + album links
 │   ├── i18n.js               # RO / EN / ES copy
-│   └── main.js               # curtain, music, auto-scroll, reveals, countdown, …
+│   ├── main.js               # curtain, music, auto-scroll, reveals, countdown, RSVP, …
+│   └── upload.js             # upload.html: guests' photos, no account
 ├── assets/
 │   ├── florals/              # embossed SVG flowers (generated)
 │   ├── img/                  # optimized photos
 │   ├── video/                # optimized videos + posters
 │   └── audio/                # background song
+├── upload.html               # add your photos (QR target)
 ├── tools/
+│   ├── apps-script/          # RSVP → Google Sheet, photos → Google Drive (setup in its README)
 │   ├── generate_emboss.py    # regenerates assets/florals
 │   └── blender/              # velvet curtain scene (cloth simulation + render script)
 ├── docs/
