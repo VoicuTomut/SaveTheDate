@@ -190,6 +190,8 @@ button {
 
 .script-names {
   font-family: var(--font-script);
+  font-weight: 400;
+  font-synthesis: none; /* the script has one weight: never fake a bold (h1 on gallery / upload) */
   font-size: var(--fs-script);
   line-height: 1.3;
   color: var(--color-text);
@@ -1788,14 +1790,19 @@ body.is-revealed .split .char {
 }
 
 /* guest filter: a quiet row of names, scrolls sideways on phones */
+/* guest filter: small tracked names on one line (scrolls sideways when there
+   are many), the chosen one underlined; edges fade so it never looks cut */
 .gallery__filter {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
   justify-content: safe center;
   overflow-x: auto;
   scrollbar-width: none;
+  max-width: 900px;
   margin: 0 auto 1.75rem;
-  padding: 0.25rem 0.25rem 0.5rem;
+  padding: 0.2rem 1.5rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 1.5rem, #000 calc(100% - 1.5rem), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 1.5rem, #000 calc(100% - 1.5rem), transparent);
 }
 
 .gallery__filter::-webkit-scrollbar {
@@ -1803,22 +1810,53 @@ body.is-revealed .split .char {
 }
 
 .chip {
+  position: relative;
   flex: none;
-  padding: 0.4em 1.1em;
-  border: 1px solid var(--color-line-strong);
-  border-radius: 999px;
+  padding: 0.5em 0.8em;
+  border: 0;
   background: transparent;
   font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
   white-space: nowrap;
-  transition: background 0.6s var(--ease-silk), color 0.6s var(--ease-silk);
+  transition: color 0.6s var(--ease-silk);
 }
 
+/* a fine dot between names */
+.chip + .chip::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 50%;
+  background: var(--color-line-strong);
+}
+
+.chip::after {
+  content: "";
+  position: absolute;
+  left: 0.8em;
+  right: calc(0.8em + 0.22em);
+  bottom: 0.25em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.6s var(--ease-silk);
+}
+
+.chip:hover,
 .chip[aria-pressed="true"] {
-  background: var(--color-text);
-  color: var(--paper);
+  color: var(--color-text);
+}
+
+.chip[aria-pressed="true"]::after {
+  transform: scaleX(1);
 }
 
 /* masonry wall: photos are dealt into columns in reading order (js/gallery.js) */
@@ -1833,31 +1871,40 @@ body.is-revealed .split .char {
   min-width: 0;
 }
 
+/* each photo is a mounted print with a caption strip: who took it · likes */
 .tile {
   position: relative;
-  display: block;
-  width: 100%;
-  min-height: 120px;
   margin: 0 0 clamp(0.55rem, 1.6vw, 1rem);
-  padding: 0;
-  border: 0;
   background: var(--paper-light);
   box-shadow: var(--shadow-soft);
-  overflow: hidden;
-  cursor: zoom-in;
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 1s var(--ease-silk), transform 1s var(--ease-silk), box-shadow 0.9s var(--ease-silk);
 }
 
 .tile.is-loaded {
-  min-height: 0;
   opacity: 1;
   transform: none;
 }
 
+.tile__open {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 120px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.tile.is-loaded .tile__open {
+  min-height: 0;
+}
+
 /* thin white inner frame, like a mounted print */
-.tile::after {
+.tile__open::after {
   content: "";
   position: absolute;
   inset: 7px;
@@ -1867,16 +1914,153 @@ body.is-revealed .split .char {
   transition: opacity 0.9s var(--ease-silk);
 }
 
-.tile img {
+.tile__open img {
   width: 100%;
   height: auto;
   transition: transform 1.2s var(--ease-silk);
 }
 
+.tile__cap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.35rem 0.4rem 0.35rem 0.75rem;
+  text-align: left;
+}
+
+.tile__by {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(0.92rem, 2.6vw, 1.02rem);
+  color: var(--color-text-muted);
+}
+
 @media (hover: hover) {
   .tile:hover { box-shadow: var(--shadow-lift); }
-  .tile:hover img { transform: scale(1.03); }
-  .tile:hover::after { opacity: 0.9; }
+  .tile__open:hover img { transform: scale(1.03); }
+  .tile__open:hover::after { opacity: 0.9; }
+}
+
+/* only the couple (admin mode): a hairline × on each photo */
+.tile__delete {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--color-glass-border);
+  border-radius: 50%;
+  background: var(--color-glass);
+  color: var(--color-glass-text);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.tile__delete::before,
+.tile__delete::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 13px;
+  height: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.tile__delete::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.tile__delete[disabled] {
+  opacity: 0.4;
+}
+
+.gallery__admin {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.5rem 1.2rem;
+  margin: 0 auto 1.5rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.gallery__admin .link {
+  border: 0;
+  background: transparent;
+  font-style: normal;
+}
+
+/* like: a hairline heart that fills in, with a gentle pop */
+.like {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 44px;
+  min-height: 36px;
+  justify-content: flex-end;
+  padding: 0 0.35rem;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1;
+  transition: color 0.5s var(--ease-silk);
+}
+
+.like svg {
+  width: 18px;
+  height: 18px;
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  transition: fill 0.5s var(--ease-silk);
+}
+
+.like:hover,
+.like.is-liked {
+  color: var(--color-text);
+}
+
+.like.is-liked svg {
+  fill: currentColor;
+}
+
+.like.is-pop svg {
+  animation: like-pop 0.6s var(--ease-silk);
+}
+
+@keyframes like-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.like--big {
+  margin-top: 0.15rem;
+  justify-content: center;
+  font-size: 1.05rem;
+}
+
+.like--big svg {
+  width: 22px;
+  height: 22px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .like.is-pop svg { animation: none; }
 }
 
 .gallery__empty {
