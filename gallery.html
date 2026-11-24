@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Andrei &amp; Camila · Fotografii</title>
+  <meta name="theme-color" content="#0f1a3d">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%233554a8'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='26' fill='%23e6ecf8' text-anchor='middle'%3EA%26C%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Imperial+Script&family=Jost:wght@300;400;500&display=swap&subset=latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="css/colors.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="gallery-page">
+  <nav class="lang" aria-label="Limba" data-i18n-aria="lang.label">
+    <button type="button" class="lang__btn" data-lang="ro" aria-pressed="true">RO</button>
+    <button type="button" class="lang__btn" data-lang="en" aria-pressed="false">EN</button>
+    <button type="button" class="lang__btn" data-lang="es" aria-pressed="false">ES</button>
+  </nav>
+
+  <main class="gallery">
+    <header class="gallery__head">
+      <img class="corner corner--tl" src="assets/florals/emboss-corner.svg" alt="" aria-hidden="true">
+      <img class="corner corner--tr" src="assets/florals/emboss-corner.svg" alt="" aria-hidden="true">
+      <img class="sprig" src="assets/florals/emboss-sprig.svg" alt="" aria-hidden="true">
+      <p class="eyebrow" data-i18n="photos.eyebrow">Fotografii</p>
+      <h1 class="script-names">Andrei <span>&amp;</span> Camila</h1>
+      <p class="gallery__lead" data-i18n="gallery.lead">Ziua noastră, prin ochii voștri</p>
+      <p class="gallery__count" aria-live="polite"></p>
+      <a class="btn gallery__add" href="upload.html" data-i18n="photos.add">Adaugă fotografiile tale</a>
+    </header>
+
+    <nav class="gallery__filter" aria-label="Filtru" hidden></nav>
+
+    <div class="gallery__grid" id="grid"></div>
+    <div class="gallery__more" aria-hidden="true"></div>
+
+    <div class="gallery__empty" hidden>
+      <p class="gallery__lead" data-i18n="gallery.empty">Încă nu sunt fotografii — fiți primii!</p>
+    </div>
+
+    <footer class="gallery__foot">
+      <a class="link gallery__download" target="_blank" rel="noopener" hidden>
+        <span data-i18n="gallery.all">Descarcă toate fotografiile</span> <span aria-hidden="true">↓</span>
+      </a>
+      <a class="link" href="./"><span aria-hidden="true">←</span> <span data-i18n="upload.back">Înapoi la invitație</span></a>
+    </footer>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto" hidden>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" alt="">
+      <figcaption class="lightbox__caption">
+        <span class="lightbox__by"></span>
+        <span class="lightbox__count"></span>
+      </figcaption>
+    </figure>
+    <button type="button" class="lightbox__btn lightbox__close" aria-label="Închide" data-i18n-aria="gallery.close"></button>
+    <button type="button" class="lightbox__btn lightbox__prev" aria-label="Înapoi" data-i18n-aria="gallery.prev"></button>
+    <button type="button" class="lightbox__btn lightbox__next" aria-label="Înainte" data-i18n-aria="gallery.next"></button>
+    <a class="link lightbox__save" target="_blank" rel="noopener" download>
+      <span data-i18n="gallery.save">Descarcă</span> <span aria-hidden="true">↓</span>
+    </a>
+  </div>
+
+  <script src="js/config.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/gallery.js" defer></script>
+</body>
+</html>

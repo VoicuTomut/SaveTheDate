@@ -53,6 +53,7 @@
     $$("[data-i18n]").forEach(function (el) { el.textContent = t(el.dataset.i18n); });
     $$("[data-i18n-html]").forEach(function (el) { el.innerHTML = t(el.dataset.i18nHtml); });
     $$("[data-i18n-aria]").forEach(function (el) { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+    $$("[data-i18n-ph]").forEach(function (el) { el.placeholder = t(el.dataset.i18nPh); });
     $$(".lang__btn").forEach(function (btn) {
       btn.setAttribute("aria-pressed", String(btn.dataset.lang === lang));
     });
@@ -229,12 +230,14 @@
   }
 
   /* ------------------------------------------------------------------
-     Photos — QR codes to the shared Google Drive folders.
-     Paste the two folder links here; until then the codes show "soon".
+     Photos — two QR codes: gallery.html (everyone's photos, on the site)
+     and upload.html where guests add theirs without an account. Links live in js/config.js;
+     until filled, the codes show "soon".
      ------------------------------------------------------------------ */
+  var CONFIG = window.STD_CONFIG || {};
   var DRIVE_LINKS = {
-    view: "",   // folder where guests can see the wedding photos
-    upload: "", // folder (or Drive upload form) where guests add their own photos
+    view: CONFIG.SCRIPT_URL ? new URL("gallery.html", location.href).href : (CONFIG.ALBUM_URL || ""),
+    upload: CONFIG.SCRIPT_URL ? new URL("upload.html", location.href).href : "",
   };
 
   function renderQr(box, url) {
@@ -262,6 +265,148 @@
   }
 
   /* ------------------------------------------------------------------
+     Music — "Sin Principio Ni Final" starts with the curtain (a tap is the
+     gesture browsers require for sound) and fades in. The round button
+     pauses / resumes it; the choice is remembered. If the MP3 is missing
+     the button simply never appears.
+     ------------------------------------------------------------------ */
+  var music = { start: function () {} };
+
+  function initMusic() {
+    var audio = $("#song");
+    var btn = $("#music-btn");
+    if (!audio || !btn || !audio.dataset.src) return;
+    var VOLUME = 0.6;
+    var fadeTimer = null;
+    var resumeOnShow = false;
+
+    function setUi(playing) {
+      btn.classList.toggle("is-playing", playing);
+      btn.setAttribute("aria-pressed", String(playing));
+    }
+
+    function fadeTo(target, ms, done) {
+      clearInterval(fadeTimer);
+      var from = audio.volume;
+      var t0 = Date.now();
+      fadeTimer = setInterval(function () {
+        var k = Math.min(1, (Date.now() - t0) / ms);
+        audio.volume = from + (target - from) * k;
+        if (k === 1) { clearInterval(fadeTimer); if (done) done(); }
+      }, 50);
+    }
+
+    function load() {
+      if (audio.getAttribute("src")) return;
+      audio.preload = "auto";
+      audio.src = audio.dataset.src;
+      audio.load();
+    }
+
+    function play() {
+      load();
+      audio.volume = 0;
+      var p = audio.play();
+      setUi(true);
+      if (p && p.catch) p.catch(function () { setUi(false); });
+      fadeTo(VOLUME, 2500);
+    }
+
+    function pause() {
+      setUi(false);
+      fadeTo(0, 700, function () { audio.pause(); });
+    }
+
+    audio.addEventListener("canplay", function () {
+      if (!btn.hidden) return;
+      btn.hidden = false;
+      requestAnimationFrame(function () { btn.classList.add("is-shown"); });
+    });
+    audio.addEventListener("error", function () { btn.hidden = true; setUi(false); });
+
+    btn.addEventListener("click", function () {
+      if (audio.paused || !btn.classList.contains("is-playing")) { play(); store("std-music", "on"); }
+      else { pause(); store("std-music", "off"); }
+    });
+
+    // pause while the tab is in the background
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden && !audio.paused) { resumeOnShow = true; audio.pause(); }
+      else if (!document.hidden && resumeOnShow) { resumeOnShow = false; audio.play().catch(function () { setUi(false); }); }
+    });
+
+    music.start = function () {
+      if (store("std-music") === "off") load();
+      else play();
+    };
+  }
+
+  /* ------------------------------------------------------------------
+     RSVP — the reply card posts to the Apps Script, which appends a row
+     to the Google Sheet.
+     ------------------------------------------------------------------ */
+  function initRsvp() {
+    var form = $("#rsvp");
+    if (!form) return;
+    var status = $(".reply__status", form);
+    var send = $("button[type=submit]", form);
+
+    $$(".stepper", form).forEach(function (st) {
+      var out = $("output", st);
+      var min = +st.dataset.min, max = +st.dataset.max;
+      $$("button", st).forEach(function (b) {
+        b.addEventListener("click", function () {
+          out.value = Math.min(max, Math.max(min, +out.value + +b.dataset.step));
+        });
+      });
+    });
+
+    function attending() { return form.elements.attending.value === "yes"; }
+    $$("input[name=attending]", form).forEach(function (r) {
+      r.addEventListener("change", function () { form.classList.toggle("is-declined", !attending()); });
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = form.elements.name.value.trim();
+      if (!name) {
+        status.textContent = t("rsvp.needName");
+        form.elements.name.focus();
+        return;
+      }
+      if (!CONFIG.SCRIPT_URL) { status.textContent = t("rsvp.soon"); return; }
+
+      var yes = attending();
+      var payload = {
+        type: "rsvp",
+        name: name,
+        attending: yes ? "yes" : "no",
+        adults: yes ? +form.elements.adults.value : 0,
+        kids: yes ? +form.elements.kids.value : 0,
+        notes: form.elements.notes.value.trim(),
+        lang: currentLang,
+      };
+
+      send.disabled = true;
+      status.textContent = t("rsvp.sending");
+      // text/plain keeps this a "simple" request (no CORS preflight)
+      fetch(CONFIG.SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res || !res.ok) throw new Error("rsvp failed");
+          var thanks = $(".reply__thanks", form);
+          thanks.textContent = t(yes ? "rsvp.thanksYes" : "rsvp.thanksNo").replace("{name}", name);
+          $(".reply__fields", form).hidden = true;
+          thanks.hidden = false;
+        })
+        .catch(function () {
+          status.textContent = t("rsvp.error");
+          send.disabled = false;
+        });
+    });
+  }
+
+  /* ------------------------------------------------------------------
      Intro — clean curtain → Save the Date → scroll → the film
      ------------------------------------------------------------------ */
   function initEnvelope() {
@@ -278,6 +423,7 @@
     // 1. tap: the curtain opens onto the navy page, "Save the Date" emerges
     function openCurtain() {
       step = "opening";
+      music.start();
       env.classList.add("is-opening");
       hero.currentTime = 0;
       hero.pause();                 // the film waits underneath
@@ -377,7 +523,7 @@
 
     function stop(e) {
       if (stopped) return;
-      if (e && e.target && e.target.closest && e.target.closest(".lang")) return;
+      if (e && e.target && e.target.closest && e.target.closest(".lang, .music")) return;
       stopped = true;
       ["wheel", "touchstart", "keydown", "pointerdown"].forEach(function (type) {
         window.removeEventListener(type, stop, true);
@@ -558,7 +704,9 @@
   initLang();
   initSmoothScroll();
   initVideos();
+  initMusic();
   initEnvelope();
+  initRsvp();
   initPhotos();
   initCountdown();
   initReveals();

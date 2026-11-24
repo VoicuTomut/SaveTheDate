@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Andrei &amp; Camila · Fotografii</title>
+  <meta name="theme-color" content="#0f1a3d">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%233554a8'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='26' fill='%23e6ecf8' text-anchor='middle'%3EA%26C%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Imperial+Script&family=Jost:wght@300;400;500&display=swap&subset=latin-ext" rel="stylesheet">
+  <link rel="stylesheet" href="css/colors.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="lang" aria-label="Limba" data-i18n-aria="lang.label">
+    <button type="button" class="lang__btn" data-lang="ro" aria-pressed="true">RO</button>
+    <button type="button" class="lang__btn" data-lang="en" aria-pressed="false">EN</button>
+    <button type="button" class="lang__btn" data-lang="es" aria-pressed="false">ES</button>
+  </nav>
+
+  <main class="upload">
+    <form class="card" id="upload" novalidate>
+      <img class="corner corner--tl" src="assets/florals/emboss-corner.svg" alt="" aria-hidden="true">
+      <img class="corner corner--br" src="assets/florals/emboss-corner.svg" alt="" aria-hidden="true">
+      <p class="script-names">Andrei <span>&amp;</span> Camila</p>
+      <h1 class="card__title" data-i18n="upload.title">Fotografiile tale</h1>
+      <p class="upload__lead" data-i18n="upload.lead">Trimite-ne pozele tale de la nuntă — fără cont, direct din telefon.</p>
+
+      <label class="line">
+        <span class="line__label" data-i18n="upload.name">Numele tău</span>
+        <input class="line__input line__input--script" name="name" autocomplete="name"
+               placeholder="Maria Popescu" data-i18n-ph="rsvp.namePh">
+      </label>
+
+      <label class="btn upload__pick">
+        <span data-i18n="upload.pick">Alege fotografiile</span>
+        <input type="file" name="photos" accept="image/*" multiple>
+      </label>
+
+      <div class="upload__bar" aria-hidden="true"><i></i></div>
+      <p class="upload__status" role="status" aria-live="polite"></p>
+
+      <a class="link upload__back" href="gallery.html">
+        <span data-i18n="upload.gallery">Vezi toate fotografiile</span> <span aria-hidden="true">→</span>
+      </a>
+      <a class="link upload__back upload__back--home" href="./">
+        <span aria-hidden="true">←</span> <span data-i18n="upload.back">Înapoi la invitație</span>
+      </a>
+    </form>
+  </main>
+
+  <script src="js/config.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/upload.js" defer></script>
+</body>
+</html>

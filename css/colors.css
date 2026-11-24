@@ -28,6 +28,8 @@
   --std-ink:     #b7c7ea;
   --std-engrave: 0 -1px 1px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(220, 232, 255, 0.18), 0 0 26px rgba(140, 170, 235, 0.22);
   --white:      #ffffff;
+  --royal:      #2747b0; /* Royal blue — the dress-code dot on the details card */
+  --overlay:    rgba(8, 14, 38, 0.97); /* Gallery lightbox backdrop */
 
   /* ------------------------------------------------------------------
      3. Semantic tokens — use these in components
