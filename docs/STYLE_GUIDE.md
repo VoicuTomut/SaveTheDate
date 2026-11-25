@@ -53,8 +53,8 @@ All colors live as CSS custom properties in [`css/colors.css`](../css/colors.css
 
 Rules:
 
-- **Suede nap** on the paper and the cards, like the velvet of the opening curtain: `assets/texture/suede.png`
-  (made by `tools/generate_suede.py`), a grey + alpha overlay laid twice at 256px and 373px so it never visibly repeats.
+- **Velvet / suede nap** on the page background, like velvet invitation paper (soft clouds + fine pile); the cards stay plain paper: `assets/texture/suede.png`
+  (made by `tools/generate_suede.py`), a grey + alpha overlay laid twice at 480px and 697px so it never visibly repeats.
 - **One paper color** for every non-video page — continuity comes from never switching backgrounds.
 - **Videos stay clear.** Shading is a gradient *only* where text sits (bottom/top edge), never a full tint.
 - Video pages hand off to paper with a short `--fade-to-paper` / `--fade-from-paper` gradient.
