@@ -944,17 +944,28 @@ body.is-revealed .split .char {
   color: var(--color-text-muted);
 }
 
+/* small and quiet: the smallest player YouTube allows (200px tall), no YouTube
+   controls (the round music button plays / pauses), framed like a mounted print */
 .song__player {
   position: relative;
-  width: 100%;
-  max-width: 560px;
-  min-width: 200px;
-  margin: 1.75rem auto 0;
-  aspect-ratio: 16 / 9;
+  width: 356px;
+  max-width: 100%;
+  height: 200px;
+  margin: 1.5rem auto 0;
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: var(--shadow-lift);
+  box-shadow: var(--shadow-soft);
   background: var(--midnight);
+}
+
+.song__player::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--color-line-light);
+  border-radius: 2px;
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .song__player iframe {
@@ -962,6 +973,7 @@ body.is-revealed .split .char {
   width: 100%;
   height: 100%;
   border: 0;
+  pointer-events: none; /* no YouTube hover overlays */
 }
 
 .route {
