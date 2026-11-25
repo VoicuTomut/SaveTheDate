@@ -2539,3 +2539,14 @@ body.is-lightbox {
 .sprig + .ask {
   margin-top: 0;
 }
+
+/* on phones the bottom-left spray of the details section reaches up to the
+   WhatsApp numbers: leave room under them so the flowers sit below */
+@media (max-width: 760px) {
+  .ask { padding-bottom: clamp(88px, 22vw, 300px); }
+}
+/* the smallest phones (320px): bring the two names closer so Camila fits */
+@media (max-width: 360px) {
+  .ask__people { gap: 0.6rem; }
+  .ask__num { font-size: 0.95rem; letter-spacing: 0.03em; }
+}
