@@ -265,79 +265,106 @@
   }
 
   /* ------------------------------------------------------------------
-     Music — "Sin Principio Ni Final" starts with the curtain (a tap is the
-     gesture browsers require for sound) and fades in. The round button
-     pauses / resumes it; the choice is remembered. If the MP3 is missing
-     the button simply never appears.
+     Music — "Sin Principio Ni Final" (Los Nocheros) through YouTube's
+     official player, shown in the "Our song" section (YouTube requires a
+     visible player). It starts with the curtain tap (the gesture browsers
+     need for sound), fades in and loops; the round button pauses / resumes
+     it and the choice is remembered. Phones that still refuse sound simply
+     show the button as paused — one tap starts it.
      ------------------------------------------------------------------ */
   var music = { start: function () {} };
 
   function initMusic() {
-    var audio = $("#song");
+    var host = $("#song-player");
     var btn = $("#music-btn");
-    if (!audio || !btn || !audio.dataset.src) return;
-    var VOLUME = 0.6;
-    var fadeTimer = null;
+    if (!host || !btn) return;
+    var VIDEO = host.dataset.video;
+    var VOLUME = 60;
+    var player = null;
+    var ready = false;
+    var wanted = false;      // play as soon as the player is ready
+    var playing = false;
     var resumeOnShow = false;
+    var fadeTimer = null;
 
-    function setUi(playing) {
-      btn.classList.toggle("is-playing", playing);
-      btn.setAttribute("aria-pressed", String(playing));
+    function setUi(on) {
+      playing = on;
+      btn.classList.toggle("is-playing", on);
+      btn.setAttribute("aria-pressed", String(on));
+    }
+
+    function showButton() {
+      if (!btn.hidden) return;
+      btn.hidden = false;
+      requestAnimationFrame(function () { btn.classList.add("is-shown"); });
     }
 
     function fadeTo(target, ms, done) {
       clearInterval(fadeTimer);
-      var from = audio.volume;
+      var from = player.getVolume();
       var t0 = Date.now();
       fadeTimer = setInterval(function () {
         var k = Math.min(1, (Date.now() - t0) / ms);
-        audio.volume = from + (target - from) * k;
+        player.setVolume(Math.round(from + (target - from) * k));
         if (k === 1) { clearInterval(fadeTimer); if (done) done(); }
-      }, 50);
-    }
-
-    function load() {
-      if (audio.getAttribute("src")) return;
-      audio.preload = "auto";
-      audio.src = audio.dataset.src;
-      audio.load();
+      }, 60);
     }
 
     function play() {
-      load();
-      audio.volume = 0;
-      var p = audio.play();
-      setUi(true);
-      if (p && p.catch) p.catch(function () { setUi(false); });
+      if (!ready) { wanted = true; return; }
+      player.unMute();
+      player.setVolume(0);
+      player.playVideo();
       fadeTo(VOLUME, 2500);
     }
 
     function pause() {
+      wanted = false;
+      if (!ready) return;
+      fadeTo(0, 700, function () { player.pauseVideo(); });
       setUi(false);
-      fadeTo(0, 700, function () { audio.pause(); });
     }
 
-    audio.addEventListener("canplay", function () {
-      if (!btn.hidden) return;
-      btn.hidden = false;
-      requestAnimationFrame(function () { btn.classList.add("is-shown"); });
-    });
-    audio.addEventListener("error", function () { btn.hidden = true; setUi(false); });
+    window.onYouTubeIframeAPIReady = function () {
+      player = new window.YT.Player(host, {
+        host: "https://www.youtube-nocookie.com",
+        videoId: VIDEO,
+        width: "100%",
+        height: "100%",
+        playerVars: { playsinline: 1, rel: 0, loop: 1, playlist: VIDEO },
+        events: {
+          onReady: function () {
+            ready = true;
+            if (wanted) play();
+          },
+          onStateChange: function (e) {
+            var S = window.YT.PlayerState;
+            if (e.data === S.PLAYING) { setUi(true); showButton(); }
+            else if (e.data === S.PAUSED || e.data === S.ENDED) setUi(false);
+          },
+        },
+      });
+    };
+    var api = document.createElement("script");
+    api.src = "https://www.youtube.com/iframe_api";
+    api.async = true;
+    document.head.appendChild(api);
 
     btn.addEventListener("click", function () {
-      if (audio.paused || !btn.classList.contains("is-playing")) { play(); store("std-music", "on"); }
-      else { pause(); store("std-music", "off"); }
+      if (playing) { pause(); store("std-music", "off"); }
+      else { play(); store("std-music", "on"); }
     });
 
     // pause while the tab is in the background
     document.addEventListener("visibilitychange", function () {
-      if (document.hidden && !audio.paused) { resumeOnShow = true; audio.pause(); }
-      else if (!document.hidden && resumeOnShow) { resumeOnShow = false; audio.play().catch(function () { setUi(false); }); }
+      if (!ready) return;
+      if (document.hidden && playing) { resumeOnShow = true; player.pauseVideo(); }
+      else if (!document.hidden && resumeOnShow) { resumeOnShow = false; player.playVideo(); }
     });
 
     music.start = function () {
-      if (store("std-music") === "off") load();
-      else play();
+      showButton();
+      if (store("std-music") !== "off") play();
     };
   }
 
