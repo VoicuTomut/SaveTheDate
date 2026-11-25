@@ -2540,11 +2540,15 @@ body.is-lightbox {
   margin-top: 0;
 }
 
-/* on phones the bottom-left spray of the details section reaches up to the
-   WhatsApp numbers: leave room under them so the flowers sit below */
-@media (max-width: 760px) {
-  .ask { padding-bottom: clamp(88px, 22vw, 300px); }
+/* phones and tablets: the corner sprays have no side margin to live in, so
+   the sections leave room above and below for them; no flower covers text */
+@media (max-width: 1023px) {
+  #intro, #story, #godparents, #day, #details {
+    padding-top: calc(clamp(88px, 22vw, 300px) + 0.75rem);
+    padding-bottom: calc(clamp(88px, 22vw, 300px) + 0.75rem);
+  }
 }
+
 /* the smallest phones (320px): bring the two names closer so Camila fits */
 @media (max-width: 360px) {
   .ask__people { gap: 0.6rem; }
