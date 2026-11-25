@@ -1,15 +1,15 @@
-"""Generate tone-on-tone *embossed* flower artwork (letterpress look).
+"""Generate pearl-white *embossed* flower artwork (letterpress look).
 
 Each composition is drawn three times:
   1. a soft shadow, offset down-right
   2. a white highlight, offset up-left
-  3. the raised paper surface on top
-which reads as flowers pressed into blue paper. Flowers are from a blue
+  3. the raised pearl surface on top
+which reads as pearl-white flowers raised on the blue velvet. Flowers are from a blue
 flower field: nemophila, cornflower, buds and slender leaves.
 
     python tools/generate_emboss.py
 
-Writes to assets/florals/. Colors mirror --paper tokens in css/colors.css.
+Writes to assets/florals/. The surface colour mirrors --pearl in css/colors.css.
 """
 
 import math
@@ -18,10 +18,10 @@ from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / "assets" / "florals"
 
-PAPER_RAISED = "#162350"          # raised surface, a touch lighter than --paper (#0f1a3d)
-LINE = "rgba(120, 150, 215, 0.30)"  # fine pressed outline
-HIGHLIGHT = "rgba(150, 178, 238, 0.42)"  # moonlight on the raised edges
-SHADOW = "rgba(0, 0, 0, 0.62)"
+PAPER_RAISED = "#f7f4ee"          # pure pearl white (mirrors --pearl in css/colors.css)
+LINE = "rgba(196, 202, 222, 0.85)"  # fine pearl-grey outline
+HIGHLIGHT = "rgba(255, 255, 255, 0.55)"  # soft glow on the raised edges
+SHADOW = "rgba(0, 0, 0, 0.5)"
 
 
 def f(n):

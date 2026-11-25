@@ -532,13 +532,19 @@ button {
   overflow: hidden;
   color: var(--color-text-on-video);
   text-align: center;
-  background: var(--midnight);
+  /* the film itself fades out at the bottom, so it melts into the velvet page
+     instead of meeting it at a line */
+  -webkit-mask-image: var(--melt-bottom);
+  mask-image: var(--melt-bottom);
 }
 
 .hero__media {
   position: absolute;
   inset: -4% 0;
   will-change: translate;
+  /* it moves with the parallax, so its own bottom edge melts away too */
+  -webkit-mask-image: var(--melt-bottom);
+  mask-image: var(--melt-bottom);
 }
 
 .hero__video {
@@ -557,16 +563,6 @@ body.is-revealed .hero__video {
   position: absolute;
   inset: 0;
   background: var(--shade-top), var(--shade-bottom);
-  pointer-events: none;
-}
-
-.hero__fade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 30svh;
-  background: var(--fade-to-paper);
   pointer-events: none;
 }
 
@@ -759,6 +755,10 @@ body.is-revealed .split .char {
   width: clamp(88px, 22vw, 300px);
   opacity: 0.9;
   pointer-events: none;
+  /* the sprays run off the top of the artwork: soften that edge so they never
+     end in a hard line where a section begins (the mask flips with the corner) */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 38%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 38%);
 }
 
 .corner--tl { top: 0; left: 0; }
@@ -785,10 +785,30 @@ body.is-revealed .split .char {
 }
 
 /* --------------------------------------------------------------------------
-   9. Invitation — date box & countdown
+   9. Invitation — date box & countdown, tied with a pearl ribbon
    -------------------------------------------------------------------------- */
+.ribbon-frame {
+  max-width: 600px;
+  margin: 2rem auto 0;
+}
+
+.ribbon-frame__top,
+.ribbon-frame__bottom {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+/* the content sits between the hanging tails, tucked under the bow */
+.ribbon-frame__content {
+  position: relative;
+  padding-inline: 11%;
+  margin-block: -6% -11%;
+}
+
 .datebox {
-  margin: 2.5rem auto 0;
+  margin: 0 auto;
   max-width: 420px;
 }
 
@@ -2319,7 +2339,13 @@ body.is-lightbox {
   overflow: hidden;
   color: var(--color-text-on-video);
   text-align: center;
-  background: var(--midnight);
+}
+
+/* the sunset rises out of the velvet: the picture fades in at the top */
+.closing__media,
+.closing__shade {
+  -webkit-mask-image: var(--melt-top);
+  mask-image: var(--melt-top);
 }
 
 .closing__media {
@@ -2331,15 +2357,6 @@ body.is-lightbox {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.closing__fade {
-  position: absolute;
-  top: -1px;
-  left: 0;
-  right: 0;
-  height: 30svh;
-  background: var(--fade-from-paper);
 }
 
 .closing__shade {

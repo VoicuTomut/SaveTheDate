@@ -28,6 +28,7 @@
   --std-ink:     #b7c7ea;
   --std-engrave: 0 -1px 1px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(220, 232, 255, 0.18), 0 0 26px rgba(140, 170, 235, 0.22);
   --white:      #ffffff;
+  --pearl:      #f7f4ee; /* Pure pearl white — flowers and the ribbon around the date */
   --royal:      #2747b0; /* Royal blue — the dress-code dot on the details card */
   --overlay:    rgba(8, 14, 38, 0.97); /* Gallery lightbox backdrop */
 
@@ -77,45 +78,48 @@
     rgba(15, 26, 58, 0.45) 0%,
     rgba(15, 26, 58, 0) 22%
   );
-  /* Soft hand-off between paper and a full-bleed video.
-     Eased (many-stop) gradients avoid the visible band a linear fade leaves. */
-  --fade-from-paper: linear-gradient(
-    180deg,
-    rgba(2, 6, 59, 1) 0%,
-    rgba(2, 6, 59, 0.987) 8.1%,
-    rgba(2, 6, 59, 0.951) 15.5%,
-    rgba(2, 6, 59, 0.896) 22.5%,
-    rgba(2, 6, 59, 0.825) 29%,
-    rgba(2, 6, 59, 0.741) 35.3%,
-    rgba(2, 6, 59, 0.648) 41.2%,
-    rgba(2, 6, 59, 0.55) 47.1%,
-    rgba(2, 6, 59, 0.45) 52.9%,
-    rgba(2, 6, 59, 0.352) 58.8%,
-    rgba(2, 6, 59, 0.259) 64.7%,
-    rgba(2, 6, 59, 0.175) 71%,
-    rgba(2, 6, 59, 0.104) 77.5%,
-    rgba(2, 6, 59, 0.049) 84.5%,
-    rgba(2, 6, 59, 0.013) 91.9%,
-    rgba(2, 6, 59, 0) 100%
+  /* Soft hand-off between the velvet page and a full-bleed video: masks that
+     fade the picture itself to transparent over its last 32svh, so the velvet
+     shows through (no flat band of colour). Eased stops avoid a visible edge. */
+  --melt-bottom: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 calc(100% - 32svh),
+    rgba(0, 0, 0, 0.987) calc(100% - 32svh + 2.59svh),
+    rgba(0, 0, 0, 0.951) calc(100% - 32svh + 4.96svh),
+    rgba(0, 0, 0, 0.896) calc(100% - 32svh + 7.20svh),
+    rgba(0, 0, 0, 0.825) calc(100% - 32svh + 9.28svh),
+    rgba(0, 0, 0, 0.741) calc(100% - 32svh + 11.30svh),
+    rgba(0, 0, 0, 0.648) calc(100% - 32svh + 13.18svh),
+    rgba(0, 0, 0, 0.55) calc(100% - 32svh + 15.07svh),
+    rgba(0, 0, 0, 0.45) calc(100% - 32svh + 16.93svh),
+    rgba(0, 0, 0, 0.352) calc(100% - 32svh + 18.82svh),
+    rgba(0, 0, 0, 0.259) calc(100% - 32svh + 20.70svh),
+    rgba(0, 0, 0, 0.175) calc(100% - 32svh + 22.72svh),
+    rgba(0, 0, 0, 0.104) calc(100% - 32svh + 24.80svh),
+    rgba(0, 0, 0, 0.049) calc(100% - 32svh + 27.04svh),
+    rgba(0, 0, 0, 0.013) calc(100% - 32svh + 29.41svh),
+    rgba(0, 0, 0, 0) calc(100% - 32svh + 32.00svh)
   );
-  --fade-to-paper: linear-gradient(
-    0deg,
-    rgba(2, 6, 59, 1) 0%,
-    rgba(2, 6, 59, 0.987) 8.1%,
-    rgba(2, 6, 59, 0.951) 15.5%,
-    rgba(2, 6, 59, 0.896) 22.5%,
-    rgba(2, 6, 59, 0.825) 29%,
-    rgba(2, 6, 59, 0.741) 35.3%,
-    rgba(2, 6, 59, 0.648) 41.2%,
-    rgba(2, 6, 59, 0.55) 47.1%,
-    rgba(2, 6, 59, 0.45) 52.9%,
-    rgba(2, 6, 59, 0.352) 58.8%,
-    rgba(2, 6, 59, 0.259) 64.7%,
-    rgba(2, 6, 59, 0.175) 71%,
-    rgba(2, 6, 59, 0.104) 77.5%,
-    rgba(2, 6, 59, 0.049) 84.5%,
-    rgba(2, 6, 59, 0.013) 91.9%,
-    rgba(2, 6, 59, 0) 100%
+  --melt-top: linear-gradient(
+    to top,
+    #000 0,
+    #000 calc(100% - 32svh),
+    rgba(0, 0, 0, 0.987) calc(100% - 32svh + 2.59svh),
+    rgba(0, 0, 0, 0.951) calc(100% - 32svh + 4.96svh),
+    rgba(0, 0, 0, 0.896) calc(100% - 32svh + 7.20svh),
+    rgba(0, 0, 0, 0.825) calc(100% - 32svh + 9.28svh),
+    rgba(0, 0, 0, 0.741) calc(100% - 32svh + 11.30svh),
+    rgba(0, 0, 0, 0.648) calc(100% - 32svh + 13.18svh),
+    rgba(0, 0, 0, 0.55) calc(100% - 32svh + 15.07svh),
+    rgba(0, 0, 0, 0.45) calc(100% - 32svh + 16.93svh),
+    rgba(0, 0, 0, 0.352) calc(100% - 32svh + 18.82svh),
+    rgba(0, 0, 0, 0.259) calc(100% - 32svh + 20.70svh),
+    rgba(0, 0, 0, 0.175) calc(100% - 32svh + 22.72svh),
+    rgba(0, 0, 0, 0.104) calc(100% - 32svh + 24.80svh),
+    rgba(0, 0, 0, 0.049) calc(100% - 32svh + 27.04svh),
+    rgba(0, 0, 0, 0.013) calc(100% - 32svh + 29.41svh),
+    rgba(0, 0, 0, 0) calc(100% - 32svh + 32.00svh)
   );
 
 
