@@ -114,7 +114,6 @@
       <a href="#intro" class="hero__scroll" data-scroll-to aria-label="Derulează" data-i18n-aria="hero.scroll">
         <span class="hero__scroll-line"></span>
       </a>
-      <div class="hero__fade" aria-hidden="true"></div>
     </header>
 
     <!-- ================================================================
@@ -130,24 +129,31 @@
         <p class="script-names reveal">Andrei <span>&amp;</span> Camila</p>
         <p class="lead reveal" data-i18n="intro.text">Avem plăcerea să vă invităm să sărbătoriți împreună cu noi.</p>
 
-        <div class="datebox reveal" aria-label="16.05.2027">
-          <p class="datebox__month" data-i18n="date.month">Mai</p>
-          <div class="datebox__row">
-            <span class="datebox__side" data-i18n="date.weekday">Duminică</span>
-            <span class="datebox__day">16</span>
-            <span class="datebox__side">2027</span>
-          </div>
-          <p class="datebox__time" data-i18n="date.time">Ora 12:00</p>
-        </div>
+        <!-- the date, tied with a pearl ribbon (assets/florals/ribbon-*.svg, tools/generate_ribbon.py) -->
+        <div class="ribbon-frame reveal">
+          <img class="ribbon-frame__top" src="assets/florals/ribbon-top.svg" alt="" aria-hidden="true">
+          <div class="ribbon-frame__content">
+            <div class="datebox reveal" aria-label="16.05.2027">
+              <p class="datebox__month" data-i18n="date.month">Mai</p>
+              <div class="datebox__row">
+                <span class="datebox__side" data-i18n="date.weekday">Duminică</span>
+                <span class="datebox__day">16</span>
+                <span class="datebox__side">2027</span>
+              </div>
+              <p class="datebox__time" data-i18n="date.time">Ora 12:00</p>
+            </div>
 
-        <p class="eyebrow countdown__title reveal" data-i18n="countdown.title">Până la marea zi</p>
-        <div class="countdown reveal" id="countdown" role="timer" aria-live="off">
-          <div class="countdown__item"><span class="countdown__num" data-unit="days">000</span><span class="countdown__label" data-i18n="countdown.days">zile</span></div>
-          <div class="countdown__item"><span class="countdown__num" data-unit="hours">00</span><span class="countdown__label" data-i18n="countdown.hours">ore</span></div>
-          <div class="countdown__item"><span class="countdown__num" data-unit="minutes">00</span><span class="countdown__label" data-i18n="countdown.minutes">minute</span></div>
-          <div class="countdown__item"><span class="countdown__num" data-unit="seconds">00</span><span class="countdown__label" data-i18n="countdown.seconds">secunde</span></div>
+            <p class="eyebrow countdown__title reveal" data-i18n="countdown.title">Până la marea zi</p>
+            <div class="countdown reveal" id="countdown" role="timer" aria-live="off">
+              <div class="countdown__item"><span class="countdown__num" data-unit="days">000</span><span class="countdown__label" data-i18n="countdown.days">zile</span></div>
+              <div class="countdown__item"><span class="countdown__num" data-unit="hours">00</span><span class="countdown__label" data-i18n="countdown.hours">ore</span></div>
+              <div class="countdown__item"><span class="countdown__num" data-unit="minutes">00</span><span class="countdown__label" data-i18n="countdown.minutes">minute</span></div>
+              <div class="countdown__item"><span class="countdown__num" data-unit="seconds">00</span><span class="countdown__label" data-i18n="countdown.seconds">secunde</span></div>
+            </div>
+            <p class="countdown__done" id="countdown-done" hidden data-i18n="countdown.done">Ne-am căsătorit!</p>
+          </div>
+          <img class="ribbon-frame__bottom" src="assets/florals/ribbon-bottom.svg" alt="" aria-hidden="true">
         </div>
-        <p class="countdown__done" id="countdown-done" hidden data-i18n="countdown.done">Ne-am căsătorit!</p>
       </div>
     </section>
 
@@ -418,7 +424,6 @@
                data-poster-portrait="assets/video/closing-poster-portrait.jpg"
                aria-hidden="true"></video>
       </div>
-      <div class="closing__fade" aria-hidden="true"></div>
       <div class="closing__shade" aria-hidden="true"></div>
 
       <div class="closing__content">

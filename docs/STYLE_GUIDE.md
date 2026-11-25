@@ -57,7 +57,8 @@ Rules:
   `tools/make_velvet.py`), so the page continues the curtain; the cards stay plain paper.
 - **One paper color** for every non-video page — continuity comes from never switching backgrounds.
 - **Videos stay clear.** Shading is a gradient *only* where text sits (bottom/top edge), never a full tint.
-- Video pages hand off to paper with a short `--fade-to-paper` / `--fade-from-paper` gradient.
+- Video pages melt into the velvet: `--melt-bottom` / `--melt-top` masks fade the picture itself to transparent (no flat colour band).
+- **Pearl white** (`--pearl`) for the embossed flowers and the hand-drawn ribbon that ties the date & countdown (bow on top).
 - Text on paper is ink; text on video is white with a soft shadow.
 
 ---
@@ -207,7 +208,7 @@ Fully trilingual: **Română (default) · English · Español**, auto-detected, 
 │   ├── upload.js             # upload.html: guests' photos, no account
 │   └── gallery.js            # gallery.html
 ├── assets/
-│   ├── florals/              # embossed SVG flowers (generated)
+│   ├── florals/              # pearl-white embossed flowers + ribbon frame (generated)
 │   ├── img/                  # optimized photos
 │   ├── video/                # optimized videos + posters
 │   └── audio/                # background song
@@ -215,7 +216,7 @@ Fully trilingual: **Română (default) · English · Español**, auto-detected, 
 ├── gallery.html              # everyone's photos: masonry wall, guest filter, lightbox
 ├── tools/
 │   ├── apps-script/          # RSVP → Google Sheet, photos → Google Drive (setup in its README)
-│   ├── generate_emboss.py    # regenerates assets/florals
+│   ├── generate_emboss.py    # regenerates the flowers in assets/florals (generate_ribbon.py: the ribbon)
 │   └── blender/              # velvet curtain scene (cloth simulation + render script)
 ├── docs/
 │   └── STYLE_GUIDE.md
