@@ -181,6 +181,34 @@ def corner():
     return emboss_svg(380, 380, "".join(parts), "Embossed blue flowers")
 
 
+def side():
+    """Flowering vine coming in from the left edge only: every flower is whole,
+    nothing touches the top or bottom, so it never looks cut where sections meet."""
+    rng = random.Random(2511)
+    parts = []
+    parts.append(stem([(0, 196), (70, 178), (140, 132), (200, 96), (268, 74)]))
+    parts.append(stem([(0, 214), (66, 236), (110, 268), (142, 300), (168, 322)], 2))
+    parts.append(stem([(0, 168), (44, 140), (66, 104), (80, 74), (86, 48)], 1.6))
+    parts.append(stem([(140, 132), (196, 156), (250, 196)], 1.6))
+    for x, y, ln, a in [
+        (40, 186, 62, -40), (100, 160, 60, 20), (166, 116, 56, -50), (228, 86, 50, 10),
+        (36, 226, 56, 60), (96, 262, 54, 10), (146, 304, 48, 80), (58, 116, 50, -110),
+        (78, 70, 44, -30), (176, 146, 46, 60), (226, 180, 42, 0),
+    ]:
+        parts.append(leaf(x, y, ln, a + rng.uniform(-6, 6)))
+    parts.append(nemophila(140, 132, 40, 12))
+    parts.append(nemophila(250, 196, 30, 40))
+    parts.append(nemophila(168, 322, 26, 5))
+    parts.append(nemophila(86, 48, 24, 50))
+    parts.append(cornflower(214, 96, 22, 0))
+    parts.append(cornflower(92, 244, 20, 10))
+    for x, y, s, a in [(268, 74, 9, 60), (282, 210, 8, 20), (60, 300, 8, 200)]:
+        parts.append(bud(x, y, s, a))
+    parts.append(dots(rng, 270, 130, 20, 5))
+    parts.append(dots(rng, 220, 300, 22, 5))
+    return emboss_svg(300, 360, "".join(parts), "Embossed blue flowers")
+
+
 def sprig():
     """Small symmetric ornament for dividers."""
     rng = random.Random(27)
@@ -200,7 +228,7 @@ def sprig():
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    for name, data in (("emboss-corner.svg", corner()), ("emboss-sprig.svg", sprig())):
+    for name, data in (("emboss-corner.svg", corner()), ("emboss-side.svg", side()), ("emboss-sprig.svg", sprig())):
         (OUT / name).write_text(data, encoding="utf-8")
         print("wrote", name, f"{len(data) / 1024:.1f} KB")
 

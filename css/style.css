@@ -2551,12 +2551,25 @@ body.is-lightbox {
   margin-top: 0;
 }
 
-/* phones and tablets: the corner sprays have no side margin to live in, so
-   the sections leave room above and below for them; no flower covers text */
+/* the page sprays (emboss-side.svg) grow in from the side of the screen only:
+   whole flowers, set a little inside the section, flipped left/right but never
+   upside down, so two sections never meet in a cut or mirrored pair */
+.page--paper > .corner {
+  width: clamp(80px, 18vw, 250px);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.page--paper > .corner--tl, .page--paper > .corner--tr { top: clamp(0.75rem, 3vw, 2.5rem); }
+.page--paper > .corner--bl, .page--paper > .corner--br { bottom: clamp(0.75rem, 3vw, 2.5rem); }
+.page--paper > .corner--tl, .page--paper > .corner--bl { scale: none; }
+.page--paper > .corner--tr, .page--paper > .corner--br { scale: -1 1; }
+
+/* phones and tablets: no side margin for the sprays, so the sections leave
+   room above and below for them; no flower covers text */
 @media (max-width: 1023px) {
   #intro, #story, #godparents, #day, #details {
-    padding-top: calc(clamp(88px, 22vw, 300px) + 0.75rem);
-    padding-bottom: calc(clamp(88px, 22vw, 300px) + 0.75rem);
+    padding-top: calc(clamp(80px, 18vw, 250px) * 1.2 + clamp(0.75rem, 3vw, 2.5rem) + 0.5rem);
+    padding-bottom: calc(clamp(80px, 18vw, 250px) * 1.2 + clamp(0.75rem, 3vw, 2.5rem) + 0.5rem);
   }
 }
 
