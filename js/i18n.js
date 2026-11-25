@@ -84,7 +84,6 @@ window.I18N = {
     "family.siblings": "și fraților noștri dragi",
 
     "music.label": "Muzică",
-    "song.eyebrow": "Melodia noastră",
     "details.eyebrow": "Pentru invitații noștri",
     "details.title": "Detalii",
     "details.attire": "Ținuta",
@@ -234,7 +233,6 @@ window.I18N = {
     "family.siblings": "and to our dear siblings",
 
     "music.label": "Music",
-    "song.eyebrow": "Our song",
     "details.eyebrow": "For our guests",
     "details.title": "Details",
     "details.attire": "Attire",
@@ -384,7 +382,6 @@ window.I18N = {
     "family.siblings": "y a nuestros queridos hermanos",
 
     "music.label": "Música",
-    "song.eyebrow": "Nuestra canción",
     "details.eyebrow": "Para nuestros invitados",
     "details.title": "Detalles",
     "details.attire": "Vestimenta",

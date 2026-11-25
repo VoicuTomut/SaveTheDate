@@ -940,32 +940,6 @@ body.is-revealed .split .char {
   object-fit: cover;
 }
 
-/* Our song */
-.song .page__inner {
-  text-align: center;
-}
-
-.song__title {
-  font-family: var(--font-script);
-  font-weight: 400;
-  font-synthesis: none;
-  font-size: var(--fs-script);
-  line-height: 1.25;
-  padding-inline: 0.35em;
-  color: var(--color-text);
-}
-
-.song__artist {
-  margin-top: 0.2rem;
-  font-family: var(--font-serif);
-  font-size: var(--fs-small);
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  padding-left: 0.3em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
 .route {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -2341,7 +2315,17 @@ body.is-lightbox {
   text-align: center;
 }
 
-/* the sunset rises out of the velvet: the picture fades in at the top */
+/* the sunset rises out of the velvet: under the picture the velvet first
+   settles into plain navy, then the film fades in over it — so the curtain's
+   light bands never streak across the sky */
+.closing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--velvet-settle);
+}
+
+/* the picture fades in at the top */
 .closing__media,
 .closing__shade {
   -webkit-mask-image: var(--melt-top);
@@ -2545,4 +2529,24 @@ body.is-lightbox {
     transform: none;
   }
 
+}
+
+/* a pearl sprig between the cards and the WhatsApp questions */
+.suite + .sprig {
+  margin-top: clamp(3rem, 7vw, 4.5rem);
+}
+
+.sprig + .ask {
+  margin-top: 0;
+}
+
+/* on phones the bottom-left spray of the details section reaches up to the
+   WhatsApp numbers: leave room under them so the flowers sit below */
+@media (max-width: 760px) {
+  .ask { padding-bottom: clamp(88px, 22vw, 300px); }
+}
+/* the smallest phones (320px): bring the two names closer so Camila fits */
+@media (max-width: 360px) {
+  .ask__people { gap: 0.6rem; }
+  .ask__num { font-size: 0.95rem; letter-spacing: 0.03em; }
 }
