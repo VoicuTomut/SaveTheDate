@@ -147,7 +147,7 @@ Controls: small language pill (top right) and a small round music button (bottom
 | ------------------- | ----------------- | --------------- |
 | `hero(-portrait)`   | beach kiss (edit), Real-ESRGAN x4plus | Hero  |
 | `story`             | walking together  | Our story       |
-| `closing(-portrait)`| sunset lift, cut at 4.9 s (before she is set down); loops, holding the last frame 2.5 s | Closing |
+| `closing(-portrait)`| beach at sunset, starts on the kiss (first 1.75 s trimmed); loops, holding the last frame 2.5 s | Closing |
 | `curtain(-portrait)`| Blender cloth render (`tools/blender/curtain.py`) | Curtain opening |
 
 - **Music:** *Contigo Quiero Todo* (Edgar Alejandro), our own recording at `assets/audio/contigo-quiero-todo.mp3`
