@@ -72,8 +72,8 @@ body {
      (assets/texture/suede.png, made by tools/generate_suede.py) — laid twice at
      two unrelated sizes so the pattern never visibly repeats */
   background:
-    url("../assets/texture/suede.png") 0 0 / 256px 256px repeat,
-    url("../assets/texture/suede.png") 91px 37px / 373px 373px repeat,
+    url("../assets/texture/suede.png") 0 0 / 480px 480px repeat,
+    url("../assets/texture/suede.png") 173px 61px / 697px 697px repeat,
     var(--color-bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -1306,10 +1306,7 @@ body.is-revealed .split .char {
   max-width: 460px;
   margin-inline: auto;
   padding: clamp(2.6rem, 7vw, 3.6rem) clamp(1.6rem, 5vw, 2.8rem);
-  background:
-    url("../assets/texture/suede.png") 0 0 / 256px 256px repeat,
-    url("../assets/texture/suede.png") 91px 37px / 373px 373px repeat,
-    var(--paper-raised); /* suede, as on the page */
+  background: var(--paper-raised); /* plain paper: the cards are paper, not velvet */
   border: 1px solid var(--color-line);
   box-shadow: var(--shadow-soft);
 }
