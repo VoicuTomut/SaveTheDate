@@ -106,7 +106,6 @@ Rules:
 3. **Invitation** — script names, one simple sentence, date box (*MAI · DUMINICĂ | 16 | 2027 · ORA 12:00*), countdown.
 4. **Our story** — love quote *"Te iubesc până la infinit și mai departe"*, framed film of us walking toward each other,
    Santa Cruz ↔ Târgu Mureș arc with a gliding heart, "11.000 km" and *"Ce înseamnă 11.000 de kilometri…?"*.
-   **Our song** — *Contigo quiero todo* · Edgar Alejandro (title of the background song).
 5. **Godparents** — Ciprian & Andreea Nicoară.
 6. **The day** — ceremony 12:00 Catedrala Mică · reception 14:00 Casa Boema; 🇷🇴 & 🇧🇴 *"Două tradiții, o singură petrecere"*;
    add to calendar; **photo QR codes** (see the photos → `gallery.html`; add your photos → `upload.html`, no account).
