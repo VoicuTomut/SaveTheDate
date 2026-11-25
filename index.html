@@ -41,8 +41,8 @@
     <button type="button" class="lang__btn" data-lang="es" aria-pressed="false">ES</button>
   </nav>
 
-  <!-- Music: "Sin Principio Ni Final" (Los Nocheros). Starts when the curtain opens;
-       the button appears only once assets/audio/sin-principio-ni-final.mp3 exists. -->
+  <!-- Music: "Sin Principio Ni Final" (Los Nocheros), played by YouTube's official player
+       in the "Our song" section. Starts when the curtain opens; this button pauses / resumes. -->
   <button type="button" class="music" id="music-btn" aria-pressed="false" hidden
           aria-label="Muzică" data-i18n-aria="music.label">
     <svg class="music__icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -51,7 +51,6 @@
       <path class="music__mute" d="M16 9.5l5 5M21 9.5l-5 5"/>
     </svg>
   </button>
-  <audio id="song" loop preload="none" data-src="assets/audio/sin-principio-ni-final.mp3"></audio>
 
 
   <!-- ================================================================
@@ -184,6 +183,20 @@
           <span class="route__distance" data-i18n="story.distance">11.000 km</span>
         </div>
 
+      </div>
+    </section>
+
+    <!-- ================================================================
+         4b. Our song — YouTube's official player (it must stay visible)
+         ================================================================ -->
+    <section class="page page--paper song" id="song" aria-labelledby="song-title">
+      <div class="page__inner">
+        <p class="eyebrow reveal" data-i18n="song.eyebrow">Melodia noastră</p>
+        <h2 class="song__title reveal" id="song-title">Sin principio ni final</h2>
+        <p class="song__artist reveal">Los Nocheros</p>
+        <figure class="song__player reveal">
+          <div id="song-player" data-video="SS9W8R9HxHk"></div>
+        </figure>
       </div>
     </section>
 

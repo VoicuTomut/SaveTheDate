@@ -40,7 +40,6 @@ No build step — plain HTML, CSS and JavaScript.
 - `js/main.js` — intro (curtain → Save the Date → scroll to the film), music, smooth scroll, auto-scroll, countdown, calendar, photo QR codes, RSVP
 - `assets/` — optimized videos (EXIF/GPS stripped), embossed SVG flowers
 - `tools/apps-script/` — the Google Apps Script behind the RSVP (→ Sheet), photo uploads (→ Drive) and the gallery list; setup steps in its README
-- `assets/audio/` — background song (`sin-principio-ni-final.mp3`)
 - `tools/generate_emboss.py` — regenerates the embossed flower artwork
 - `tools/blender/` — the velvet curtain scene (see its README)
 - `docs/STYLE_GUIDE.md` — design rules
