@@ -80,6 +80,7 @@ body {
 
 body.is-locked {
   overflow: hidden;
+  height: 100vh;
   height: 100svh;
 }
 
@@ -399,6 +400,7 @@ button {
   position: absolute;
   left: 0;
   right: 0;
+  bottom: max(7vh, 3.5rem);
   bottom: max(7svh, 3.5rem);
   z-index: 5;
   margin: 0;
@@ -417,6 +419,7 @@ button {
 .env__invite {
   position: absolute;
   left: 50%;
+  bottom: max(11vh, 5rem);
   bottom: max(11svh, 5rem);
   z-index: 5;
   translate: -50% 0;
@@ -528,6 +531,7 @@ button {
    -------------------------------------------------------------------------- */
 .hero {
   position: relative;
+  min-height: 100vh;
   min-height: 100svh;
   overflow: hidden;
   color: var(--color-text-on-video);
@@ -568,6 +572,7 @@ body.is-revealed .hero__video {
 
 .hero__eyebrow {
   position: absolute;
+  top: max(5.2rem, 11vh);
   top: max(5.2rem, 11svh);
   left: 50%;
   translate: -50% 0;
@@ -587,6 +592,7 @@ body.is-revealed .hero__video {
   position: absolute;
   left: 0;
   right: 0;
+  bottom: calc(24vh + 1rem);
   bottom: calc(24svh + 1rem);
   z-index: 2;
   padding-inline: var(--gutter);
@@ -658,6 +664,7 @@ body.is-revealed .hero__video {
 .hero__scroll {
   position: absolute;
   left: 50%;
+  bottom: calc(17vh + 0.25rem);
   bottom: calc(17svh + 0.25rem);
   z-index: 2;
   translate: -50% 0;
@@ -1699,6 +1706,7 @@ body.is-revealed .split .char {
 .upload {
   display: grid;
   place-items: center;
+  min-height: 100vh;
   min-height: 100svh;
   padding: clamp(1.25rem, 5vw, 3rem);
 }
@@ -2129,6 +2137,7 @@ body.is-lightbox {
 /* the photo always fits the window, between the controls */
 .lightbox__img {
   max-width: 100%;
+  max-height: calc(100vh - clamp(3.5rem, 8vh, 5rem) - clamp(6rem, 13vh, 7.5rem));
   max-height: calc(100svh - clamp(3.5rem, 8vh, 5rem) - clamp(6rem, 13vh, 7.5rem));
   object-fit: contain;
   box-shadow: var(--shadow-lift);
@@ -2309,6 +2318,7 @@ body.is-lightbox {
    -------------------------------------------------------------------------- */
 .closing {
   position: relative;
+  min-height: 100vh;
   min-height: 100svh;
   overflow: hidden;
   color: var(--color-text-on-video);
@@ -2353,6 +2363,7 @@ body.is-lightbox {
   position: absolute;
   left: 0;
   right: 0;
+  bottom: max(3.5rem, 8vh);
   bottom: max(3.5rem, 8svh);
   z-index: 2;
   padding-inline: var(--gutter);

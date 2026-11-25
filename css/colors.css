@@ -154,3 +154,58 @@
   --flag-bo-yellow: #f9e300;
   --flag-bo-green:  #007934;
 }
+
+/* Safari before 15.4 (iOS 15.3 and older) has no svh: same fades in vh */
+@supports not (height: 1svh) {
+  :root {
+    --melt-bottom: linear-gradient(
+      to bottom,
+      #000 0,
+      #000 calc(100% - 18vh),
+      rgba(0, 0, 0, 0.987) calc(100% - 18vh + 1.46vh),
+      rgba(0, 0, 0, 0.951) calc(100% - 18vh + 2.79vh),
+      rgba(0, 0, 0, 0.896) calc(100% - 18vh + 4.05vh),
+      rgba(0, 0, 0, 0.825) calc(100% - 18vh + 5.22vh),
+      rgba(0, 0, 0, 0.741) calc(100% - 18vh + 6.36vh),
+      rgba(0, 0, 0, 0.648) calc(100% - 18vh + 7.41vh),
+      rgba(0, 0, 0, 0.55) calc(100% - 18vh + 8.48vh),
+      rgba(0, 0, 0, 0.45) calc(100% - 18vh + 9.52vh),
+      rgba(0, 0, 0, 0.352) calc(100% - 18vh + 10.59vh),
+      rgba(0, 0, 0, 0.259) calc(100% - 18vh + 11.64vh),
+      rgba(0, 0, 0, 0.175) calc(100% - 18vh + 12.78vh),
+      rgba(0, 0, 0, 0.104) calc(100% - 18vh + 13.95vh),
+      rgba(0, 0, 0, 0.049) calc(100% - 18vh + 15.21vh),
+      rgba(0, 0, 0, 0.013) calc(100% - 18vh + 16.54vh),
+      rgba(0, 0, 0, 0) calc(100% - 18vh + 18.00vh)
+    );
+    --melt-top: linear-gradient(
+      to top,
+      #000 0,
+      #000 calc(100% - 26vh),
+      rgba(0, 0, 0, 0.987) calc(100% - 26vh + 2.10vh),
+      rgba(0, 0, 0, 0.951) calc(100% - 26vh + 4.03vh),
+      rgba(0, 0, 0, 0.896) calc(100% - 26vh + 5.85vh),
+      rgba(0, 0, 0, 0.825) calc(100% - 26vh + 7.54vh),
+      rgba(0, 0, 0, 0.741) calc(100% - 26vh + 9.18vh),
+      rgba(0, 0, 0, 0.648) calc(100% - 26vh + 10.71vh),
+      rgba(0, 0, 0, 0.55) calc(100% - 26vh + 12.24vh),
+      rgba(0, 0, 0, 0.45) calc(100% - 26vh + 13.76vh),
+      rgba(0, 0, 0, 0.352) calc(100% - 26vh + 15.29vh),
+      rgba(0, 0, 0, 0.259) calc(100% - 26vh + 16.82vh),
+      rgba(0, 0, 0, 0.175) calc(100% - 26vh + 18.46vh),
+      rgba(0, 0, 0, 0.104) calc(100% - 26vh + 20.15vh),
+      rgba(0, 0, 0, 0.049) calc(100% - 26vh + 21.97vh),
+      rgba(0, 0, 0, 0.013) calc(100% - 26vh + 23.90vh),
+      rgba(0, 0, 0, 0) calc(100% - 26vh + 26.00vh)
+    );
+    /* under the closing film: velvet at the very top, plain navy by the time
+       the picture shows (the velvet's average tone) */
+    --velvet-settle: linear-gradient(
+      to bottom,
+      rgba(2, 6, 59, 0) 0,
+      rgba(2, 6, 59, 0.6) 5vh,
+      rgba(2, 6, 59, 0.92) 10vh,
+      rgb(2, 6, 59) 15vh
+    );
+  }
+}
