@@ -22,7 +22,7 @@
   --ink-soft:   #b9c6e2; /* Soft blue — secondary text       9.9:1 on paper */
   --cornflower: #9fb6ec; /* Light cornflower — titles, links 8.4:1 on paper */
   --midnight:   #0f1a3a; /* Deepest blue — video shading                   */
-  --curtain-velvet: #0b1452; /* Royal-navy velvet curtain (Blender render), shown while it loads */
+  --curtain-velvet: #02063b; /* Royal-navy velvet curtain (Blender render), shown while it loads */
   --curtain-ink:      #c9d6f0;
   /* "Save the Date" on the navy page: pale, softly engraved (reference: pale script on dark velvet) */
   --std-ink:     #b7c7ea;
@@ -81,41 +81,41 @@
      Eased (many-stop) gradients avoid the visible band a linear fade leaves. */
   --fade-from-paper: linear-gradient(
     180deg,
-    rgba(15, 26, 61, 1) 0%,
-    rgba(15, 26, 61, 0.987) 8.1%,
-    rgba(15, 26, 61, 0.951) 15.5%,
-    rgba(15, 26, 61, 0.896) 22.5%,
-    rgba(15, 26, 61, 0.825) 29%,
-    rgba(15, 26, 61, 0.741) 35.3%,
-    rgba(15, 26, 61, 0.648) 41.2%,
-    rgba(15, 26, 61, 0.55) 47.1%,
-    rgba(15, 26, 61, 0.45) 52.9%,
-    rgba(15, 26, 61, 0.352) 58.8%,
-    rgba(15, 26, 61, 0.259) 64.7%,
-    rgba(15, 26, 61, 0.175) 71%,
-    rgba(15, 26, 61, 0.104) 77.5%,
-    rgba(15, 26, 61, 0.049) 84.5%,
-    rgba(15, 26, 61, 0.013) 91.9%,
-    rgba(15, 26, 61, 0) 100%
+    rgba(2, 6, 59, 1) 0%,
+    rgba(2, 6, 59, 0.987) 8.1%,
+    rgba(2, 6, 59, 0.951) 15.5%,
+    rgba(2, 6, 59, 0.896) 22.5%,
+    rgba(2, 6, 59, 0.825) 29%,
+    rgba(2, 6, 59, 0.741) 35.3%,
+    rgba(2, 6, 59, 0.648) 41.2%,
+    rgba(2, 6, 59, 0.55) 47.1%,
+    rgba(2, 6, 59, 0.45) 52.9%,
+    rgba(2, 6, 59, 0.352) 58.8%,
+    rgba(2, 6, 59, 0.259) 64.7%,
+    rgba(2, 6, 59, 0.175) 71%,
+    rgba(2, 6, 59, 0.104) 77.5%,
+    rgba(2, 6, 59, 0.049) 84.5%,
+    rgba(2, 6, 59, 0.013) 91.9%,
+    rgba(2, 6, 59, 0) 100%
   );
   --fade-to-paper: linear-gradient(
     0deg,
-    rgba(15, 26, 61, 1) 0%,
-    rgba(15, 26, 61, 0.987) 8.1%,
-    rgba(15, 26, 61, 0.951) 15.5%,
-    rgba(15, 26, 61, 0.896) 22.5%,
-    rgba(15, 26, 61, 0.825) 29%,
-    rgba(15, 26, 61, 0.741) 35.3%,
-    rgba(15, 26, 61, 0.648) 41.2%,
-    rgba(15, 26, 61, 0.55) 47.1%,
-    rgba(15, 26, 61, 0.45) 52.9%,
-    rgba(15, 26, 61, 0.352) 58.8%,
-    rgba(15, 26, 61, 0.259) 64.7%,
-    rgba(15, 26, 61, 0.175) 71%,
-    rgba(15, 26, 61, 0.104) 77.5%,
-    rgba(15, 26, 61, 0.049) 84.5%,
-    rgba(15, 26, 61, 0.013) 91.9%,
-    rgba(15, 26, 61, 0) 100%
+    rgba(2, 6, 59, 1) 0%,
+    rgba(2, 6, 59, 0.987) 8.1%,
+    rgba(2, 6, 59, 0.951) 15.5%,
+    rgba(2, 6, 59, 0.896) 22.5%,
+    rgba(2, 6, 59, 0.825) 29%,
+    rgba(2, 6, 59, 0.741) 35.3%,
+    rgba(2, 6, 59, 0.648) 41.2%,
+    rgba(2, 6, 59, 0.55) 47.1%,
+    rgba(2, 6, 59, 0.45) 52.9%,
+    rgba(2, 6, 59, 0.352) 58.8%,
+    rgba(2, 6, 59, 0.259) 64.7%,
+    rgba(2, 6, 59, 0.175) 71%,
+    rgba(2, 6, 59, 0.104) 77.5%,
+    rgba(2, 6, 59, 0.049) 84.5%,
+    rgba(2, 6, 59, 0.013) 91.9%,
+    rgba(2, 6, 59, 0) 100%
   );
 
 

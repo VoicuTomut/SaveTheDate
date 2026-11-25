@@ -68,13 +68,9 @@ body {
   font-size: var(--fs-body);
   line-height: 1.75;
   color: var(--color-text);
-  /* suede: a fine nap over the navy, like the velvet of the opening curtain
-     (assets/texture/suede.png, made by tools/generate_suede.py) — laid twice at
-     two unrelated sizes so the pattern never visibly repeats */
-  background:
-    url("../assets/texture/suede.png") 0 0 / 480px 480px repeat,
-    url("../assets/texture/suede.png") 173px 61px / 697px 697px repeat,
-    var(--color-bg);
+  /* royal-blue velvet, cut from the opening curtain itself and made seamless
+     (assets/texture/velvet.jpg, made by tools/make_velvet.py) */
+  background: var(--curtain-velvet) url("../assets/texture/velvet.jpg") 0 0 / 1700px auto repeat;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-variant-numeric: lining-nums;
