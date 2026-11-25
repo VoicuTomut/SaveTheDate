@@ -90,7 +90,7 @@ Rules:
 
 - **Mobile first** — most guests open the link from WhatsApp.
 - Pages: centred single column, max `640px` (text) / `980px` (wide content), generous vertical padding.
-- Embossed flower corners decorate paper pages; on phones they shrink so they never touch text.
+- Pearl flower sprays (`emboss-side.svg`) grow in from the side of the screen on paper pages: whole flowers, no fade, flipped left/right but never upside down, alternating sides so two never meet. On phones the sections leave room above and below them so they never touch text.
 - Thin `1px` lines (ink at 22–45% opacity) separate items; no boxes or cards — except the two stationery cards
   (details + reply), drawn like an invitation's enclosure and reply cards: raised navy paper, fine double rule,
   embossed corners. Side by side on desktop, stacked on phones.
