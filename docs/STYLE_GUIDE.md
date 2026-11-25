@@ -103,7 +103,7 @@ Rules:
 3. **Invitation** — script names, one simple sentence, date box (*MAI · DUMINICĂ | 16 | 2027 · ORA 12:00*), countdown.
 4. **Our story** — love quote *"Te iubesc până la infinit și mai departe"*, framed film of us walking toward each other,
    Santa Cruz ↔ Târgu Mureș arc with a gliding heart, "11.000 km" and *"Ce înseamnă 11.000 de kilometri…?"*.
-   **Our song** — *Contigo quiero todo* · Edgar Alejandro, the small framed YouTube player that plays the background song.
+   **Our song** — *Contigo quiero todo* · Edgar Alejandro (title of the background song).
 5. **Godparents** — Ciprian & Andreea Nicoară.
 6. **The day** — ceremony 12:00 Catedrala Mică · reception 14:00 Casa Boema; 🇷🇴 & 🇧🇴 *"Două tradiții, o singură petrecere"*;
    add to calendar; **photo QR codes** (see the photos → `gallery.html`; add your photos → `upload.html`, no account).
@@ -150,9 +150,8 @@ Controls: small language pill (top right) and a small round music button (bottom
 | `closing(-portrait)`| sunset lift, cut at 4.9 s (before she is set down); loops, holding the last frame 2.5 s | Closing |
 | `curtain(-portrait)`| Blender cloth render (`tools/blender/curtain.py`) | Curtain opening |
 
-- **Music:** *Contigo Quiero Todo* (Edgar Alejandro, YouTube `thoR1IWLiqc`) through YouTube's official player in the
-  *Our song* section: small (200px tall, the minimum YouTube allows), no YouTube controls or overlays, framed like a
-  print (YouTube requires a visible player; privacy-enhanced youtube-nocookie.com). Starts with the curtain tap, fades in, loops; the round button pauses / resumes (remembered).
+- **Music:** *Contigo Quiero Todo* (Edgar Alejandro), our own recording at `assets/audio/contigo-quiero-todo.mp3`
+  (192 kbps MP3), played by a hidden `<audio>` element. Starts with the curtain tap, fades in, loops; the round button pauses / resumes (remembered).
 - **Gallery (`gallery.html`):** guests' photos shown on the site itself, never a Drive page — a masonry wall in
   reading order (newest first), each photo a mounted print with a thin white inner frame and a caption strip (who took
   it · hairline heart with likes); guest filter as small tracked names on one line; lightbox with the guest's name in
