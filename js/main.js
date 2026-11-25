@@ -265,24 +265,20 @@
   }
 
   /* ------------------------------------------------------------------
-     Music — "Contigo Quiero Todo" (Edgar Alejandro) through YouTube's
-     official player, shown in the "Our song" section (YouTube requires a
-     visible player). It starts with the curtain tap (the gesture browsers
-     need for sound), fades in and loops; the round button pauses / resumes
-     it and the choice is remembered. Phones that still refuse sound simply
-     show the button as paused — one tap starts it.
+     Music — "Contigo Quiero Todo" (Edgar Alejandro), our own recording in
+     assets/audio, played by a hidden <audio> element. It starts with the
+     curtain tap (the gesture browsers need for sound), fades in and loops;
+     the round button pauses / resumes it and the choice is remembered.
+     Phones that still refuse sound simply show the button as paused — one
+     tap starts it.
      ------------------------------------------------------------------ */
   var music = { start: function () {} };
 
   function initMusic() {
-    var host = $("#song-player");
+    var audio = $("#song-audio");
     var btn = $("#music-btn");
-    if (!host || !btn) return;
-    var VIDEO = host.dataset.video;
-    var VOLUME = 60;
-    var player = null;
-    var ready = false;
-    var wanted = false;      // play as soon as the player is ready
+    if (!audio || !btn) return;
+    var VOLUME = 0.6;
     var playing = false;
     var resumeOnShow = false;
     var fadeTimer = null;
@@ -299,57 +295,32 @@
       requestAnimationFrame(function () { btn.classList.add("is-shown"); });
     }
 
+    // iOS ignores audio.volume (it is read-only there); the fade is then a no-op
     function fadeTo(target, ms, done) {
       clearInterval(fadeTimer);
-      var from = player.getVolume();
+      var from = audio.volume;
       var t0 = Date.now();
       fadeTimer = setInterval(function () {
         var k = Math.min(1, (Date.now() - t0) / ms);
-        player.setVolume(Math.round(from + (target - from) * k));
+        audio.volume = Math.max(0, Math.min(1, from + (target - from) * k));
         if (k === 1) { clearInterval(fadeTimer); if (done) done(); }
       }, 60);
     }
 
     function play() {
-      if (!ready) { wanted = true; return; }
-      player.unMute();
-      player.setVolume(0);
-      player.playVideo();
+      audio.volume = 0;
+      var p = audio.play();
+      if (p && p.catch) p.catch(function () { setUi(false); });
       fadeTo(VOLUME, 2500);
     }
 
     function pause() {
-      wanted = false;
-      if (!ready) return;
-      fadeTo(0, 700, function () { player.pauseVideo(); });
       setUi(false);
+      fadeTo(0, 700, function () { audio.pause(); });
     }
 
-    window.onYouTubeIframeAPIReady = function () {
-      player = new window.YT.Player(host, {
-        host: "https://www.youtube-nocookie.com",
-        videoId: VIDEO,
-        width: "100%",
-        height: "100%",
-        // no YouTube controls, captions, annotations or keyboard: just the picture
-        playerVars: { playsinline: 1, rel: 0, loop: 1, playlist: VIDEO, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, cc_load_policy: 0 },
-        events: {
-          onReady: function () {
-            ready = true;
-            if (wanted) play();
-          },
-          onStateChange: function (e) {
-            var S = window.YT.PlayerState;
-            if (e.data === S.PLAYING) { setUi(true); showButton(); }
-            else if (e.data === S.PAUSED || e.data === S.ENDED) setUi(false);
-          },
-        },
-      });
-    };
-    var api = document.createElement("script");
-    api.src = "https://www.youtube.com/iframe_api";
-    api.async = true;
-    document.head.appendChild(api);
+    audio.addEventListener("playing", function () { setUi(true); showButton(); });
+    audio.addEventListener("pause", function () { if (!resumeOnShow) setUi(false); });
 
     btn.addEventListener("click", function () {
       if (playing) { pause(); store("std-music", "off"); }
@@ -358,9 +329,8 @@
 
     // pause while the tab is in the background
     document.addEventListener("visibilitychange", function () {
-      if (!ready) return;
-      if (document.hidden && playing) { resumeOnShow = true; player.pauseVideo(); }
-      else if (!document.hidden && resumeOnShow) { resumeOnShow = false; player.playVideo(); }
+      if (document.hidden && playing) { resumeOnShow = true; audio.pause(); }
+      else if (!document.hidden && resumeOnShow) { resumeOnShow = false; audio.play().catch(function () { setUi(false); }); }
     });
 
     music.start = function () {
