@@ -265,7 +265,7 @@
   }
 
   /* ------------------------------------------------------------------
-     Music — "Sin Principio Ni Final" (Los Nocheros) through YouTube's
+     Music — "Contigo Quiero Todo" (Edgar Alejandro) through YouTube's
      official player, shown in the "Our song" section (YouTube requires a
      visible player). It starts with the curtain tap (the gesture browsers
      need for sound), fades in and loops; the round button pauses / resumes
@@ -331,7 +331,8 @@
         videoId: VIDEO,
         width: "100%",
         height: "100%",
-        playerVars: { playsinline: 1, rel: 0, loop: 1, playlist: VIDEO },
+        // no YouTube controls, captions, annotations or keyboard: just the picture
+        playerVars: { playsinline: 1, rel: 0, loop: 1, playlist: VIDEO, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, cc_load_policy: 0 },
         events: {
           onReady: function () {
             ready = true;
